@@ -26,10 +26,17 @@ export class AppMain extends LitElement {
       }
 
       ul {
+        margin-left: auto;
+        margin-right: auto;
+        width: 500px;
         display: flex;
         flex-direction: column;
         padding-left: 0;
         list-style: none;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid rgb(206, 212, 218);
       }
 
       app-todo-item {
@@ -37,9 +44,11 @@ export class AppMain extends LitElement {
       }
 
       .input-wrapper {
-        width: 518px;
+        width: 500px;
         display: flex;
         margin: 0 auto;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid rgb(206, 212, 218);
       }
 
       .input-wrapper input {

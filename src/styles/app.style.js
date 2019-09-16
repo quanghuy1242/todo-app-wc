@@ -16,6 +16,7 @@ export const button = css`
     color: #fff;
     background-color: #007bff;
     border-color: #007bff;
+    width: 75px;
   }
 
   button:hover {

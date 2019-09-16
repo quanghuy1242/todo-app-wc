@@ -33,9 +33,7 @@ export class AppTodoItem extends LitElement {
         width: 500px;
         position: relative;
         display: flex;
-        padding: 0.5rem 0.5rem;
         background-color: #fff;
-        border: 1px solid rgba(0, 0, 0, 0.125);
         text-align: left;
         margin-bottom: 0.25rem;
       }
