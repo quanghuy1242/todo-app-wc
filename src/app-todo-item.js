@@ -16,13 +16,17 @@ export class AppTodoItem extends LitElement {
 
       .text {
         user-select: none;
-        flex-grow: 1;
+        width: calc(600px - 170px);
         display: flex;
         line-height: 38px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .button {
         text-decoration: none !important;
+        margin-left: 0.25rem;
       }
       
       .done {
@@ -30,7 +34,7 @@ export class AppTodoItem extends LitElement {
       }
 
       li {
-        width: 500px;
+        width: var(--main-width);
         position: relative;
         display: flex;
         background-color: #fff;
@@ -40,6 +44,11 @@ export class AppTodoItem extends LitElement {
 
       li + li {
         border-top-width: 0;
+      }
+
+      .btn-done {
+        margin-right: 0.5rem;
+        width: 82px !important;
       }
     `;
   }
@@ -62,8 +71,9 @@ export class AppTodoItem extends LitElement {
   render() {
     return html`
       <li>
+        <button class="btn-done" @click=${this.handleToggle}>${!this.isDone ? 'Done' : 'Undone'}</button>
         <span class="text ${this.isDone ? 'done' : ''}" @click=${this.handleToggle}>${this.name}</span>
-        <button class="button" @click=${this.handleDelete}>Delete</button>
+        <button class="button btn-danger" @click=${this.handleDelete}>Delete</button>
       </li>
     `;
   }

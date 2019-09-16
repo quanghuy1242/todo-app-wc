@@ -28,7 +28,7 @@ export class AppMain extends LitElement {
       ul {
         margin-left: auto;
         margin-right: auto;
-        width: 500px;
+        width: var(--main-width);
         display: flex;
         flex-direction: column;
         padding-left: 0;
@@ -44,7 +44,7 @@ export class AppMain extends LitElement {
       }
 
       .input-wrapper {
-        width: 500px;
+        width: var(--main-width);
         display: flex;
         margin: 0 auto;
         padding-bottom: 0.5rem;
