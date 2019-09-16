@@ -40,7 +40,7 @@ export class AppTodoItem extends LitElement {
     return html`
       <li class="${this.isDone ? 'done' : ''}">
         <span class="text" @click=${this.handleToggle}>${this.name}</span>
-        <button class="btn btn-primary" @click=${this.handleDelete}>Delete</button>
+        <button @click=${this.handleDelete}>Delete</button>
       </li>
     `;
   }

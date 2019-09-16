@@ -73,12 +73,7 @@ export class AppMain extends LitElement {
     return html`
       <h1 class="done">Todo App</h1>
       <input type="text" .value=${this.currentValue} @input=${this.handleTodoItemChange}>
-      <button
-        class="btn btn-primary"
-        @click=${this.handleAddNewTodoItemClick}
-      >
-        Add
-      </button>
+      <button @click=${this.handleAddNewTodoItemClick}>Add</button>
       <ul>
         ${!this.todos.length ? html`<p>Chưa có item nào, hãy thêm vào một item</p>` : ``}
         ${this.todos.map((item, index) => html`

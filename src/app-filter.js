@@ -17,9 +17,12 @@ export class AppFilter extends LitElement {
     this.selected = 'ALL';
   }
 
+  firstUpdated(changedProperties) {
+    this.radioButtonNodes = this.shadowRoot.querySelectorAll('input[name="filter"]');
+  }
+
   handleToggleFilter() {
-    const radioButtonNodes = this.shadowRoot.querySelectorAll('input[name="filter"]');
-    radioButtonNodes.forEach(node => {
+    this.radioButtonNodes.forEach(node => {
       if (node.checked) {
         this.dispatchEvent(new CustomEvent('onToggleFilter', { detail: node.value }));
       }
