@@ -71,7 +71,13 @@ export class AppMain extends LitElement {
     this.currentValue = event.target.value;
   }
 
-  handleAddNewTodoItemClick() {
+  handleTodoEnter(event) {
+    if (event.key === 'Enter') {
+      this.handleAddNewTodoItemClick();
+    }
+  }
+
+  handleAddNewTodoItemClick(event) {
     if (this.currentValue.length > 0) {
       this.todos.push({
         name: this.currentValue,
@@ -122,7 +128,12 @@ export class AppMain extends LitElement {
       <div class="container">
         <h1 class="done header">Todo App</h1>
         <div class="input-wrapper">
-          <input type="text" .value=${this.currentValue} @input=${this.handleTodoItemChange}>
+          <input
+            type="text"
+            .value=${this.currentValue}
+            @input=${this.handleTodoItemChange}
+            @keyup=${this.handleTodoEnter}
+          >
           <button @click=${this.handleAddNewTodoItemClick}>Add</button>
         </div>
         <ul>
