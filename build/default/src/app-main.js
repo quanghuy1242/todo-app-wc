@@ -2,6 +2,7 @@ import { LitElement, html, css } from "../node_modules/lit-element/lit-element.j
 import "./app-todo-item.js";
 import "./app-filter.js";
 import { button, inputText } from "./styles/app.style.js";
+import { ALL, FINISH, UNFINISH } from "./app-filter.js";
 export class AppMain extends LitElement {
   static get properties() {
     return {
@@ -71,7 +72,7 @@ export class AppMain extends LitElement {
       visible: true
     }];
     this.currentValue = '';
-    this.selectedFilter = 'ALL';
+    this.selectedFilter = ALL;
   }
 
   handleTodoItemChange(event) {
@@ -89,7 +90,7 @@ export class AppMain extends LitElement {
       this.todos.push({
         name: this.currentValue,
         isDone: false,
-        visible: this.selectedFilter !== 'FINISH'
+        visible: this.selectedFilter !== FINISH
       });
       this.currentValue = '';
     }
@@ -97,7 +98,7 @@ export class AppMain extends LitElement {
 
   handleToggleTodoItem(event) {
     this.todos[event.detail].isDone = !this.todos[event.detail].isDone;
-    this.todos[event.detail].visible = this.selectedFilter !== 'UNFINISH';
+    this.todos[event.detail].visible = this.selectedFilter !== UNFINISH;
     this.todos = [...this.todos];
   }
 
@@ -109,37 +110,22 @@ export class AppMain extends LitElement {
     this.selectedFilter = event.detail;
 
     switch (this.selectedFilter) {
-      case 'ALL':
+      case ALL:
         this.todos = this.todos.map(todo => ({ ...todo,
           visible: true
         }));
         break;
 
-      case 'FINISH':
-        this.todos = this.todos.map(todo => {
-          if (!todo.isDone) {
-            todo.visible = false;
-          } else {
-            todo.visible = true;
-          }
-
-          return todo;
-        });
+      case FINISH:
+        this.todos = this.todos.map(todo => ({ ...todo,
+          visible: todo.isDone
+        }));
         break;
 
-      case 'UNFINISH':
-        this.todos = this.todos.map(todo => {
-          if (todo.isDone) {
-            todo.visible = false;
-          } else {
-            todo.visible = true;
-          }
-
-          return todo;
-        });
-        break;
-
-      default:
+      case UNFINISH:
+        this.todos = this.todos.map(todo => ({ ...todo,
+          visible: !todo.isDone
+        }));
         break;
     }
   }

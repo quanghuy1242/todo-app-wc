@@ -1,4 +1,7 @@
 import { LitElement, html } from "../node_modules/lit-element/lit-element.js";
+export const ALL = 'ALL';
+export const FINISH = 'FINISH';
+export const UNFINISH = 'UNFINISH';
 export class AppFilter extends LitElement {
   static get properties() {
     return {
@@ -11,16 +14,16 @@ export class AppFilter extends LitElement {
   constructor() {
     super();
     this.group = [{
-      name: 'ALL',
+      name: ALL,
       default: true
     }, {
-      name: 'FINISH',
+      name: FINISH,
       default: false
     }, {
-      name: 'UNFINISH',
+      name: UNFINISH,
       default: false
     }];
-    this.selected = 'ALL';
+    this.selected = ALL;
   }
 
   firstUpdated(changedProperties) {
