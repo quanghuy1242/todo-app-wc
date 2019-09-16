@@ -1,4 +1,5 @@
 import { LitElement, html, css } from "../node_modules/lit-element/lit-element.js";
+import { button } from "./styles/app.style.js";
 export class AppTodoItem extends LitElement {
   static get properties() {
     return {
@@ -16,12 +17,43 @@ export class AppTodoItem extends LitElement {
 
   static get styles() {
     return css`
+      ${button}
+
       .text {
         user-select: none;
+        width: calc(600px - 170px);
+        display: flex;
+        line-height: 38px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .button {
+        text-decoration: none !important;
+        margin-left: 0.25rem;
       }
       
       .done {
         text-decoration: line-through;
+      }
+
+      li {
+        width: var(--main-width);
+        position: relative;
+        display: flex;
+        background-color: #fff;
+        text-align: left;
+        margin-bottom: 0.25rem;
+      }
+
+      li + li {
+        border-top-width: 0;
+      }
+
+      .btn-done {
+        margin-right: 0.5rem;
+        width: 82px !important;
       }
     `;
   }
@@ -47,9 +79,10 @@ export class AppTodoItem extends LitElement {
 
   render() {
     return html`
-      <li class="${this.isDone ? 'done' : ''}">
-        <span class="text" @click=${this.handleToggle}>${this.name}</span>
-        <button @click=${this.handleDelete}>Delete</button>
+      <li>
+        <button class="btn-done" @click=${this.handleToggle}>${!this.isDone ? 'Done' : 'Undone'}</button>
+        <span class="text ${this.isDone ? 'done' : ''}" @click=${this.handleToggle}>${this.name}</span>
+        <button class="button btn-danger" @click=${this.handleDelete}>Delete</button>
       </li>
     `;
   }
