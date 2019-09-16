@@ -105,20 +105,10 @@ export class AppMain extends LitElement {
         this.todos = this.todos.map(todo => ({ ...todo, visible: true }));
         break;
       case 'FINISH':
-        this.todos = this.todos.map(todo => {
-          if (!todo.isDone) { todo.visible = false; }
-          else { todo.visible = true; }
-          return todo;
-        });
+        this.todos = this.todos.map(todo => ({ ...todo, visible: todo.isDone }));
         break;
       case 'UNFINISH':
-        this.todos = this.todos.map(todo => {
-          if (todo.isDone) { todo.visible = false; }
-          else { todo.visible = true; }
-          return todo;
-        });
-        break;
-      default:
+        this.todos = this.todos.map(todo => ({ ...todo, visible: !todo.isDone }));
         break;
     }
   }
