@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
+import { button } from './styles/app.style';
 
 export class AppTodoItem extends LitElement {
   static get properties() {
@@ -11,12 +12,36 @@ export class AppTodoItem extends LitElement {
 
   static get styles() {
     return css`
+      ${button}
+
       .text {
         user-select: none;
+        flex-grow: 1;
+        display: flex;
+        line-height: 38px;
+      }
+
+      .button {
+        text-decoration: none !important;
       }
       
       .done {
         text-decoration: line-through;
+      }
+
+      li {
+        width: 500px;
+        position: relative;
+        display: flex;
+        padding: 0.5rem 0.5rem;
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        text-align: left;
+        margin-bottom: 0.25rem;
+      }
+
+      li + li {
+        border-top-width: 0;
       }
     `;
   }
@@ -38,9 +63,9 @@ export class AppTodoItem extends LitElement {
 
   render() {
     return html`
-      <li class="${this.isDone ? 'done' : ''}">
-        <span class="text" @click=${this.handleToggle}>${this.name}</span>
-        <button @click=${this.handleDelete}>Delete</button>
+      <li>
+        <span class="text ${this.isDone ? 'done' : ''}" @click=${this.handleToggle}>${this.name}</span>
+        <button class="button" @click=${this.handleDelete}>Delete</button>
       </li>
     `;
   }

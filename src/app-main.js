@@ -1,6 +1,7 @@
-import { LitElement, html } from 'lit-element';
+import { LitElement, html, css } from 'lit-element';
 import './app-todo-item';
 import './app-filter';
+import { button, inputText } from './styles/app.style';
 
 export class AppMain extends LitElement {
   static get properties() {
@@ -9,6 +10,43 @@ export class AppMain extends LitElement {
       currentValue: { type: String },
       selectedFilter: { type: String }
     };
+  }
+
+  static get styles() {
+    return css`
+      ${button}
+      ${inputText}
+
+      .container {
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+        text-align: center;
+      }
+
+      ul {
+        display: flex;
+        flex-direction: column;
+        padding-left: 0;
+        list-style: none;
+      }
+
+      app-todo-item {
+        margin: 0 auto;
+      }
+
+      .input-wrapper {
+        width: 518px;
+        display: flex;
+        margin: 0 auto;
+      }
+
+      .input-wrapper input {
+        flex-grow: 1;
+        margin-right: 0.5rem;
+      }
+    `;
   }
 
   constructor() {
@@ -71,26 +109,30 @@ export class AppMain extends LitElement {
 
   render() {
     return html`
-      <h1 class="done">Todo App</h1>
-      <input type="text" .value=${this.currentValue} @input=${this.handleTodoItemChange}>
-      <button @click=${this.handleAddNewTodoItemClick}>Add</button>
-      <ul>
-        ${!this.todos.length ? html`<p>Chưa có item nào, hãy thêm vào một item</p>` : ``}
-        ${this.todos.map((item, index) => html`
-          ${item.visible
-            ? html`
-              <app-todo-item
-                name=${item.name}
-                ?isDone=${item.isDone}
-                .index=${index}
-                @onToggle=${this.handleToggleTodoItem}
-                @onDelete=${this.handleDeleteTodoItem}
-              ></app-todo-item>
-            `
-            : html``}
-        `)}
-      </ul>
-      <app-filter @onToggleFilter=${this.handleFilter} selected='ALL'></app-filter>
+      <div class="container">
+        <h1 class="done header">Todo App</h1>
+        <div class="input-wrapper">
+          <input type="text" .value=${this.currentValue} @input=${this.handleTodoItemChange}>
+          <button @click=${this.handleAddNewTodoItemClick}>Add</button>
+        </div>
+        <ul>
+          ${!this.todos.length ? html`<p>Chưa có item nào, hãy thêm vào một item</p>` : ``}
+          ${this.todos.map((item, index) => html`
+            ${item.visible
+              ? html`
+                <app-todo-item
+                  name=${item.name}
+                  ?isDone=${item.isDone}
+                  .index=${index}
+                  @onToggle=${this.handleToggleTodoItem}
+                  @onDelete=${this.handleDeleteTodoItem}
+                ></app-todo-item>
+              `
+              : html``}
+          `)}
+        </ul>
+        <app-filter @onToggleFilter=${this.handleFilter} selected='ALL'></app-filter>
+      </div>
     `;
   }
 }
