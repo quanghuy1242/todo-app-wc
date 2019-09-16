@@ -75,6 +75,7 @@ export class AppMain extends LitElement {
 
   handleToggleTodoItem(event) {
     this.todos[event.detail].isDone = !this.todos[event.detail].isDone;
+    this.todos[event.detail].visible = this.selectedFilter !== 'UNFINISH'
     this.todos = [...this.todos];
   }
 
