@@ -71,9 +71,9 @@ export class AppTodoItem extends LitElement {
   render() {
     return html`
       <li>
-        <button class="btn-done" @click=${this.handleToggle}>${!this.isDone ? 'Done' : 'Undone'}</button>
+        <button class="btn btn-done" @click=${this.handleToggle}>${!this.isDone ? 'Done' : 'Undone'}</button>
         <span class="text ${this.isDone ? 'done' : ''}" @click=${this.handleToggle}>${this.name}</span>
-        <button class="button btn-danger" @click=${this.handleDelete}>Delete</button>
+        <button class="btn button btn-danger" @click=${this.handleDelete}>Delete</button>
       </li>
     `;
   }

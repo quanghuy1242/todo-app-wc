@@ -36,8 +36,10 @@ export class AppMain extends LitElement {
         list-style: none;
         margin-top: 0.5rem;
         margin-bottom: 0.5rem;
-        padding-bottom: 0.5rem;
+        padding-bottom: 0.3rem;
         border-bottom: 1px solid rgb(206, 212, 218);
+        border-top: 1px solid rgb(206, 212, 218);
+        padding-top: 0.5rem;
       }
 
       app-todo-item {
@@ -48,8 +50,7 @@ export class AppMain extends LitElement {
         width: var(--main-width);
         display: flex;
         margin: 0 auto;
-        padding-bottom: 0.5rem;
-        border-bottom: 1px solid rgb(206, 212, 218);
+        margin-bottom: 0.5rem;
       }
 
       .input-wrapper input {
@@ -125,8 +126,9 @@ export class AppMain extends LitElement {
             @input=${this.handleTodoItemChange}
             @keyup=${this.handleTodoEnter}
           >
-          <button @click=${this.handleAddNewTodoItemClick}>Add</button>
+          <button class="btn" @click=${this.handleAddNewTodoItemClick}>Add</button>
         </div>
+        <app-filter @onToggleFilter=${this.handleFilter} selected=${this.selectedFilter}></app-filter>
         <ul>
           ${!this.todos.length ? html`<p>Chưa có item nào, hãy thêm vào một item</p>` : ``}
           ${this.todos.map((item, index) => html`
@@ -143,7 +145,6 @@ export class AppMain extends LitElement {
               : html``}
           `)}
         </ul>
-        <app-filter @onToggleFilter=${this.handleFilter} selected='ALL'></app-filter>
       </div>
     `;
   }
