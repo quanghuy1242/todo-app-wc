@@ -17,7 +17,6 @@ export class AppTodoItem extends LitElement {
 
       .text {
         user-select: none;
-        width: calc(600px - 40px);
       }
 
       .button {
@@ -34,11 +33,10 @@ export class AppTodoItem extends LitElement {
       }
 
       li {
-        width: var(--main-width);
         position: relative;
         display: flex;
         background-color: #fff;
-        text-align: left;
+        width: calc(100% - 24px - 5px);
       }
 
       li + li {
@@ -52,6 +50,7 @@ export class AppTodoItem extends LitElement {
 
       .custom-control-label {
         margin-left: 0.2rem;
+        flex-grow: 1;
       }
     `;
   }
