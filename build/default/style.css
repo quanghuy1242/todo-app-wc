@@ -4,6 +4,10 @@
   font-family: 'Roboto', sans-serif;
 }
 
+*, ::after, ::before {
+  box-sizing: border-box;
+}
+
 :root {
   --main-width: 600px;
 }

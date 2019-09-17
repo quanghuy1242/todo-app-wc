@@ -42,14 +42,15 @@ export class AppMain extends LitElement {
         list-style: none;
         margin-top: 0.5rem;
         margin-bottom: 0.5rem;
-        padding-bottom: 0.3rem;
         border-bottom: 1px solid rgb(206, 212, 218);
         border-top: 1px solid rgb(206, 212, 218);
-        padding-top: 0.5rem;
+        max-height: calc(100vh - 280px);
+        overflow-y: auto;
+        overflow-x: hidden;
       }
 
-      app-todo-item {
-        margin: 0 auto;
+      ul app-todo-item:not(:last-child) {
+        border-bottom: 1px solid rgb(206, 212, 218);
       }
 
       .input-wrapper {
@@ -62,6 +63,11 @@ export class AppMain extends LitElement {
       .input-wrapper input {
         flex-grow: 1;
         margin-right: 0.5rem;
+      }
+
+      .message {
+        height: 38px;
+        line-height: 38px
       }
     `;
   }
@@ -146,11 +152,11 @@ export class AppMain extends LitElement {
 
   getMessage() {
     if (!this.todos.length) {
-      return html`<p>Chưa có item nào, hãy thêm vào một item</p>`;
+      return html`<div class="message">Chưa có item nào, hãy thêm vào một item</div>`;
     } else if (this.selectedFilter === FINISH && !this.todos.filter(item => item.isDone).length) {
-      return html`<p>Bạn không có công việc nào cần hoàn thành</p>`;
+      return html`<div class="message">Bạn không có công việc nào đã hoàn thành</div>`;
     } else if (this.selectedFilter === UNFINISH && !this.todos.filter(item => !item.isDone).length) {
-      return html`<p>Bạn đã hoàn thành tất cả các mục tiêu, hãy tận hưởng một ngày vui vẻ</p>`;
+      return html`<div class="message">Bạn đã hoàn thành tất cả các mục tiêu, hãy tận hưởng một ngày vui vẻ</div>`;
     }
   }
 

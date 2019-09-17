@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "../node_modules/lit-element/lit-element.js";
-import { button } from "./styles/app.style.js";
+import { button, customCheckbox } from "./styles/app.style.js";
 export class AppTodoItem extends LitElement {
   static get properties() {
     return {
@@ -18,15 +18,10 @@ export class AppTodoItem extends LitElement {
   static get styles() {
     return css`
       ${button}
+      ${customCheckbox}
 
       .text {
         user-select: none;
-        width: calc(600px - 170px);
-        display: flex;
-        line-height: 38px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
       }
 
       .button {
@@ -34,17 +29,19 @@ export class AppTodoItem extends LitElement {
         margin-left: 0.25rem;
       }
       
-      .done {
+      li.done {
+        opacity: 0.7;
+      }
+
+      li.done label.text {
         text-decoration: line-through;
       }
 
       li {
-        width: var(--main-width);
         position: relative;
         display: flex;
         background-color: #fff;
-        text-align: left;
-        margin-bottom: 0.25rem;
+        width: calc(100% - 24px - 5px);
       }
 
       li + li {
@@ -54,6 +51,11 @@ export class AppTodoItem extends LitElement {
       .btn-done {
         margin-right: 0.5rem;
         width: 82px !important;
+      }
+
+      .custom-control-label {
+        margin-left: 0.2rem;
+        flex-grow: 1;
       }
     `;
   }
@@ -79,10 +81,12 @@ export class AppTodoItem extends LitElement {
 
   render() {
     return html`
-      <li>
-        <button class="btn btn-done" @click=${this.handleToggle}>${!this.isDone ? 'Done' : 'Undone'}</button>
-        <span class="text ${this.isDone ? 'done' : ''}" @click=${this.handleToggle}>${this.name}</span>
-        <button class="btn button btn-danger" @click=${this.handleDelete}>Delete</button>
+      <li class="${this.isDone ? 'done' : ''} custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id=${this.index} ?checked=${this.isDone} @input=${this.handleToggle}>
+        <label class="custom-control-label text" for=${this.index}>${this.name}</label>
+        <button type="button" class="close" aria-label="Close" @click=${this.handleDelete}>
+          <span aria-hidden="true">&times;</span>
+        </button>
       </li>
     `;
   }
