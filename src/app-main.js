@@ -115,6 +115,18 @@ export class AppMain extends LitElement {
     }
   }
 
+  getMessage() {
+    if (!this.todos.length) {
+      return html`<p>Chưa có item nào, hãy thêm vào một item</p>`;
+    }
+    else if (this.selectedFilter === FINISH && !this.todos.filter(item => item.isDone).length) {
+      return html`<p>Bạn không có công việc nào cần hoàn thành</p>`;
+    }
+    else if (this.selectedFilter === UNFINISH && !this.todos.filter(item => !item.isDone).length) {
+      return html`<p>Bạn đã hoàn thành tất cả các mục tiêu, hãy tận hưởng một ngày vui vẻ</p>`;
+    }
+  }
+
   render() {
     return html`
       <div class="container">
@@ -130,7 +142,7 @@ export class AppMain extends LitElement {
         </div>
         <app-filter @onToggleFilter=${this.handleFilter} selected=${this.selectedFilter}></app-filter>
         <ul>
-          ${!this.todos.length ? html`<p>Chưa có item nào, hãy thêm vào một item</p>` : ``}
+          ${this.getMessage()}
           ${this.todos.map((item, index) => html`
             ${item.visible
               ? html`
