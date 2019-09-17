@@ -38,10 +38,6 @@ export class AppFilter extends LitElement {
     this.dispatchEvent(new CustomEvent('onToggleFilter', { detail: name }));
   }
 
-  handleFocus(event) {
-    console.log(event.target);
-  }
-
   render() {
     return html`
       <div class="btn-group">
