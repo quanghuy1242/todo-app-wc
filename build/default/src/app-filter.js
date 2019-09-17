@@ -1,4 +1,5 @@
-import { LitElement, html } from "../node_modules/lit-element/lit-element.js";
+import { LitElement, html, css } from "../node_modules/lit-element/lit-element.js";
+import { button, buttonGroup } from "./styles/app.style.js";
 export const ALL = 'ALL';
 export const FINISH = 'FINISH';
 export const UNFINISH = 'UNFINISH';
@@ -7,8 +8,18 @@ export class AppFilter extends LitElement {
     return {
       group: {
         type: Object
+      },
+      selected: {
+        type: String
       }
     };
+  }
+
+  static get styles() {
+    return css`
+      ${button}
+      ${buttonGroup}
+    `;
   }
 
   constructor() {
@@ -42,17 +53,22 @@ export class AppFilter extends LitElement {
 
   render() {
     return html`
-      ${this.group.map(item => html`
-        <input
-          type="radio"
-          name="filter"
-          .value=${item.name}
-          id=${item.name}
-          ?checked=${item.default}
-          @input=${this.handleToggleFilter}
-        >
-        <label for=${item.name}>${item.name}</label>
-      `)}
+      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        ${this.group.map(item => html`
+          <label class="btn btn-secondary ${this.selected === item.name ? 'active' : ''}">
+            <input
+              type="radio"
+              name="filter"
+              .value=${item.name}
+              id=${item.name}
+              ?checked=${item.default}
+              autocomplete="off"
+              @input=${this.handleToggleFilter}
+            >
+            ${item.name}
+          </label>
+        `)}
+      </div>
     `;
   }
 

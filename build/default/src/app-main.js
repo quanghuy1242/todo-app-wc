@@ -1,7 +1,7 @@
 import { LitElement, html, css } from "../node_modules/lit-element/lit-element.js";
 import "./app-todo-item.js";
 import "./app-filter.js";
-import { button, inputText } from "./styles/app.style.js";
+import { button, inputText, typography } from "./styles/app.style.js";
 import { ALL, FINISH, UNFINISH } from "./app-filter.js";
 export class AppMain extends LitElement {
   static get properties() {
@@ -20,6 +20,7 @@ export class AppMain extends LitElement {
 
   static get styles() {
     return css`
+      ${typography}
       ${button}
       ${inputText}
 
@@ -41,8 +42,10 @@ export class AppMain extends LitElement {
         list-style: none;
         margin-top: 0.5rem;
         margin-bottom: 0.5rem;
-        padding-bottom: 0.5rem;
+        padding-bottom: 0.3rem;
         border-bottom: 1px solid rgb(206, 212, 218);
+        border-top: 1px solid rgb(206, 212, 218);
+        padding-top: 0.5rem;
       }
 
       app-todo-item {
@@ -53,8 +56,7 @@ export class AppMain extends LitElement {
         width: var(--main-width);
         display: flex;
         margin: 0 auto;
-        padding-bottom: 0.5rem;
-        border-bottom: 1px solid rgb(206, 212, 218);
+        margin-bottom: 0.5rem;
       }
 
       .input-wrapper input {
@@ -130,10 +132,20 @@ export class AppMain extends LitElement {
     }
   }
 
+  getMessage() {
+    if (!this.todos.length) {
+      return html`<p>Chưa có item nào, hãy thêm vào một item</p>`;
+    } else if (this.selectedFilter === FINISH && !this.todos.filter(item => item.isDone).length) {
+      return html`<p>Bạn không có công việc nào cần hoàn thành</p>`;
+    } else if (this.selectedFilter === UNFINISH && !this.todos.filter(item => !item.isDone).length) {
+      return html`<p>Bạn đã hoàn thành tất cả các mục tiêu, hãy tận hưởng một ngày vui vẻ</p>`;
+    }
+  }
+
   render() {
     return html`
       <div class="container">
-        <h1 class="done header">Todo App</h1>
+        <h1 class="display-4">Todo App</h1>
         <div class="input-wrapper">
           <input
             type="text"
@@ -141,10 +153,11 @@ export class AppMain extends LitElement {
             @input=${this.handleTodoItemChange}
             @keyup=${this.handleTodoEnter}
           >
-          <button @click=${this.handleAddNewTodoItemClick}>Add</button>
+          <button class="btn" @click=${this.handleAddNewTodoItemClick}>Add</button>
         </div>
+        <app-filter @onToggleFilter=${this.handleFilter} selected=${this.selectedFilter}></app-filter>
         <ul>
-          ${!this.todos.length ? html`<p>Chưa có item nào, hãy thêm vào một item</p>` : ``}
+          ${this.getMessage()}
           ${this.todos.map((item, index) => html`
             ${item.visible ? html`
                 <app-todo-item
@@ -157,7 +170,6 @@ export class AppMain extends LitElement {
               ` : html``}
           `)}
         </ul>
-        <app-filter @onToggleFilter=${this.handleFilter} selected='ALL'></app-filter>
       </div>
     `;
   }
