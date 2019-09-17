@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit-element';
 import './app-todo-item';
 import './app-filter';
+import './app-side';
 import { button, inputText, typography } from './styles/app.style';
 import { ALL, FINISH, UNFINISH } from './app-filter';
 
@@ -9,7 +10,8 @@ export class AppMain extends LitElement {
     return {
       todos: { type: Array },
       currentValue: { type: String },
-      selectedFilter: { type: String }
+      selectedFilter: { type: String },
+      selectedList: { type: Number }
     };
   }
 
@@ -51,8 +53,7 @@ export class AppMain extends LitElement {
       .input-wrapper {
         width: var(--main-width);
         display: flex;
-        margin: 0 auto;
-        margin-bottom: 0.5rem;
+        margin: 0 0 0.5rem 0 !important;
       }
 
       .input-wrapper input {
@@ -64,6 +65,27 @@ export class AppMain extends LitElement {
         height: 38px;
         line-height: 38px
       }
+
+      /* Layout */
+
+      .main-container {
+        margin: 0 auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+
+      .main-container div:not(:last-child) {
+        margin-right: 1rem;
+      }
+
+      .right-panel {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* End Layout */
     `;
   }
 
@@ -74,6 +96,7 @@ export class AppMain extends LitElement {
     ];
     this.currentValue = '';
     this.selectedFilter = ALL;
+    this.selectedList = 0;
   }
 
   handleTodoItemChange(event) {
@@ -142,37 +165,53 @@ export class AppMain extends LitElement {
     }
   }
 
+  handleSelectList(event) {
+    if (this.selectedList !== event.detail.index) {
+      this.selectedList = event.detail.index;
+    }
+  }
+
   render() {
     return html`
       <div class="container">
         <h1 class="display-4">Todo App</h1>
-        <div class="input-wrapper">
-          <input
-            type="text"
-            .value=${this.currentValue}
-            @input=${this.handleTodoItemChange}
-            @keyup=${this.handleTodoEnter}
-            placeholder="Enter or click Add button ..."
-          >
-          <button class="btn" @click=${this.handleAddNewTodoItemClick}>Add</button>
+        <div class="main-container">
+          <div class="left-panel">
+            <app-side
+              selected=${this.selectedList}
+              @onSelectList=${this.handleSelectList}
+            ></app-side>
+          </div>
+          <div class="right-panel">
+            <div class="input-wrapper">
+              <input
+                type="text"
+                .value=${this.currentValue}
+                @input=${this.handleTodoItemChange}
+                @keyup=${this.handleTodoEnter}
+                placeholder="Enter or click Add button ..."
+              >
+              <button class="btn" @click=${this.handleAddNewTodoItemClick}>Add</button>
+            </div>
+            <app-filter @onToggleFilter=${this.handleFilter} selected=${this.selectedFilter}></app-filter>
+            <ul>
+              ${this.getMessage()}
+              ${this.todos.map((item, index) => html`
+                ${item.visible
+                  ? html`
+                    <app-todo-item
+                      name=${item.name}
+                      ?isDone=${item.isDone}
+                      .index=${index}
+                      @onToggle=${this.handleToggleTodoItem}
+                      @onDelete=${this.handleDeleteTodoItem}
+                    ></app-todo-item>
+                  `
+                  : html``}
+              `)}
+            </ul>
+          </div>
         </div>
-        <app-filter @onToggleFilter=${this.handleFilter} selected=${this.selectedFilter}></app-filter>
-        <ul>
-          ${this.getMessage()}
-          ${this.todos.map((item, index) => html`
-            ${item.visible
-              ? html`
-                <app-todo-item
-                  name=${item.name}
-                  ?isDone=${item.isDone}
-                  .index=${index}
-                  @onToggle=${this.handleToggleTodoItem}
-                  @onDelete=${this.handleDeleteTodoItem}
-                ></app-todo-item>
-              `
-              : html``}
-          `)}
-        </ul>
       </div>
     `;
   }
