@@ -24,24 +24,20 @@ export class AppMain extends LitElement {
       .container {
         padding-right: 15px;
         padding-left: 15px;
-        margin-right: auto;
-        margin-left: auto;
-        text-align: center;
+        width: 100%;
       }
 
       ul {
-        margin-left: auto;
-        margin-right: auto;
         width: var(--main-width);
         display: flex;
         flex-direction: column;
         padding-left: 0;
         list-style: none;
-        margin-top: 0.5rem;
+        margin-top: 1.125rem;
         margin-bottom: 0.5rem;
         border-bottom: 1px solid rgb(206, 212, 218);
         border-top: 1px solid rgb(206, 212, 218);
-        max-height: calc(100vh - 280px);
+        max-height: calc(100vh - 290px);
         overflow-y: auto;
         overflow-x: hidden;
       }
@@ -53,12 +49,16 @@ export class AppMain extends LitElement {
       .input-wrapper {
         width: var(--main-width);
         display: flex;
-        margin: 0 0 0.5rem 0 !important;
+        margin: 0 0 1.125rem 0 !important;
       }
 
       .input-wrapper input {
         flex-grow: 1;
         margin-right: 0.5rem;
+      }
+
+      h1 {
+        margin: 1rem 0;
       }
 
       .message {
@@ -72,17 +72,18 @@ export class AppMain extends LitElement {
         margin: 0 auto;
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: flex-start;
       }
 
       .main-container div:not(:last-child) {
-        margin-right: 1rem;
+        margin-right: 3rem;
       }
 
       .right-panel {
+        flex-grow: 1;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        /* align-items: center; */
       }
 
       /* End Layout */
@@ -174,7 +175,6 @@ export class AppMain extends LitElement {
   render() {
     return html`
       <div class="container">
-        <h1 class="display-4">Todo App</h1>
         <div class="main-container">
           <div class="left-panel">
             <app-side
@@ -183,6 +183,7 @@ export class AppMain extends LitElement {
             ></app-side>
           </div>
           <div class="right-panel">
+            <h1 class="display-4">Todo App</h1>
             <div class="input-wrapper">
               <input
                 type="text"

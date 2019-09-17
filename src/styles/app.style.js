@@ -362,6 +362,8 @@ export const listGroup = css`
     margin-bottom: -1px;
     background-color: #fff;
     border: 1px solid rgba(0, 0, 0, 0.125);
+    border-left: 0;
+    border-right: 0;
   }
 
   .list-group-item:first-child {

@@ -16,9 +16,24 @@ export class AppSide extends LitElement {
       ${overlay}
       ${button}
 
+      .outer-wrapper {
+        height: calc(100vh - 4rem);
+        display: flex;
+        flex-direction: column;
+      }
+
       .list-group-container {
-        width: 230px;
+        width: 250px;
         z-index: 5;
+        border-left: 1px solid rgba(0, 0, 0, 0.125);
+        border-right: 1px solid rgba(0, 0, 0, 0.125);
+        flex-grow: 1;
+      }
+      
+      .list-group-item:last-child {
+        margin-bottom: 0;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
       }
 
       .show-input {
@@ -69,12 +84,18 @@ export class AppSide extends LitElement {
         background-color: #17a2b8;
         border-color: #17a2b8;
         transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        border-bottom-right-radius: 0.25rem !important;
+        border-bottom-left-radius: 0.25rem !important;
       }
 
       .btn-add:hover {
         color: #fff;
         background-color: #138496;
         border-color: #117a8b;
+      }
+
+      .spacer {
+        flex-grow: 1;
       }
     `;
   }
@@ -105,15 +126,17 @@ export class AppSide extends LitElement {
 
   render() {
     return html`
-      <div class="list-group list-group-container">
-        ${this.lists.map((list, index) => html`
-          <button
-            class="list-group-item list-group-item-action ${this.selected === index ? 'active' : ''}"
-            @click=${() => this.handleListChange(index)}
-          >
-            ${list.name}
-          </button>
-        `)}
+      <div class="outer-wrapper">
+        <div class="list-group list-group-container">
+          ${this.lists.map((list, index) => html`
+            <button
+              class="list-group-item list-group-item-action ${this.selected === index ? 'active' : ''}"
+              @click=${() => this.handleListChange(index)}
+            >
+              ${list.name}
+            </button>
+          `)}
+        </div>
         ${this.isShowInput
           ? html`
             <div class="input-wrapper list-group-item show-input">
