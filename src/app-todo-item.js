@@ -29,7 +29,11 @@ export class AppTodoItem extends LitElement {
         margin-left: 0.25rem;
       }
       
-      .done {
+      li.done {
+        opacity: 0.7;
+      }
+
+      li.done span.text {
         text-decoration: line-through;
       }
 
@@ -70,9 +74,9 @@ export class AppTodoItem extends LitElement {
 
   render() {
     return html`
-      <li>
+      <li class="${this.isDone ? 'done' : ''}">
         <button class="btn btn-done" @click=${this.handleToggle}>${!this.isDone ? 'Done' : 'Undone'}</button>
-        <span class="text ${this.isDone ? 'done' : ''}" @click=${this.handleToggle}>${this.name}</span>
+        <span class="text" @click=${this.handleToggle}>${this.name}</span>
         <button class="btn button btn-danger" @click=${this.handleDelete}>Delete</button>
       </li>
     `;
