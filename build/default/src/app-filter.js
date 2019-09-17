@@ -47,10 +47,6 @@ export class AppFilter extends LitElement {
     }));
   }
 
-  handleFocus(event) {
-    console.log(event.target);
-  }
-
   render() {
     return html`
       <div class="btn-group">

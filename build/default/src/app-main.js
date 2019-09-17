@@ -1,6 +1,7 @@
 import { LitElement, html, css } from "../node_modules/lit-element/lit-element.js";
 import "./app-todo-item.js";
 import "./app-filter.js";
+import "./app-side.js";
 import { button, inputText, typography } from "./styles/app.style.js";
 import { ALL, FINISH, UNFINISH } from "./app-filter.js";
 export class AppMain extends LitElement {
@@ -14,6 +15,9 @@ export class AppMain extends LitElement {
       },
       selectedFilter: {
         type: String
+      },
+      selectedList: {
+        type: Number
       }
     };
   }
@@ -27,24 +31,20 @@ export class AppMain extends LitElement {
       .container {
         padding-right: 15px;
         padding-left: 15px;
-        margin-right: auto;
-        margin-left: auto;
-        text-align: center;
+        width: 100%;
       }
 
       ul {
-        margin-left: auto;
-        margin-right: auto;
         width: var(--main-width);
         display: flex;
         flex-direction: column;
         padding-left: 0;
         list-style: none;
-        margin-top: 0.5rem;
+        margin-top: 1.125rem;
         margin-bottom: 0.5rem;
         border-bottom: 1px solid rgb(206, 212, 218);
         border-top: 1px solid rgb(206, 212, 218);
-        max-height: calc(100vh - 280px);
+        max-height: calc(100vh - 290px);
         overflow-y: auto;
         overflow-x: hidden;
       }
@@ -56,8 +56,7 @@ export class AppMain extends LitElement {
       .input-wrapper {
         width: var(--main-width);
         display: flex;
-        margin: 0 auto;
-        margin-bottom: 0.5rem;
+        margin: 0 0 1.125rem 0 !important;
       }
 
       .input-wrapper input {
@@ -65,10 +64,36 @@ export class AppMain extends LitElement {
         margin-right: 0.5rem;
       }
 
+      h1 {
+        margin: 1rem 0;
+      }
+
       .message {
         height: 38px;
         line-height: 38px
       }
+
+      /* Layout */
+
+      .main-container {
+        margin: 0 auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+      }
+
+      .main-container div:not(:last-child) {
+        margin-right: 3rem;
+      }
+
+      .right-panel {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        /* align-items: center; */
+      }
+
+      /* End Layout */
     `;
   }
 
@@ -81,6 +106,7 @@ export class AppMain extends LitElement {
     }];
     this.currentValue = '';
     this.selectedFilter = ALL;
+    this.selectedList = 0;
   }
 
   handleTodoItemChange(event) {
@@ -160,35 +186,51 @@ export class AppMain extends LitElement {
     }
   }
 
+  handleSelectList(event) {
+    if (this.selectedList !== event.detail.index) {
+      this.selectedList = event.detail.index;
+    }
+  }
+
   render() {
     return html`
       <div class="container">
-        <h1 class="display-4">Todo App</h1>
-        <div class="input-wrapper">
-          <input
-            type="text"
-            .value=${this.currentValue}
-            @input=${this.handleTodoItemChange}
-            @keyup=${this.handleTodoEnter}
-            placeholder="Enter or click Add button ..."
-          >
-          <button class="btn" @click=${this.handleAddNewTodoItemClick}>Add</button>
+        <div class="main-container">
+          <div class="left-panel">
+            <app-side
+              selected=${this.selectedList}
+              @onSelectList=${this.handleSelectList}
+            ></app-side>
+          </div>
+          <div class="right-panel">
+            <h1 class="display-4">Todo App</h1>
+            <div class="input-wrapper">
+              <input
+                type="text"
+                .value=${this.currentValue}
+                @input=${this.handleTodoItemChange}
+                @keyup=${this.handleTodoEnter}
+                placeholder="Enter or click Add button ..."
+              >
+              <button class="btn" @click=${this.handleAddNewTodoItemClick}>Add</button>
+            </div>
+            <app-filter @onToggleFilter=${this.handleFilter} selected=${this.selectedFilter}></app-filter>
+            <ul>
+              ${this.getMessage()}
+              ${this.todos.map((item, index) => html`
+                ${item.visible ? html`
+                    <app-todo-item
+                      name=${item.name}
+                      ?isDone=${item.isDone}
+                      .index=${index}
+                      @onToggle=${this.handleToggleTodoItem}
+                      @onDelete=${this.handleDeleteTodoItem}
+                    ></app-todo-item>
+                  ` : html``}
+              `)}
+            </ul>
+          </div>
         </div>
-        <app-filter @onToggleFilter=${this.handleFilter} selected=${this.selectedFilter}></app-filter>
-        <ul>
-          ${this.getMessage()}
-          ${this.todos.map((item, index) => html`
-            ${item.visible ? html`
-                <app-todo-item
-                  name=${item.name}
-                  ?isDone=${item.isDone}
-                  .index=${index}
-                  @onToggle=${this.handleToggleTodoItem}
-                  @onDelete=${this.handleDeleteTodoItem}
-                ></app-todo-item>
-              ` : html``}
-          `)}
-        </ul>
       </div>
     `;
   }
