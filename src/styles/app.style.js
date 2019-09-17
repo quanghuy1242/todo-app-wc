@@ -103,9 +103,13 @@ export const button = css`
     font-size: 1.5rem;
     font-weight: 700;
     line-height: 1;
-    color: #000;
+    color: black;
     text-shadow: 0 1px 0 #fff;
     opacity: .5;
+  }
+
+  .close:hover {
+    color: #dc3545;
   }
 
   button.close {
