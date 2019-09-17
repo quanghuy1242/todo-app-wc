@@ -28,6 +28,7 @@ export class AppMain extends LitElement {
       }
 
       ul {
+        overflow: hidden;
         margin-left: auto;
         margin-right: auto;
         width: var(--main-width);
@@ -37,10 +38,12 @@ export class AppMain extends LitElement {
         list-style: none;
         margin-top: 0.5rem;
         margin-bottom: 0.5rem;
-        padding-bottom: 0.3rem;
         border-bottom: 1px solid rgb(206, 212, 218);
         border-top: 1px solid rgb(206, 212, 218);
-        padding-top: 0.5rem;
+      }
+
+      ul app-todo-item:not(:last-child) {
+        border-bottom: 1px solid rgb(206, 212, 218);
       }
 
       app-todo-item {
