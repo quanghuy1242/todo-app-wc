@@ -100,7 +100,19 @@ export class AppMain extends LitElement {
 
   handleToggleTodoItem(event) {
     this.todos[event.detail].isDone = !this.todos[event.detail].isDone;
-    this.todos[event.detail].visible = this.selectedFilter !== UNFINISH;
+
+    if (this.selectedFilter === ALL) {
+      this.todos[event.detail].visible = true;
+    }
+
+    if (this.selectedFilter === FINISH) {
+      this.todos[event.detail].visible = this.todos[event.detail].isDone;
+    }
+
+    if (this.selectedFilter === UNFINISH) {
+      this.todos[event.detail].visible = !this.todos[event.detail].isDone;
+    }
+
     this.todos = [...this.todos];
   }
 
@@ -152,6 +164,7 @@ export class AppMain extends LitElement {
             .value=${this.currentValue}
             @input=${this.handleTodoItemChange}
             @keyup=${this.handleTodoEnter}
+            placeholder="Enter or click Add button ..."
           >
           <button class="btn" @click=${this.handleAddNewTodoItemClick}>Add</button>
         </div>
