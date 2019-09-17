@@ -146,6 +146,7 @@ export class AppMain extends LitElement {
             .value=${this.currentValue}
             @input=${this.handleTodoItemChange}
             @keyup=${this.handleTodoEnter}
+            placeholder="Enter or click Add button ..."
           >
           <button class="btn" @click=${this.handleAddNewTodoItemClick}>Add</button>
         </div>
