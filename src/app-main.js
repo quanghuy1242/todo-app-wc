@@ -135,7 +135,7 @@ export class AppMain extends LitElement {
       return html`<div class="message">Chưa có item nào, hãy thêm vào một item</div>`;
     }
     else if (this.selectedFilter === FINISH && !this.todos.filter(item => item.isDone).length) {
-      return html`<div class="message">Bạn không có công việc nào cần hoàn thành</div>`;
+      return html`<div class="message">Bạn không có công việc nào đã hoàn thành</div>`;
     }
     else if (this.selectedFilter === UNFINISH && !this.todos.filter(item => !item.isDone).length) {
       return html`<div class="message">Bạn đã hoàn thành tất cả các mục tiêu, hãy tận hưởng một ngày vui vẻ</div>`;
