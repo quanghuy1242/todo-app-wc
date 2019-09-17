@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit-element';
 import './app-todo-item';
 import './app-filter';
-import { button, inputText } from './styles/app.style';
+import { button, inputText, typography } from './styles/app.style';
 import { ALL, FINISH, UNFINISH } from './app-filter';
 
 export class AppMain extends LitElement {
@@ -15,6 +15,7 @@ export class AppMain extends LitElement {
 
   static get styles() {
     return css`
+      ${typography}
       ${button}
       ${inputText}
 
@@ -130,7 +131,7 @@ export class AppMain extends LitElement {
   render() {
     return html`
       <div class="container">
-        <h1 class="done header">Todo App</h1>
+        <h1 class="display-4">Todo App</h1>
         <div class="input-wrapper">
           <input
             type="text"

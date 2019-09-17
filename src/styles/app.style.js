@@ -1,5 +1,13 @@
 import { css } from 'lit-element';
 
+export const typography = css`
+  .display-4 {
+    font-size: 3.5rem;
+    font-weight: 300;
+    line-height: 1.2;
+  }
+`;
+
 export const button = css`
   .btn {
     display: inline-block;
