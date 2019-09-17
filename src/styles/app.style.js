@@ -20,7 +20,7 @@ export const button = css`
     font-size: 1rem;
     line-height: 1.5;
     border-radius: 0.25rem;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     color: #fff;
     background-color: #007bff;
     border-color: #007bff;
@@ -42,6 +42,11 @@ export const button = css`
     border-color: #007bff;
   }
 
+  .btn:focus, .btn.focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+
   .btn-danger {
     color: #fff;
     background-color: #dc3545;
@@ -60,6 +65,10 @@ export const button = css`
     border-color: #dc3545;
   }
 
+  .btn-danger:focus, .btn-danger.focus {
+    box-shadow: 0 0 0 0.2rem rgba(225, 83, 97, 0.5);
+  }
+
   .btn-secondary {
     color: #fff;
     background-color: #6c757d;
@@ -76,6 +85,10 @@ export const button = css`
     color: #fff;
     background-color: #6c757d;
     border-color: #6c757d;
+  }
+
+  .btn-secondary:focus, .btn-secondary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(130, 138, 145, 0.5);
   }
 
   .btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active,
@@ -151,19 +164,5 @@ export const buttonGroup = css`
   .btn-group > .btn-group:not(:first-child) > .btn {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
-  }
-
-  .btn-group-toggle > .btn,
-  .btn-group-toggle > .btn-group > .btn {
-    margin-bottom: 0;
-  }
-
-  .btn-group-toggle > .btn input[type="radio"],
-  .btn-group-toggle > .btn input[type="checkbox"],
-  .btn-group-toggle > .btn-group > .btn input[type="radio"],
-  .btn-group-toggle > .btn-group > .btn input[type="checkbox"] {
-    position: absolute;
-    clip: rect(0, 0, 0, 0);
-    pointer-events: none;
   }
 `;

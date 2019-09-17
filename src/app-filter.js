@@ -1,9 +1,9 @@
 import { LitElement, html, css } from 'lit-element';
 import { button, buttonGroup } from './styles/app.style';
 
-export const ALL = 'ALL';
-export const FINISH = 'FINISH';
-export const UNFINISH = 'UNFINISH';
+export const ALL = 'All';
+export const FINISH = 'Finished';
+export const UNFINISH = 'Unfinished';
 
 export class AppFilter extends LitElement {
   static get properties() {
@@ -17,6 +17,10 @@ export class AppFilter extends LitElement {
     return css`
       ${button}
       ${buttonGroup}
+
+      button {
+        min-width: 100px;
+      }
     `;
   }
 
@@ -30,34 +34,24 @@ export class AppFilter extends LitElement {
     this.selected = ALL;
   }
 
-  firstUpdated(changedProperties) {
-    this.radioButtonNodes = this.shadowRoot.querySelectorAll('input[name="filter"]');
+  handleToggleFilter(name) {
+    this.dispatchEvent(new CustomEvent('onToggleFilter', { detail: name }));
   }
 
-  handleToggleFilter() {
-    this.radioButtonNodes.forEach(node => {
-      if (node.checked) {
-        this.dispatchEvent(new CustomEvent('onToggleFilter', { detail: node.value }));
-      }
-    })
+  handleFocus(event) {
+    console.log(event.target);
   }
 
   render() {
     return html`
-      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <div class="btn-group">
         ${this.group.map(item => html`
-          <label class="btn btn-secondary ${this.selected === item.name ? 'active' : ''}">
-            <input
-              type="radio"
-              name="filter"
-              .value=${item.name}
-              id=${item.name}
-              ?checked=${item.default}
-              autocomplete="off"
-              @input=${this.handleToggleFilter}
-            >
+          <button
+            class="btn btn-secondary ${this.selected === item.name ? 'active' : ''}"
+            @click=${() => this.handleToggleFilter(item.name)}
+          >
             ${item.name}
-          </label>
+          </button>
         `)}
       </div>
     `;
