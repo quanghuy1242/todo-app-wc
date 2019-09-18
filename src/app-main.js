@@ -8,7 +8,7 @@ import { ALL, FINISH, UNFINISH } from './app-filter';
 export class AppMain extends LitElement {
   static get properties() {
     return {
-      todos: { type: Array },
+      lists: { type: Array },
       currentValue: { type: String },
       selectedFilter: { type: String },
       selectedList: { type: Number }
@@ -92,8 +92,35 @@ export class AppMain extends LitElement {
 
   constructor() {
     super();
-    this.todos = [
-      { name: 'Điều cần làm thứ nhất', isDone: true, visible: true }
+    this.lists = [
+      {
+        name: 'General',
+        todos: [
+          { name: 'Điều cần làm thứ nhất G', isDone: true, visible: true },
+          { name: 'Điều cần làm thứ hai G', isDone: false, visible: true }
+        ]
+      },
+      {
+        name: 'Âm nhạc',
+        todos: [
+          { name: 'Điều cần làm thứ nhất A', isDone: false, visible: true },
+          { name: 'Điều cần làm thứ hai A', isDone: false, visible: true }
+        ]
+      },
+      {
+        name: 'Thường ngày',
+        todos: [
+          { name: 'Điều cần làm thứ nhất T', isDone: false, visible: true },
+          { name: 'Điều cần làm thứ hai T', isDone: false, visible: true }
+        ]
+      },
+      {
+        name: 'Chủ nhật',
+        todos: [
+          { name: 'Điều cần làm thứ nhất C', isDone: false, visible: true },
+          { name: 'Điều cần làm thứ hai C', isDone: false, visible: true }
+        ]
+      },
     ];
     this.currentValue = '';
     this.selectedFilter = ALL;
@@ -112,7 +139,7 @@ export class AppMain extends LitElement {
 
   handleAddNewTodoItemClick(event) {
     if (this.currentValue.length > 0) {
-      this.todos.push({
+      this.lists[this.selectedList].todos.push({
         name: this.currentValue,
         isDone: false,
         visible: this.selectedFilter !== FINISH
@@ -122,54 +149,70 @@ export class AppMain extends LitElement {
   }
 
   handleToggleTodoItem(event) {
-    this.todos[event.detail].isDone = !this.todos[event.detail].isDone;
+    this.lists[this.selectedList].todos[event.detail].isDone = 
+      !this.lists[this.selectedList].todos[event.detail].isDone;
     if (this.selectedFilter === ALL) {
-      this.todos[event.detail].visible = true;
+      this.lists[this.selectedList].todos[event.detail].visible = true;
     }
     if (this.selectedFilter === FINISH) {
-      this.todos[event.detail].visible = this.todos[event.detail].isDone;
+      this.lists[this.selectedList].todos[event.detail].visible = 
+        this.lists[this.selectedList].todos[event.detail].isDone;
     }
     if (this.selectedFilter === UNFINISH) {
-      this.todos[event.detail].visible = !this.todos[event.detail].isDone;
+      this.lists[this.selectedList].todos[event.detail].visible = 
+        !this.lists[this.selectedList].todos[event.detail].isDone;
     }
-    this.todos = [...this.todos];
+    this.lists = [...this.lists];
+    this._requestUpdate();
   }
 
   handleDeleteTodoItem(event) {
-    this.todos = this.todos.filter((item, index) => index !== event.detail);
+    this.lists[this.selectedList].todos = 
+      this.lists[this.selectedList].todos.filter((item, index) => index !== event.detail);
+    this.lists = [...this.lists];
   }
 
   handleFilter(event) {
     this.selectedFilter = event.detail;
     switch (this.selectedFilter) {
       case ALL:
-        this.todos = this.todos.map(todo => ({ ...todo, visible: true }));
+        this.lists[this.selectedList].todos = 
+          this.lists[this.selectedList].todos.map(todo => ({ ...todo, visible: true }));
+        this.lists = [...this.lists];
         break;
       case FINISH:
-        this.todos = this.todos.map(todo => ({ ...todo, visible: todo.isDone }));
+        this.lists[this.selectedList].todos = 
+          this.lists[this.selectedList].todos.map(todo => ({ ...todo, visible: todo.isDone }));
+        this.lists = [...this.lists];
         break;
       case UNFINISH:
-        this.todos = this.todos.map(todo => ({ ...todo, visible: !todo.isDone }));
+        this.lists[this.selectedList].todos = 
+          this.lists[this.selectedList].todos.map(todo => ({ ...todo, visible: !todo.isDone }));
+        this.lists = [...this.lists];
         break;
     }
   }
 
   getMessage() {
-    if (!this.todos.length) {
+    if (!this.lists[this.selectedList].todos.length) {
       return html`<div class="message">Chưa có item nào, hãy thêm vào một item</div>`;
     }
-    else if (this.selectedFilter === FINISH && !this.todos.filter(item => item.isDone).length) {
+    else if (this.selectedFilter === FINISH && !this.lists[this.selectedList].todos.filter(item => item.isDone).length) {
       return html`<div class="message">Bạn không có công việc nào đã hoàn thành</div>`;
     }
-    else if (this.selectedFilter === UNFINISH && !this.todos.filter(item => !item.isDone).length) {
+    else if (this.selectedFilter === UNFINISH && !this.lists[this.selectedList].todos.filter(item => !item.isDone).length) {
       return html`<div class="message">Bạn đã hoàn thành tất cả các mục tiêu, hãy tận hưởng một ngày vui vẻ</div>`;
     }
   }
 
   handleSelectList(event) {
-    if (this.selectedList !== event.detail.index) {
-      this.selectedList = event.detail.index;
-    }
+    this.selectedList = event.detail.index;
+    this.selectedFilter = ALL;
+    this.lists.forEach(list => {
+      list.todos = list.todos.map(todo => ({ ...todo, visible: true }));
+      return list;
+    });
+    this.lists = [...this.lists];
   }
 
   render() {
@@ -180,6 +223,7 @@ export class AppMain extends LitElement {
             <app-side
               selected=${this.selectedList}
               @onSelectList=${this.handleSelectList}
+              .lists=${this.lists.map(list => ({ name: list.name }))}
             ></app-side>
           </div>
           <div class="right-panel">
@@ -197,7 +241,7 @@ export class AppMain extends LitElement {
             <app-filter @onToggleFilter=${this.handleFilter} selected=${this.selectedFilter}></app-filter>
             <ul>
               ${this.getMessage()}
-              ${this.todos.map((item, index) => html`
+              ${this.lists[this.selectedList].todos.map((item, index) => html`
                 ${item.visible
                   ? html`
                     <app-todo-item

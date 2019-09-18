@@ -86,17 +86,19 @@ export class AppSide extends LitElement {
 
   constructor() {
     super();
-    this.lists = [
-      { name: 'General' },
-      { name: 'Âm nhạc' },
-      { name: 'Thường ngày' },
-      { name: 'Ngày chủ nhật bận rộn' }
-    ];
+    this.lists = [];
     this.selected = 0;
   }
 
   handleListChange(index) {
-    this.dispatchEvent(new CustomEvent('onSelectList', { detail: { index: index } }))
+    this.dispatchEvent(
+      new CustomEvent('onSelectList', {
+        detail: {
+          index: index,
+          todos: this.lists[index].todos
+        } 
+      })
+    );
   }
 
   render() {
