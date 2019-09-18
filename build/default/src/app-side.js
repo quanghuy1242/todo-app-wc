@@ -8,9 +8,6 @@ export class AppSide extends LitElement {
       },
       selected: {
         type: Number
-      },
-      isShowInput: {
-        type: Boolean
       }
     };
   }
@@ -22,6 +19,7 @@ export class AppSide extends LitElement {
       ${button}
 
       .outer-wrapper {
+        width: 250px;
         height: calc(100vh - 4rem);
         display: flex;
         flex-direction: column;
@@ -33,12 +31,11 @@ export class AppSide extends LitElement {
         border-left: 1px solid rgba(0, 0, 0, 0.125);
         border-right: 1px solid rgba(0, 0, 0, 0.125);
         flex-grow: 1;
+        box-sizing: border-box;
       }
       
       .list-group-item:last-child {
         margin-bottom: 0;
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
       }
 
       .show-input {
@@ -47,6 +44,7 @@ export class AppSide extends LitElement {
       }
 
       .input-new-list {
+        width: 100%;
         font-size: 1rem;
         font-weight: 400;
         line-height: 1.5;
@@ -56,8 +54,11 @@ export class AppSide extends LitElement {
         outline: 0;
         border: none;
         z-index: 5;
+        border-left: 1px solid rgba(0, 0, 0, 0.125);
+        border-right: 1px solid rgba(0, 0, 0, 0.125);
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
       }
 
       .input-new-list:focus {
@@ -65,6 +66,7 @@ export class AppSide extends LitElement {
         background-color: #fff;
         border-color: #80bdff;
         outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
       }
 
       .input-new-list::placeholder {
@@ -73,30 +75,10 @@ export class AppSide extends LitElement {
       }
 
       .input-wrapper {
-        position: relative;
-      }
-
-      .close {
-        position: absolute;
-        right: 0.5rem;
-        top: 0;
-        bottom: 0;
-        background-color: transparent;
-      }
-
-      .btn-add {
-        color: #fff;
-        background-color: #17a2b8;
-        border-color: #17a2b8;
-        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        border-bottom-right-radius: 0.25rem !important;
-        border-bottom-left-radius: 0.25rem !important;
-      }
-
-      .btn-add:hover {
-        color: #fff;
-        background-color: #138496;
-        border-color: #117a8b;
+        width: 100%;
+        border-bottom-right-radius: 0.25rem;
+        border-bottom-left-radius: 0.25rem;
+        display: flex;
       }
 
       .spacer {
@@ -107,33 +89,17 @@ export class AppSide extends LitElement {
 
   constructor() {
     super();
-    this.lists = [{
-      name: 'General'
-    }, {
-      name: 'Âm nhạc'
-    }, {
-      name: 'Thường ngày'
-    }, {
-      name: 'Ngày chủ nhật bận rộn'
-    }];
+    this.lists = [];
     this.selected = 0;
-    this.isShowInput = false;
   }
 
   handleListChange(index) {
     this.dispatchEvent(new CustomEvent('onSelectList', {
       detail: {
-        index: index
+        index: index,
+        todos: this.lists[index].todos
       }
     }));
-  }
-
-  handleShowInput() {
-    this.isShowInput = true;
-  }
-
-  handleCloseInput() {
-    this.isShowInput = false;
   }
 
   render() {
@@ -149,21 +115,9 @@ export class AppSide extends LitElement {
             </button>
           `)}
         </div>
-        ${this.isShowInput ? html`
-            <div class="input-wrapper list-group-item show-input">
-              <input type="text" class="input-new-list" placeholder="Enter to Add" maxlength="20">
-              <button type="button" class="close" @click=${this.handleCloseInput}>
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-          ` : html`
-          <button
-            class="list-group-item list-group-item-action btn-add"
-            @click=${this.handleShowInput}
-          >
-            Add new todo list
-          </button>
-          `}
+        <div class="input-wrapper list-group-item show-input">
+          <input type="text" class="input-new-list" placeholder="Enter to Add">
+        </div>
       </div>
     `;
   }

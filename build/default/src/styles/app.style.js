@@ -200,7 +200,7 @@ export const customCheckbox = css`
   .custom-control-input {
     position: absolute;
     z-index: -1;
-    opacity: 0;
+    /* opacity: 0; */
   }
 
   .custom-control-input:checked ~ .custom-control-label::before {
