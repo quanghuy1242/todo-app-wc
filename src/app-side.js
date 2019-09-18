@@ -51,6 +51,12 @@ export class AppSide extends LitElement {
         margin-bottom: 0;
       }
 
+      button.list-group-item {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
       .show-input {
         padding: 0;
         z-index: 5;
