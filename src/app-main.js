@@ -40,6 +40,15 @@ export class AppMain extends LitElement {
         overflow-x: hidden;
       }
 
+      ul::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+      }
+
+      ul::-webkit-scrollbar-thumb {
+        background-color: rgba(108, 117, 125, 0.5);
+      }
+
       ul app-todo-item:not(:last-child) {
         border-bottom: 1px solid rgb(206, 212, 218);
       }
