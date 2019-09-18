@@ -44,8 +44,8 @@ export class AppSide extends LitElement {
       }
 
       .list-group-container-container::-webkit-scrollbar {
-        width: 4px;
-        height: 4px;
+        width: 5px;
+        height: 5px;
       }
 
       .list-group-container-container::-webkit-scrollbar-thumb {
