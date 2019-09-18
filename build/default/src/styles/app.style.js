@@ -200,7 +200,7 @@ export const customCheckbox = css`
   .custom-control-input {
     position: absolute;
     z-index: -1;
-    /* opacity: 0; */
+    opacity: 0;
   }
 
   .custom-control-input:checked ~ .custom-control-label::before {
@@ -326,6 +326,7 @@ export const listGroup = css`
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
+    border-radius: 0.25rem;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   }
 
@@ -355,20 +356,24 @@ export const listGroup = css`
     padding: 0.75rem 1.25rem;
     margin-bottom: -1px;
     background-color: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.125);
+    border: 0;
     border-left: 0;
     border-right: 0;
   }
 
-  .list-group-item:first-child {
+  /* .list-group-item:first-child {
     border-top-left-radius: 0.25rem;
     border-top-right-radius: 0.25rem;
+  } */
+
+  .list-group-item:not(:last-child) {
+    margin-bottom: 0.25rem;
   }
 
   .list-group-item:last-child {
     margin-bottom: 0;
-    border-bottom-right-radius: 0.25rem;
-    border-bottom-left-radius: 0.25rem;
+    /* border-bottom-right-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem; */
   }
 
   .list-group-item.disabled, .list-group-item:disabled {

@@ -186,8 +186,6 @@ export class AppMain extends LitElement {
     }
 
     this.lists = [...this.lists];
-
-    this._requestUpdate();
   }
 
   handleDeleteTodoItem(event) {
@@ -203,23 +201,22 @@ export class AppMain extends LitElement {
         this.lists[this.selectedList].todos = this.lists[this.selectedList].todos.map(todo => ({ ...todo,
           visible: true
         }));
-        this.lists = [...this.lists];
         break;
 
       case FINISH:
         this.lists[this.selectedList].todos = this.lists[this.selectedList].todos.map(todo => ({ ...todo,
           visible: todo.isDone
         }));
-        this.lists = [...this.lists];
         break;
 
       case UNFINISH:
         this.lists[this.selectedList].todos = this.lists[this.selectedList].todos.map(todo => ({ ...todo,
           visible: !todo.isDone
         }));
-        this.lists = [...this.lists];
         break;
     }
+
+    this.lists = [...this.lists];
   }
 
   getMessage() {
@@ -244,6 +241,20 @@ export class AppMain extends LitElement {
     this.lists = [...this.lists];
   }
 
+  handleAddList(event) {
+    this.lists = [...this.lists, event.detail.list];
+    const scrollToBottom = this.shadowRoot.querySelector('app-side').shadowRoot.querySelector('#scroll-to-me');
+    setTimeout(() => {
+      scrollToBottom.scrollIntoView(); // scroll đến cuối
+      // Click item mới thêm
+
+      const newListButton = this.shadowRoot.querySelector('app-side').shadowRoot.querySelector(`#list-${this.lists.length - 1}`);
+      newListButton.click(); // Click nó
+
+      newListButton.focus(); // Focus nó cho đẹp
+    }, 0);
+  }
+
   render() {
     return html`
       <div class="container">
@@ -252,6 +263,7 @@ export class AppMain extends LitElement {
             <app-side
               selected=${this.selectedList}
               @onSelectList=${this.handleSelectList}
+              @onAddList=${this.handleAddList}
               .lists=${this.lists.map(list => ({
       name: list.name
     }))}
