@@ -221,10 +221,12 @@ export class AppMain extends LitElement {
     setTimeout(() => {
       scrollToBottom.scrollIntoView(); // scroll đến cuối
       // Click item mới thêm
-      this.shadowRoot
-        .querySelector('app-side').shadowRoot
-        .querySelector(`#list-${this.lists.length - 1}`)
-        .click();
+      const newListButton = 
+        this.shadowRoot
+          .querySelector('app-side').shadowRoot
+          .querySelector(`#list-${this.lists.length - 1}`);
+      newListButton.click(); // Click nó
+      newListButton.focus(); // Focus nó cho đẹp
     }, 0);
   }
 
