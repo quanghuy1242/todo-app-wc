@@ -70,10 +70,19 @@ export class AppTodoItem extends LitElement {
     this.dispatchEvent(new CustomEvent('onDelete', { detail: this.index }));
   }
 
+  updated() {
+    this.shadowRoot.querySelector('input[type="checkbox"]').checked = this.isDone;
+  }
+
   render() {
     return html`
       <li class="${this.isDone ? 'done' : ''} custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id=${this.index} ?checked=${this.isDone} @input=${this.handleToggle}>
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id=${this.index}
+          ?checked=${false}
+          @input=${this.handleToggle}>
         <label class="custom-control-label text" for=${this.index}>${this.name}</label>
         <button type="button" class="close" aria-label="Close" @click=${this.handleDelete}>
           <span aria-hidden="true">&times;</span>

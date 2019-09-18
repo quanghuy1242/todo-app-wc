@@ -163,7 +163,6 @@ export class AppMain extends LitElement {
         !this.lists[this.selectedList].todos[event.detail].isDone;
     }
     this.lists = [...this.lists];
-    this._requestUpdate();
   }
 
   handleDeleteTodoItem(event) {
@@ -178,19 +177,17 @@ export class AppMain extends LitElement {
       case ALL:
         this.lists[this.selectedList].todos = 
           this.lists[this.selectedList].todos.map(todo => ({ ...todo, visible: true }));
-        this.lists = [...this.lists];
         break;
       case FINISH:
         this.lists[this.selectedList].todos = 
           this.lists[this.selectedList].todos.map(todo => ({ ...todo, visible: todo.isDone }));
-        this.lists = [...this.lists];
         break;
       case UNFINISH:
         this.lists[this.selectedList].todos = 
           this.lists[this.selectedList].todos.map(todo => ({ ...todo, visible: !todo.isDone }));
-        this.lists = [...this.lists];
         break;
     }
+    this.lists = [...this.lists];
   }
 
   getMessage() {
