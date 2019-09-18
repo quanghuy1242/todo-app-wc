@@ -6,6 +6,7 @@ export class AppSide extends LitElement {
     return {
       lists: { type: Array },
       selected: { type: Number },
+      currentValue: { type: String }
     };
   }
 
@@ -23,14 +24,27 @@ export class AppSide extends LitElement {
       }
 
       .list-group-container {
-        width: 250px;
         z-index: 5;
-        border-left: 1px solid rgba(0, 0, 0, 0.125);
-        border-right: 1px solid rgba(0, 0, 0, 0.125);
         flex-grow: 1;
         box-sizing: border-box;
+      }
+
+      .list-group-container-container {
+        height: calc(100vh - 4rem);
+        padding: 4px;
+        border: 1px solid rgba(0, 0, 0, 0.125);
         border-top-left-radius: 0.25rem;
         border-top-right-radius: 0.25rem;
+        overflow: auto;
+      }
+
+      .list-group-container-container::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+      }
+
+      .list-group-container-container::-webkit-scrollbar-thumb {
+        background-color: rgba(108, 117, 125, 0.5);
       }
       
       .list-group-item:last-child {
@@ -53,8 +67,8 @@ export class AppSide extends LitElement {
         outline: 0;
         border: none;
         z-index: 5;
-        border-left: 1px solid rgba(0, 0, 0, 0.125);
-        border-right: 1px solid rgba(0, 0, 0, 0.125);
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-top: 0;
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         border-bottom-right-radius: 0.25rem;
         border-bottom-left-radius: 0.25rem;
@@ -90,6 +104,7 @@ export class AppSide extends LitElement {
     super();
     this.lists = [];
     this.selected = 0;
+    this.currentValue = '';
   }
 
   handleListChange(index) {
@@ -103,21 +118,45 @@ export class AppSide extends LitElement {
     );
   }
 
+  handleAddList(event) {
+    this.currentValue = event.target.value;
+  }
+
+  handleAddListKeyUp(event) {
+    if (event.key === 'Enter') {
+      this.dispatchEvent(new CustomEvent('onAddList', {
+        detail: {
+          list: { name: this.currentValue, todos: [] }
+        }
+      }));
+      this.currentValue = '';
+    }
+  }
+
   render() {
     return html`
       <div class="outer-wrapper">
-        <div class="list-group list-group-container">
-          ${this.lists.map((list, index) => html`
-            <button
-              class="list-group-item list-group-item-action ${this.selected === index ? 'active' : ''}"
-              @click=${() => this.handleListChange(index)}
-            >
-              ${list.name}
-            </button>
-          `)}
+        <div class="list-group-container-container">
+          <div class="list-group list-group-container">
+            ${this.lists.map((list, index) => html`
+              <button
+                class="list-group-item list-group-item-action ${this.selected === index ? 'active' : ''}"
+                @click=${() => this.handleListChange(index)}
+              >
+                ${list.name}
+              </button>
+            `)}
+          </div>
         </div>
         <div class="input-wrapper list-group-item show-input">
-          <input type="text" class="input-new-list" placeholder="Enter to Add">
+          <input
+            type="text"
+            class="input-new-list"
+            placeholder="Enter to Add"
+            .value=${this.currentValue}
+            @input=${this.handleAddList}
+            @keyup=${this.handleAddListKeyUp}
+          >
         </div>
       </div>
     `;

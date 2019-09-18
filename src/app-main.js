@@ -212,6 +212,10 @@ export class AppMain extends LitElement {
     this.lists = [...this.lists];
   }
 
+  handleAddList(event) {
+    this.lists = [...this.lists, event.detail.list];
+  }
+
   render() {
     return html`
       <div class="container">
@@ -220,6 +224,7 @@ export class AppMain extends LitElement {
             <app-side
               selected=${this.selectedList}
               @onSelectList=${this.handleSelectList}
+              @onAddList=${this.handleAddList}
               .lists=${this.lists.map(list => ({ name: list.name }))}
             ></app-side>
           </div>
