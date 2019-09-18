@@ -31,7 +31,6 @@ export class AppMain extends LitElement {
       .container {
         padding-right: 15px;
         padding-left: 15px;
-        width: 100%;
       }
 
       ul {
