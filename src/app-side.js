@@ -29,6 +29,8 @@ export class AppSide extends LitElement {
         border-right: 1px solid rgba(0, 0, 0, 0.125);
         flex-grow: 1;
         box-sizing: border-box;
+        border-top-left-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
       }
       
       .list-group-item:last-child {
@@ -54,8 +56,8 @@ export class AppSide extends LitElement {
         border-left: 1px solid rgba(0, 0, 0, 0.125);
         border-right: 1px solid rgba(0, 0, 0, 0.125);
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0.25rem;
+        border-bottom-left-radius: 0.25rem;
       }
 
       .input-new-list:focus {

@@ -373,8 +373,8 @@ export const listGroup = css`
 
   .list-group-item:last-child {
     margin-bottom: 0;
-    border-bottom-right-radius: 0.25rem;
-    border-bottom-left-radius: 0.25rem;
+    /* border-bottom-right-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem; */
   }
 
   .list-group-item.disabled, .list-group-item:disabled {
