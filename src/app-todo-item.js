@@ -51,6 +51,10 @@ export class AppTodoItem extends LitElement {
       .custom-control-label {
         margin-left: 0.2rem;
         flex-grow: 1;
+        line-height: 1.5;
+        min-height: 38px;
+        display: flex;
+        align-items: center;
       }
     `;
   }
