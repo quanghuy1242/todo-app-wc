@@ -28,7 +28,6 @@ export class AppMain extends LitElement {
       }
 
       ul {
-        width: var(--main-width);
         display: flex;
         flex-direction: column;
         padding-left: 0;
@@ -47,7 +46,6 @@ export class AppMain extends LitElement {
       }
 
       .input-wrapper {
-        width: var(--main-width);
         display: flex;
         margin: 0 0 1.125rem 0 !important;
       }
@@ -87,6 +85,14 @@ export class AppMain extends LitElement {
       }
 
       /* End Layout */
+			
+			app-filter {
+				text-align: center;
+			}
+
+			h1.display-4 {
+				text-align: center;
+			}
     `;
   }
 
