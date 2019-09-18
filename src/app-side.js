@@ -123,13 +123,15 @@ export class AppSide extends LitElement {
   }
 
   handleAddListKeyUp(event) {
-    if (event.key === 'Enter') {
-      this.dispatchEvent(new CustomEvent('onAddList', {
-        detail: {
-          list: { name: this.currentValue, todos: [] }
-        }
-      }));
-      this.currentValue = '';
+    if (this.currentValue.length > 0) {
+      if (event.key === 'Enter') {
+        this.dispatchEvent(new CustomEvent('onAddList', {
+          detail: {
+            list: { name: this.currentValue, todos: [] }
+          }
+        }));
+        this.currentValue = '';
+      }
     }
   }
 
@@ -142,10 +144,12 @@ export class AppSide extends LitElement {
               <button
                 class="list-group-item list-group-item-action ${this.selected === index ? 'active' : ''}"
                 @click=${() => this.handleListChange(index)}
+                id="list-${index}"
               >
                 ${list.name}
               </button>
             `)}
+            <div id="scroll-to-me"></div>
           </div>
         </div>
         <div class="input-wrapper list-group-item show-input">

@@ -214,6 +214,18 @@ export class AppMain extends LitElement {
 
   handleAddList(event) {
     this.lists = [...this.lists, event.detail.list];
+    const scrollToBottom = 
+      this.shadowRoot
+        .querySelector('app-side').shadowRoot
+        .querySelector('#scroll-to-me');
+    setTimeout(() => {
+      scrollToBottom.scrollIntoView(); // scroll đến cuối
+      // Click item mới thêm
+      this.shadowRoot
+        .querySelector('app-side').shadowRoot
+        .querySelector(`#list-${this.lists.length - 1}`)
+        .click();
+    }, 0);
   }
 
   render() {
