@@ -111,8 +111,7 @@ export class AppSide extends LitElement {
     this.dispatchEvent(
       new CustomEvent('onSelectList', {
         detail: {
-          index: index,
-          todos: this.lists[index].todos
+          index: index
         } 
       })
     );
