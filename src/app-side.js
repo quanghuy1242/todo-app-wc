@@ -12,7 +12,8 @@ export class AppSide extends LitElement {
       error: { type: Object },
       isShowMenu: { type: Boolean },
       currentValueOnContextMenu: { type: Number },
-      editingListItem: { type: Object }
+      editingListItem: { type: Object },
+      data: { type: Object }
     };
   }
 
@@ -172,18 +173,34 @@ export class AppSide extends LitElement {
     this.error = {};
     this.isShowMenu = false;
     this.editingListItem = {};
+    this.data = {};
   }
 
-  // updated(changedProperties) {
-  //   changedProperties.forEach((oldValue, propName) => {
-  //     console.log(`${propName} changed. oldValue: ${oldValue}`);
-  //   });
-  //   const menu = this.shadowRoot.querySelector('.context-menu');
-  //   if (this.isShowMenu) {
-  //     menu.style.top = `${event.clientY}px`;
-  //     menu.style.left = `${event.clientX}px`;
-  //   }
-  // }
+  updated() {
+    // Hiện menu nếu isShowMenu là true
+    if (this.isShowMenu) {
+      const menu = this.shadowRoot.querySelector('.context-menu');
+      menu.style.top = `${this.data.event.clientY}px`;
+      menu.style.left = `${this.data.event.clientX}px`;
+    }
+
+    // Focus input nếu edit đang bật
+    if (this.editingListItem.isEditing && this.data.count === 1) {
+      this.shadowRoot.querySelector('.list-group-container .input-new-list.input-name').focus();
+      this.data = {}; // Xoá trạng thái cũ
+    }
+
+    // Nếu vừa thêm
+    if (this.data.event === 'justAdd') {
+      const scrollToBottom = this.shadowRoot.querySelector('#scroll-to-me');
+      scrollToBottom.scrollIntoView(); // scroll đến cuối
+      // Click item mới thêm
+      const newListButton = this.shadowRoot.querySelector(`#list-${this.lists.length - 1}`);
+      newListButton.click(); // Click nó
+      newListButton.focus(); // Focus nó cho đẹp
+      this.data = {}; // Xoá trạng thái cũ
+    }
+  }
 
   handleListChange(index) {
     this.dispatchEvent(
@@ -222,6 +239,7 @@ export class AppSide extends LitElement {
             }
           }
         }));
+        this.data = { event: 'justAdd' }
         this.currentValue = '';
         this.currentIcon = '';
         this.error = { ...this.error, currentIcon: false, currentValue: false };
@@ -238,11 +256,12 @@ export class AppSide extends LitElement {
     if (!this.lists[index].default) {
       this.isShowMenu = true;
       this.currentValueOnContextMenu = index;
-      setTimeout(() => {
-        const menu = this.shadowRoot.querySelector('.context-menu');
-        menu.style.top = `${event.clientY}px`;
-        menu.style.left = `${event.clientX}px`;
-      }, 0);
+      this.data = {
+        event: {
+          clientX: event.clientX,
+          clientY: event.clientY
+        }
+      };
     }
   }
 
@@ -254,9 +273,7 @@ export class AppSide extends LitElement {
       icon: this.lists[index].icon,
       isEditing: true
     };
-    setTimeout(() => {
-      this.shadowRoot.querySelector('.list-group-container .input-new-list.input-name').focus();
-    }, 0);
+    this.data = { count: 1 }; // Chỉ focus lần đầu tiên
   }
 
   handleListIconChangeOnRename(event) {
