@@ -4,13 +4,26 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "polymer serve",
-    "build": "polymer build"
+    "start": "es-dev-server --node-resolve --babel --watch --open",
+    "build": "webpack --mode production",
+    "dev": "webpack-dev-server",
+    "start:build": "es-dev-server --app-index dist/index.html --open"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "emoji-regex": "^8.0.0",
     "lit-element": "^2.2.1"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-decorators": "^7.6.0",
+    "@open-wc/building-webpack": "^2.6.1",
+    "copy-webpack-plugin": "^5.0.4",
+    "es-dev-server": "^1.18.0",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.8.1"
   }
 }
