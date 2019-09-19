@@ -6,7 +6,8 @@ export class AppSide extends LitElement {
     return {
       lists: { type: Array },
       selected: { type: Number },
-      currentValue: { type: String }
+      currentValue: { type: String },
+      currentIcon: { type: String }
     };
   }
 
@@ -55,6 +56,11 @@ export class AppSide extends LitElement {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        padding-left: 0.5rem;
+      }
+
+      .list-group-item-icon {
+        margin-right: 0.5rem;
       }
 
       .show-input {
@@ -77,7 +83,7 @@ export class AppSide extends LitElement {
         border-top: 0;
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         border-bottom-right-radius: 0.25rem;
-        border-bottom-left-radius: 0.25rem;
+        border-bottom-left-radius: 0;
       }
 
       .input-new-list:focus {
@@ -100,8 +106,16 @@ export class AppSide extends LitElement {
         display: flex;
       }
 
-      .spacer {
-        flex-grow: 1;
+      .input-icon {
+        width: 35px;
+        padding: 0.25rem;
+        border-bottom-right-radius: 0;
+        border-right: 0;
+        text-align: center;
+      }
+
+      .input-icon:focus {
+        z-index: 6;
       }
     `;
   }
@@ -111,6 +125,7 @@ export class AppSide extends LitElement {
     this.lists = [];
     this.selected = 0;
     this.currentValue = '';
+    this.currentIcon = '';
   }
 
   handleListChange(index) {
@@ -132,12 +147,21 @@ export class AppSide extends LitElement {
       if (event.key === 'Enter') {
         this.dispatchEvent(new CustomEvent('onAddList', {
           detail: {
-            list: { name: this.currentValue, todos: [] }
+            list: {
+              icon: this.currentIcon || '📝',
+              name: this.currentValue,
+              todos: []
+            }
           }
         }));
         this.currentValue = '';
+        this.currentIcon = '';
       }
     }
+  }
+
+  handleListIconChange(event) {
+    this.currentIcon = event.target.value;
   }
 
   render() {
@@ -152,6 +176,7 @@ export class AppSide extends LitElement {
                 id="list-${index}"
                 title=${list.name}
               >
+                <span class="list-group-item-icon">${list.icon || '📝'}</span>
                 ${list.name}
               </button>
             `)}
@@ -159,6 +184,13 @@ export class AppSide extends LitElement {
           </div>
         </div>
         <div class="input-wrapper list-group-item show-input">
+          <input
+            class="input-new-list input-icon"
+            .value=${this.currentIcon}
+            @input=${this.handleListIconChange}
+            maxlength="2"
+            placeholder='📝'
+          >
           <input
             type="text"
             class="input-new-list"
