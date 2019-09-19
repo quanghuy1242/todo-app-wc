@@ -68,8 +68,10 @@ export class AppMain extends LitElement {
       }
 
       .message {
-        height: 38px;
-        line-height: 38px
+        min-height: 38px;
+        line-height: 1.5;
+        display: flex;
+        align-items: center;
       }
 
       /* Layout */
