@@ -150,6 +150,7 @@ export class AppSide extends LitElement {
                 class="list-group-item list-group-item-action ${this.selected === index ? 'active' : ''}"
                 @click=${() => this.handleListChange(index)}
                 id="list-${index}"
+                title=${list.name}
               >
                 ${list.name}
               </button>
