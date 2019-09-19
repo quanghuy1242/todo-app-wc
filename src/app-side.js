@@ -7,7 +7,8 @@ export class AppSide extends LitElement {
       lists: { type: Array },
       selected: { type: Number },
       currentValue: { type: String },
-      currentIcon: { type: String }
+      currentIcon: { type: String },
+      error: { type: Object }
     };
   }
 
@@ -128,6 +129,12 @@ export class AppSide extends LitElement {
       .input-icon:focus::placeholder {
         opacity: 0.5;
       }
+
+      .input-invalid, .input-invalid:focus {
+        border: 1px solid #dc3545;
+        box-shadow: 0 0 0 0.2rem rgba(220,53,69,.25);
+        z-index: 6;
+      }
     `;
   }
 
@@ -137,6 +144,7 @@ export class AppSide extends LitElement {
     this.selected = 0;
     this.currentValue = '';
     this.currentIcon = '';
+    this.error = {};
   }
 
   handleListChange(index) {
@@ -154,7 +162,16 @@ export class AppSide extends LitElement {
   }
 
   handleAddListKeyUp(event) {
+    const ranges = [
+      '\ud83c[\udf00-\udfff]', // U+1F300 to U+1F3FF
+      '\ud83d[\udc00-\ude4f]', // U+1F400 to U+1F64F
+      '\ud83d[\ude80-\udeff]'  // U+1F680 to U+1F6FF
+    ];
     if (this.currentValue.length > 0) {
+      if (!(new RegExp(ranges.join('|')).test(this.currentIcon)) && this.currentIcon !== '') {
+        this.error = { ...this.error, currentIcon: true };
+        return;
+      }
       if (event.key === 'Enter') {
         this.dispatchEvent(new CustomEvent('onAddList', {
           detail: {
@@ -167,6 +184,7 @@ export class AppSide extends LitElement {
         }));
         this.currentValue = '';
         this.currentIcon = '';
+        this.error = { ...this.error, currentIcon: false, currentValue: false };
       }
     }
   }
@@ -182,7 +200,10 @@ export class AppSide extends LitElement {
           <div class="list-group list-group-container">
             ${this.lists.map((list, index) => html`
               <button
-                class="list-group-item list-group-item-action ${this.selected === index ? 'active' : ''}"
+                class="
+                  list-group-item list-group-item-action 
+                  ${this.selected === index ? 'active' : ''}
+                "
                 @click=${() => this.handleListChange(index)}
                 id="list-${index}"
                 title=${list.name}
@@ -199,7 +220,7 @@ export class AppSide extends LitElement {
         </div>
         <div class="input-wrapper list-group-item show-input">
           <input
-            class="input-new-list input-icon"
+            class="input-new-list input-icon ${this.error.currentIcon ? 'input-invalid' : ''}"
             .value=${this.currentIcon}
             @input=${this.handleListIconChange}
             maxlength="2"
