@@ -115,6 +115,7 @@ export class AppMain extends LitElement {
         ]
       },
       {
+        icon: '🎶',
         name: 'Âm nhạc',
         todos: [
           { name: 'Điều cần làm thứ nhất A', isDone: false, visible: true },
@@ -122,6 +123,7 @@ export class AppMain extends LitElement {
         ]
       },
       {
+        icon: '🦾',
         name: 'Thường ngày',
         todos: [
           { name: 'Điều cần làm thứ nhất T', isDone: false, visible: true },
@@ -129,6 +131,7 @@ export class AppMain extends LitElement {
         ]
       },
       {
+        icon: '🪁',
         name: 'Chủ nhật',
         todos: [
           { name: 'Điều cần làm thứ nhất C', isDone: false, visible: true },
