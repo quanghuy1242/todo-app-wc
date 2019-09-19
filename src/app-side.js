@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import { listGroup, overlay, button } from './styles/app.style';
+import { listGroup, overlay, button, badge } from './styles/app.style';
 
 export class AppSide extends LitElement {
   static get properties() {
@@ -16,6 +16,7 @@ export class AppSide extends LitElement {
       ${listGroup}
       ${overlay}
       ${button}
+      ${badge}
 
       .outer-wrapper {
         width: 250px;
@@ -53,14 +54,20 @@ export class AppSide extends LitElement {
       }
 
       button.list-group-item {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
         padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        display: flex;
       }
 
       .list-group-item-icon {
         margin-right: 0.5rem;
+      }
+
+      .list-group-item-label {
+        width: calc(240px - 30px);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .show-input {
@@ -177,7 +184,10 @@ export class AppSide extends LitElement {
                 title=${list.name}
               >
                 <span class="list-group-item-icon">${list.icon || '📝'}</span>
-                ${list.name}
+                <span class="list-group-item-label">${list.name}</span>
+                <span class="badge ${this.selected === index ? 'badge-light' : 'badge-primary'}">
+                  ${list.todoLength}
+                </span>
               </button>
             `)}
             <div id="scroll-to-me"></div>

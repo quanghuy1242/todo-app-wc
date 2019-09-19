@@ -256,7 +256,11 @@ export class AppMain extends LitElement {
               selected=${this.selectedList}
               @onSelectList=${this.handleSelectList}
               @onAddList=${this.handleAddList}
-              .lists=${this.lists.map(list => ({ icon: list.icon, name: list.name }))}
+              .lists=${this.lists.map(list => ({
+                icon: list.icon,
+                name: list.name,
+                todoLength: list.todos.length
+              }))}
             ></app-side>
           </div>
           <div class="right-panel">
