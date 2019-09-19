@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "../node_modules/lit-element/lit-element.js";
-import { listGroup, overlay, button } from "./styles/app.style.js";
+import { listGroup, overlay, button, badge, dropdownMenu, typography } from "./styles/app.style.js";
 export class AppSide extends LitElement {
   static get properties() {
     return {
@@ -11,15 +11,30 @@ export class AppSide extends LitElement {
       },
       currentValue: {
         type: String
+      },
+      currentIcon: {
+        type: String
+      },
+      error: {
+        type: Object
+      },
+      isShowMenu: {
+        type: Boolean
+      },
+      currentValueOnContextMenu: {
+        type: Number
       }
     };
   }
 
   static get styles() {
     return css`
+      ${typography}
       ${listGroup}
       ${overlay}
       ${button}
+      ${badge}
+      ${dropdownMenu}
 
       .outer-wrapper {
         width: 250px;
@@ -57,6 +72,17 @@ export class AppSide extends LitElement {
       }
 
       button.list-group-item {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        display: flex;
+      }
+
+      .list-group-item-icon {
+        margin-right: 0.5rem;
+      }
+
+      .list-group-item-label {
+        width: calc(240px - 30px);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -82,7 +108,7 @@ export class AppSide extends LitElement {
         border-top: 0;
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         border-bottom-right-radius: 0.25rem;
-        border-bottom-left-radius: 0.25rem;
+        border-bottom-left-radius: 0;
       }
 
       .input-new-list:focus {
@@ -105,9 +131,35 @@ export class AppSide extends LitElement {
         display: flex;
       }
 
-      .spacer {
-        flex-grow: 1;
+      .input-icon {
+        width: 35px;
+        padding: 0.25rem;
+        border-bottom-right-radius: 0;
+        border-right: 0;
+        text-align: center;
       }
+
+      .input-icon:focus {
+        z-index: 6;
+      }
+
+      .input-icon:focus::placeholder {
+        opacity: 0.5;
+      }
+
+      .input-invalid, .input-invalid:focus {
+        border: 1px solid #dc3545;
+        box-shadow: 0 0 0 0.2rem rgba(220,53,69,.25);
+        z-index: 6;
+      }
+
+      /* Context Menu */
+
+      .overlay {
+        z-index: 6;
+      }
+
+      /* End */
     `;
   }
 
@@ -116,6 +168,9 @@ export class AppSide extends LitElement {
     this.lists = [];
     this.selected = 0;
     this.currentValue = '';
+    this.currentIcon = '';
+    this.error = {};
+    this.isShowMenu = false;
   }
 
   handleListChange(index) {
@@ -131,19 +186,57 @@ export class AppSide extends LitElement {
   }
 
   handleAddListKeyUp(event) {
+    const ranges = ['\ud83c[\udf00-\udfff]', // U+1F300 to U+1F3FF
+    '\ud83d[\udc00-\ude4f]', // U+1F400 to U+1F64F
+    '\ud83d[\ude80-\udeff]' // U+1F680 to U+1F6FF
+    ];
+
     if (this.currentValue.length > 0) {
+      if (!new RegExp(ranges.join('|')).test(this.currentIcon) && this.currentIcon !== '') {
+        this.error = { ...this.error,
+          currentIcon: true
+        };
+        return;
+      }
+
       if (event.key === 'Enter') {
         this.dispatchEvent(new CustomEvent('onAddList', {
           detail: {
             list: {
+              icon: this.currentIcon || '📝',
               name: this.currentValue,
               todos: []
             }
           }
         }));
         this.currentValue = '';
+        this.currentIcon = '';
+        this.error = { ...this.error,
+          currentIcon: false,
+          currentValue: false
+        };
       }
     }
+  }
+
+  handleListIconChange(event) {
+    this.currentIcon = event.target.value;
+  }
+
+  handleButtonContextMenu(event, index) {
+    event.preventDefault();
+    this.isShowMenu = true;
+    this.currentValueOnContextMenu = index;
+    setTimeout(() => {
+      const menu = this.shadowRoot.querySelector('.context-menu');
+      menu.style.top = `${event.clientY}px`;
+      menu.style.left = `${event.clientX}px`;
+    }, 0);
+  }
+
+  handleToggleEdit(index) {
+    this.isShowMenu = false;
+    alert(index);
   }
 
   render() {
@@ -153,17 +246,33 @@ export class AppSide extends LitElement {
           <div class="list-group list-group-container">
             ${this.lists.map((list, index) => html`
               <button
-                class="list-group-item list-group-item-action ${this.selected === index ? 'active' : ''}"
+                class="
+                  list-group-item list-group-item-action 
+                  ${this.selected === index ? 'active' : ''}
+                "
                 @click=${() => this.handleListChange(index)}
+                @contextmenu=${event => this.handleButtonContextMenu(event, index)}
                 id="list-${index}"
+                title=${list.name}
               >
-                ${list.name}
+                <span class="list-group-item-icon">${list.icon || '📝'}</span>
+                <span class="list-group-item-label">${list.name}</span>
+                <span class="badge ${this.selected === index ? 'badge-light' : 'badge-primary'}">
+                  ${list.todoLength}
+                </span>
               </button>
             `)}
             <div id="scroll-to-me"></div>
           </div>
         </div>
         <div class="input-wrapper list-group-item show-input">
+          <input
+            class="input-new-list input-icon ${this.error.currentIcon ? 'input-invalid' : ''}"
+            .value=${this.currentIcon}
+            @input=${this.handleListIconChange}
+            maxlength="2"
+            placeholder='📝'
+          >
           <input
             type="text"
             class="input-new-list"
@@ -174,6 +283,13 @@ export class AppSide extends LitElement {
           >
         </div>
       </div>
+      ${this.isShowMenu ? html`
+          <div class="context-menu dropdown-menu">
+            <button class="dropdown-item" @click=${() => this.handleToggleEdit(this.currentValueOnContextMenu)}>Edit</button>
+            <button class="dropdown-item">Delete</button>
+          </div>
+          <div class="overlay" @click=${() => this.isShowMenu = false}></div>
+        ` : html``}
     `;
   }
 

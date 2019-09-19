@@ -1,5 +1,10 @@
 import { css } from "../../node_modules/lit-element/lit-element.js";
 export const typography = css`
+  * {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+  }
   .display-4 {
     font-size: 3.5rem;
     font-weight: 300;
@@ -421,6 +426,126 @@ export const overlay = css`
     left: 0;
     right: 0;
     z-index: 2;
-    background-color: red;
+  }
+`;
+export const badge = css`
+  .badge {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+
+  .badge:empty {
+    display: none;
+  }
+
+  .btn .badge {
+    position: relative;
+    top: -1px;
+  }
+
+  .badge-pill {
+    padding-right: 0.6em;
+    padding-left: 0.6em;
+    border-radius: 10rem;
+  }
+
+  .badge-primary {
+    color: #fff;
+    background-color: #007bff;
+  }
+
+  .badge-secondary {
+    color: #fff;
+    background-color: #6c757d;
+  }
+
+  .badge-success {
+    color: #fff;
+    background-color: #28a745;
+  }
+
+  .badge-info {
+    color: #fff;
+    background-color: #17a2b8;
+  }
+
+  .badge-warning {
+    color: #212529;
+    background-color: #ffc107;
+  }
+
+  .badge-danger {
+    color: #fff;
+    background-color: #dc3545;
+  }
+
+  .badge-light {
+    color: #212529;
+    background-color: #f8f9fa;
+  }
+
+  .badge-dark {
+    color: #fff;
+    background-color: #343a40;
+  }
+`;
+export const dropdownMenu = css`
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    float: left;
+    min-width: 10rem;
+    padding: 0.5rem 0;
+    margin: 0.125rem 0 0;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+  }
+
+  .dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+  }
+
+  .dropdown-item:hover, .dropdown-item:focus {
+    color: #16181b;
+    text-decoration: none;
+    background-color: #f8f9fa;
+  }
+
+  .dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: #007bff;
+  }
+
+  .dropdown-item.disabled, .dropdown-item:disabled {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: transparent;
   }
 `;

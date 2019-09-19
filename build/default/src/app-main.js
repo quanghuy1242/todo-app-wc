@@ -75,8 +75,10 @@ export class AppMain extends LitElement {
       }
 
       .message {
-        height: 38px;
-        line-height: 38px
+        min-height: 38px;
+        line-height: 1.5;
+        display: flex;
+        align-items: center;
       }
 
       /* Layout */
@@ -125,6 +127,7 @@ export class AppMain extends LitElement {
         visible: true
       }]
     }, {
+      icon: '🎶',
       name: 'Âm nhạc',
       todos: [{
         name: 'Điều cần làm thứ nhất A',
@@ -136,6 +139,7 @@ export class AppMain extends LitElement {
         visible: true
       }]
     }, {
+      icon: '🦾',
       name: 'Thường ngày',
       todos: [{
         name: 'Điều cần làm thứ nhất T',
@@ -147,6 +151,7 @@ export class AppMain extends LitElement {
         visible: true
       }]
     }, {
+      icon: '🪁',
       name: 'Chủ nhật',
       todos: [{
         name: 'Điều cần làm thứ nhất C',
@@ -279,7 +284,9 @@ export class AppMain extends LitElement {
               @onSelectList=${this.handleSelectList}
               @onAddList=${this.handleAddList}
               .lists=${this.lists.map(list => ({
-      name: list.name
+      icon: list.icon,
+      name: list.name,
+      todoLength: list.todos.length
     }))}
             ></app-side>
           </div>
