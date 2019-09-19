@@ -115,7 +115,8 @@ export class AppMain extends LitElement {
         todos: [
           { name: 'Điều cần làm thứ nhất G', isDone: true, visible: true },
           { name: 'Điều cần làm thứ hai G', isDone: false, visible: true }
-        ]
+        ],
+        default: true
       },
       {
         icon: '🎶',
@@ -273,7 +274,8 @@ export class AppMain extends LitElement {
               .lists=${this.lists.map(list => ({
                 icon: list.icon,
                 name: list.name,
-                todoLength: list.todos.length
+                todoLength: list.todos.length,
+                default: list.default
               }))}
             ></app-side>
           </div>

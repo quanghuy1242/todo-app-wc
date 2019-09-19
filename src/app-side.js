@@ -222,13 +222,15 @@ export class AppSide extends LitElement {
 
   handleButtonContextMenu(event, index) {
     event.preventDefault();
-    this.isShowMenu = true;
-    this.currentValueOnContextMenu = index;
-    setTimeout(() => {
-      const menu = this.shadowRoot.querySelector('.context-menu');
-      menu.style.top = `${event.clientY}px`;
-      menu.style.left = `${event.clientX}px`;
-    }, 0);
+    if (!this.lists[index].default) {
+      this.isShowMenu = true;
+      this.currentValueOnContextMenu = index;
+      setTimeout(() => {
+        const menu = this.shadowRoot.querySelector('.context-menu');
+        menu.style.top = `${event.clientY}px`;
+        menu.style.left = `${event.clientX}px`;
+      }, 0);
+    }
   }
 
   handleToggleEdit(index) {
