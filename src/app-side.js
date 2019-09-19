@@ -192,10 +192,8 @@ export class AppSide extends LitElement {
 
     // Nếu vừa thêm
     if (this.data.event === 'justAdd') {
-      const scrollToBottom = this.shadowRoot.querySelector('#scroll-to-me');
-      scrollToBottom.scrollIntoView(); // scroll đến cuối
-      // Click item mới thêm
       const newListButton = this.shadowRoot.querySelector(`#list-${this.lists.length - 1}`);
+      newListButton.scrollIntoView(); // Scroll đến nó
       newListButton.click(); // Click nó
       newListButton.focus(); // Focus nó cho đẹp
       this.data = {}; // Xoá trạng thái cũ
@@ -353,7 +351,6 @@ export class AppSide extends LitElement {
                   </button>
                 `}
             `)}
-            <div id="scroll-to-me"></div>
           </div>
         </div>
         <div class="input-wrapper list-group-item show-input">
