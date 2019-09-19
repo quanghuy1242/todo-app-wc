@@ -124,6 +124,10 @@ export class AppSide extends LitElement {
       .input-icon:focus {
         z-index: 6;
       }
+
+      .input-icon:focus::placeholder {
+        opacity: 0.5;
+      }
     `;
   }
 
