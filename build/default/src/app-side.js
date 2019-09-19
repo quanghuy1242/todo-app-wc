@@ -1,5 +1,9 @@
 import { LitElement, html, css } from "../node_modules/lit-element/lit-element.js";
 import { listGroup, overlay, button, badge, dropdownMenu, typography } from "./styles/app.style.js";
+const ranges = ['\ud83c[\udf00-\udfff]', // U+1F300 to U+1F3FF
+'\ud83d[\udc00-\ude4f]', // U+1F400 to U+1F64F
+'\ud83d[\ude80-\udeff]' // U+1F680 to U+1F6FF
+];
 export class AppSide extends LitElement {
   static get properties() {
     return {
@@ -23,6 +27,9 @@ export class AppSide extends LitElement {
       },
       currentValueOnContextMenu: {
         type: Number
+      },
+      editingListItem: {
+        type: Object
       }
     };
   }
@@ -88,6 +95,17 @@ export class AppSide extends LitElement {
         text-overflow: ellipsis;
       }
 
+      .list-group-container .input-new-list {
+        border-top: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 0;
+        padding-top: 0.7rem;
+        padding-bottom: 0.7rem;
+      }
+
+      .list-group-container .input-wrapper {
+        z-index: 7;
+      }
+      
       .show-input {
         padding: 0;
         z-index: 5;
@@ -171,6 +189,7 @@ export class AppSide extends LitElement {
     this.currentIcon = '';
     this.error = {};
     this.isShowMenu = false;
+    this.editingListItem = {};
   }
 
   handleListChange(index) {
@@ -186,11 +205,6 @@ export class AppSide extends LitElement {
   }
 
   handleAddListKeyUp(event) {
-    const ranges = ['\ud83c[\udf00-\udfff]', // U+1F300 to U+1F3FF
-    '\ud83d[\udc00-\ude4f]', // U+1F400 to U+1F64F
-    '\ud83d[\ude80-\udeff]' // U+1F680 to U+1F6FF
-    ];
-
     if (this.currentValue.length > 0) {
       if (!new RegExp(ranges.join('|')).test(this.currentIcon) && this.currentIcon !== '') {
         this.error = { ...this.error,
@@ -225,18 +239,65 @@ export class AppSide extends LitElement {
 
   handleButtonContextMenu(event, index) {
     event.preventDefault();
-    this.isShowMenu = true;
-    this.currentValueOnContextMenu = index;
-    setTimeout(() => {
-      const menu = this.shadowRoot.querySelector('.context-menu');
-      menu.style.top = `${event.clientY}px`;
-      menu.style.left = `${event.clientX}px`;
-    }, 0);
+
+    if (!this.lists[index].default) {
+      this.isShowMenu = true;
+      this.currentValueOnContextMenu = index;
+      setTimeout(() => {
+        const menu = this.shadowRoot.querySelector('.context-menu');
+        menu.style.top = `${event.clientY}px`;
+        menu.style.left = `${event.clientX}px`;
+      }, 0);
+    }
   }
 
   handleToggleEdit(index) {
     this.isShowMenu = false;
-    alert(index);
+    this.editingListItem = {
+      index: index,
+      name: this.lists[index].name,
+      icon: this.lists[index].icon,
+      isEditing: true
+    };
+    setTimeout(() => {
+      this.shadowRoot.querySelector('.list-group-container .input-new-list.input-name').focus();
+    }, 0);
+  }
+
+  handleListIconChangeOnRename(event) {
+    this.editingListItem = { ...this.editingListItem,
+      icon: event.target.value
+    };
+  }
+
+  handleRenameList(event) {
+    this.editingListItem = { ...this.editingListItem,
+      name: event.target.value
+    };
+  }
+
+  handleRenameListKeyUp(event) {
+    if (this.editingListItem.name.length > 0) {
+      if (!new RegExp(ranges.join('|')).test(this.editingListItem.icon) && this.editingListItem.icon !== '') {
+        this.editingListItem = { ...this.editingListItem,
+          errorIcon: true
+        };
+        return;
+      }
+
+      if (event.key === 'Enter') {
+        this.dispatchEvent(new CustomEvent('onRenameList', {
+          detail: {
+            index: this.editingListItem.index,
+            list: {
+              icon: this.editingListItem.icon || '📝',
+              name: this.editingListItem.name
+            }
+          }
+        }));
+        this.editingListItem = {};
+      }
+    }
   }
 
   render() {
@@ -245,22 +306,43 @@ export class AppSide extends LitElement {
         <div class="list-group-container-container">
           <div class="list-group list-group-container">
             ${this.lists.map((list, index) => html`
-              <button
-                class="
-                  list-group-item list-group-item-action 
-                  ${this.selected === index ? 'active' : ''}
-                "
-                @click=${() => this.handleListChange(index)}
-                @contextmenu=${event => this.handleButtonContextMenu(event, index)}
-                id="list-${index}"
-                title=${list.name}
-              >
-                <span class="list-group-item-icon">${list.icon || '📝'}</span>
-                <span class="list-group-item-label">${list.name}</span>
-                <span class="badge ${this.selected === index ? 'badge-light' : 'badge-primary'}">
-                  ${list.todoLength}
-                </span>
-              </button>
+              ${this.editingListItem.isEditing && this.editingListItem.index === index ? html`
+                  <div class="input-wrapper list-group-item show-input">
+                    <input
+                      class="input-new-list input-icon ${this.editingListItem.errorIcon ? 'input-invalid' : ''}"
+                      .value=${this.editingListItem.icon || ''}
+                      @input=${this.handleListIconChangeOnRename}
+                      maxlength="2"
+                      placeholder='📝'
+                    >
+                    <input
+                      type="text"
+                      class="input-new-list input-name"
+                      placeholder="Enter to Add"
+                      .value=${this.editingListItem.name}
+                      @input=${this.handleRenameList}
+                      @keyup=${this.handleRenameListKeyUp}
+                    >
+                  </div>
+                  <div class="overlay" @click=${() => this.editingListItem = {}}></div>
+                ` : html`
+                  <button
+                    class="
+                      list-group-item list-group-item-action 
+                      ${this.selected === index ? 'active' : ''}
+                    "
+                    @click=${() => this.handleListChange(index)}
+                    @contextmenu=${event => this.handleButtonContextMenu(event, index)}
+                    id="list-${index}"
+                    title=${list.name}
+                  >
+                    <span class="list-group-item-icon">${list.icon || '📝'}</span>
+                    <span class="list-group-item-label">${list.name}</span>
+                    <span class="badge ${this.selected === index ? 'badge-light' : 'badge-primary'}">
+                      ${list.todoLength}
+                    </span>
+                  </button>
+                `}
             `)}
             <div id="scroll-to-me"></div>
           </div>

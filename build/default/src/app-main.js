@@ -116,6 +116,7 @@ export class AppMain extends LitElement {
   constructor() {
     super();
     this.lists = [{
+      icon: '📝',
       name: 'General',
       todos: [{
         name: 'Điều cần làm thứ nhất G',
@@ -125,7 +126,8 @@ export class AppMain extends LitElement {
         name: 'Điều cần làm thứ hai G',
         isDone: false,
         visible: true
-      }]
+      }],
+      default: true
     }, {
       icon: '🎶',
       name: 'Âm nhạc',
@@ -139,7 +141,7 @@ export class AppMain extends LitElement {
         visible: true
       }]
     }, {
-      icon: '🦾',
+      icon: '😎',
       name: 'Thường ngày',
       todos: [{
         name: 'Điều cần làm thứ nhất T',
@@ -151,7 +153,7 @@ export class AppMain extends LitElement {
         visible: true
       }]
     }, {
-      icon: '🪁',
+      icon: '🏃‍',
       name: 'Chủ nhật',
       todos: [{
         name: 'Điều cần làm thứ nhất C',
@@ -274,6 +276,18 @@ export class AppMain extends LitElement {
     }, 0);
   }
 
+  handleRenameList(event) {
+    this.lists = this.lists.map((list, index) => {
+      if (index === event.detail.index) {
+        return { ...list,
+          ...event.detail.list
+        };
+      } else {
+        return list;
+      }
+    });
+  }
+
   render() {
     return html`
       <div class="container">
@@ -283,10 +297,12 @@ export class AppMain extends LitElement {
               selected=${this.selectedList}
               @onSelectList=${this.handleSelectList}
               @onAddList=${this.handleAddList}
+              @onRenameList=${this.handleRenameList}
               .lists=${this.lists.map(list => ({
       icon: list.icon,
       name: list.name,
-      todoLength: list.todos.length
+      todoLength: list.todos.length,
+      default: list.default
     }))}
             ></app-side>
           </div>
