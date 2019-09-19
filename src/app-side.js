@@ -1,11 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
 import { listGroup, overlay, button, badge, dropdownMenu, typography } from './styles/app.style';
-
-const ranges = [
-  '\ud83c[\udf00-\udfff]', // U+1F300 to U+1F3FF
-  '\ud83d[\udc00-\ude4f]', // U+1F400 to U+1F64F
-  '\ud83d[\ude80-\udeff]'  // U+1F680 to U+1F6FF
-];
+import emojiRegex from 'emoji-regex';
 
 export class AppSide extends LitElement {
   static get properties() {
@@ -179,6 +174,17 @@ export class AppSide extends LitElement {
     this.editingListItem = {};
   }
 
+  // updated(changedProperties) {
+  //   changedProperties.forEach((oldValue, propName) => {
+  //     console.log(`${propName} changed. oldValue: ${oldValue}`);
+  //   });
+  //   const menu = this.shadowRoot.querySelector('.context-menu');
+  //   if (this.isShowMenu) {
+  //     menu.style.top = `${event.clientY}px`;
+  //     menu.style.left = `${event.clientX}px`;
+  //   }
+  // }
+
   handleListChange(index) {
     this.dispatchEvent(
       new CustomEvent('onSelectList', {
@@ -193,9 +199,16 @@ export class AppSide extends LitElement {
     this.currentValue = event.target.value;
   }
 
+  getEmojiFromInput(str) {
+    let match;
+    while (match = emojiRegex().exec(str)) {
+      return match[0];
+    }
+  }
+
   handleAddListKeyUp(event) {
     if (this.currentValue.length > 0) {
-      if (!(new RegExp(ranges.join('|')).test(this.currentIcon)) && this.currentIcon !== '') {
+      if (!(emojiRegex().test(this.currentIcon)) && this.currentIcon !== '') {
         this.error = { ...this.error, currentIcon: true };
         return;
       }
@@ -203,7 +216,7 @@ export class AppSide extends LitElement {
         this.dispatchEvent(new CustomEvent('onAddList', {
           detail: {
             list: {
-              icon: this.currentIcon || '📝',
+              icon: this.getEmojiFromInput(this.currentIcon) || '📝',
               name: this.currentValue,
               todos: []
             }
@@ -257,7 +270,7 @@ export class AppSide extends LitElement {
   handleRenameListKeyUp(event) {
     if (this.editingListItem.name.length > 0) {
       if (
-        !(new RegExp(ranges.join('|')).test(this.editingListItem.icon)) &&
+        !(emojiRegex().test(this.editingListItem.icon)) &&
         this.editingListItem.icon !== ''
       ) {
         this.editingListItem = { ...this.editingListItem, errorIcon: true };
@@ -268,7 +281,7 @@ export class AppSide extends LitElement {
           detail: {
             index: this.editingListItem.index,
             list: {
-              icon: this.editingListItem.icon || '📝',
+              icon: this.getEmojiFromInput(this.editingListItem.icon) || '📝',
               name: this.editingListItem.name
             }
           }
@@ -291,7 +304,6 @@ export class AppSide extends LitElement {
                       class="input-new-list input-icon ${this.editingListItem.errorIcon ? 'input-invalid' : ''}"
                       .value=${this.editingListItem.icon || ''}
                       @input=${this.handleListIconChangeOnRename}
-                      maxlength="2"
                       placeholder='📝'
                     >
                     <input
@@ -332,7 +344,6 @@ export class AppSide extends LitElement {
             class="input-new-list input-icon ${this.error.currentIcon ? 'input-invalid' : ''}"
             .value=${this.currentIcon}
             @input=${this.handleListIconChange}
-            maxlength="2"
             placeholder='📝'
           >
           <input
