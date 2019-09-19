@@ -1,6 +1,11 @@
 import { css } from 'lit-element';
 
 export const typography = css`
+  * {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+  }
   .display-4 {
     font-size: 3.5rem;
     font-weight: 300;
@@ -428,7 +433,6 @@ export const overlay = css`
     left: 0;
     right: 0;
     z-index: 2;
-    background-color: red;
   }
 `;
 
@@ -499,5 +503,58 @@ export const badge = css`
   .badge-dark {
     color: #fff;
     background-color: #343a40;
+  }
+`;
+
+export const dropdownMenu = css`
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    float: left;
+    min-width: 10rem;
+    padding: 0.5rem 0;
+    margin: 0.125rem 0 0;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+  }
+
+  .dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+  }
+
+  .dropdown-item:hover, .dropdown-item:focus {
+    color: #16181b;
+    text-decoration: none;
+    background-color: #f8f9fa;
+  }
+
+  .dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: #007bff;
+  }
+
+  .dropdown-item.disabled, .dropdown-item:disabled {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: transparent;
   }
 `;

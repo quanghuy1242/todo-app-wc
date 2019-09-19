@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import { listGroup, overlay, button, badge } from './styles/app.style';
+import { listGroup, overlay, button, badge, dropdownMenu, typography } from './styles/app.style';
 
 export class AppSide extends LitElement {
   static get properties() {
@@ -8,16 +8,20 @@ export class AppSide extends LitElement {
       selected: { type: Number },
       currentValue: { type: String },
       currentIcon: { type: String },
-      error: { type: Object }
+      error: { type: Object },
+      isShowMenu: { type: Boolean },
+      currentValueOnContextMenu: { type: Number }
     };
   }
 
   static get styles() {
     return css`
+      ${typography}
       ${listGroup}
       ${overlay}
       ${button}
       ${badge}
+      ${dropdownMenu}
 
       .outer-wrapper {
         width: 250px;
@@ -135,6 +139,14 @@ export class AppSide extends LitElement {
         box-shadow: 0 0 0 0.2rem rgba(220,53,69,.25);
         z-index: 6;
       }
+
+      /* Context Menu */
+
+      .overlay {
+        z-index: 6;
+      }
+
+      /* End */
     `;
   }
 
@@ -145,6 +157,7 @@ export class AppSide extends LitElement {
     this.currentValue = '';
     this.currentIcon = '';
     this.error = {};
+    this.isShowMenu = false;
   }
 
   handleListChange(index) {
@@ -193,6 +206,22 @@ export class AppSide extends LitElement {
     this.currentIcon = event.target.value;
   }
 
+  handleButtonContextMenu(event, index) {
+    event.preventDefault();
+    this.isShowMenu = true;
+    this.currentValueOnContextMenu = index;
+    setTimeout(() => {
+      const menu = this.shadowRoot.querySelector('.context-menu');
+      menu.style.top = `${event.clientY}px`;
+      menu.style.left = `${event.clientX}px`;
+    }, 0);
+  }
+
+  handleToggleEdit(index) {
+    this.isShowMenu = false;
+    alert(index);
+  }
+
   render() {
     return html`
       <div class="outer-wrapper">
@@ -205,6 +234,7 @@ export class AppSide extends LitElement {
                   ${this.selected === index ? 'active' : ''}
                 "
                 @click=${() => this.handleListChange(index)}
+                @contextmenu=${event => this.handleButtonContextMenu(event, index)}
                 id="list-${index}"
                 title=${list.name}
               >
@@ -236,6 +266,15 @@ export class AppSide extends LitElement {
           >
         </div>
       </div>
+      ${this.isShowMenu
+        ? html`
+          <div class="context-menu dropdown-menu">
+            <button class="dropdown-item" @click=${() => this.handleToggleEdit(this.currentValueOnContextMenu)}>Edit</button>
+            <button class="dropdown-item">Delete</button>
+          </div>
+          <div class="overlay" @click=${() => this.isShowMenu = false}></div>
+        `
+        : html``}
     `;
   }
 }
