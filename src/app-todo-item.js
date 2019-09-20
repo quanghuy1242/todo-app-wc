@@ -32,7 +32,9 @@ export class AppTodoItem extends LitElement {
       }
       
       li.done {
-        opacity: 0.7;
+        opacity: 0.6;
+        color: rgb(0, 123, 255);
+        transition: all 0.15s ease-in-out;
       }
 
       li.done label.text {
@@ -44,6 +46,7 @@ export class AppTodoItem extends LitElement {
         display: flex;
         background-color: #fff;
         width: calc(100% - 24px - 5px);
+        transition: all 0.15s ease-in-out;
       }
 
       li + li {
