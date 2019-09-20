@@ -11,7 +11,8 @@ export class AppMain extends LitElement {
       lists: { type: Array },
       currentValue: { type: String },
       selectedFilter: { type: String },
-      selectedList: { type: Number }
+      selectedList: { type: Number },
+      data: { type: Object }
     };
   }
 
@@ -145,6 +146,7 @@ export class AppMain extends LitElement {
     this.currentValue = '';
     this.selectedFilter = ALL;
     this.selectedList = 0;
+    this.data = {};
   }
 
   connectedCallback() {
@@ -177,6 +179,15 @@ export class AppMain extends LitElement {
         }
       }
     });
+
+    if (this.data.event === 'justAdd') {
+      setTimeout(() => {
+        const todoItem = 
+          this.shadowRoot.querySelector(`#todo-item-${this.lists[this.selectedList].todos.length - 1}`);
+        todoItem.scrollIntoView(); // Scroll đến nó
+        this.data = {}; // Xoá trạng thái cũ
+      }, 0);
+    }
   }
 
   handleTodoItemChange(event) {
@@ -196,6 +207,7 @@ export class AppMain extends LitElement {
         isDone: false,
         visible: this.selectedFilter !== FINISH
       });
+      this.data = { event: 'justAdd' };
       this.lists = [...this.lists];
       this.currentValue = '';
     }
@@ -335,6 +347,7 @@ export class AppMain extends LitElement {
                       name=${item.name}
                       ?isDone=${item.isDone}
                       .index=${index}
+                      id="todo-item-${index}"
                       @onToggle=${this.handleToggleTodoItem}
                       @onDelete=${this.handleDeleteTodoItem}
                     ></app-todo-item>
