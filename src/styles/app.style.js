@@ -113,6 +113,11 @@ export const button = css`
     opacity: .5;
   }
 
+  .close span {
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
   .close:hover {
     color: #dc3545;
   }
