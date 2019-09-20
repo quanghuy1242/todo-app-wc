@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit-element';
 import { listGroup, overlay, button, badge, dropdownMenu, typography } from './styles/app.style';
 import emojiRegex from 'emoji-regex';
+import { setMenuPosition } from './utils/DropDownUtil';
 
 export class AppSide extends LitElement {
   static get properties() {
@@ -180,8 +181,7 @@ export class AppSide extends LitElement {
     // Hiện menu nếu isShowMenu là true
     if (this.isShowMenu) {
       const menu = this.shadowRoot.querySelector('.context-menu');
-      menu.style.top = `${this.data.event.clientY}px`;
-      menu.style.left = `${this.data.event.clientX}px`;
+      setMenuPosition(menu, this.data);
     }
 
     // Focus input nếu edit đang bật
@@ -265,8 +265,8 @@ export class AppSide extends LitElement {
       this.currentValueOnContextMenu = index;
       this.data = {
         event: {
-          clientX: event.clientX,
-          clientY: event.clientY
+          x: event.pageX,
+          y: event.pageY
         }
       };
     }
