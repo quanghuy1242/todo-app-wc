@@ -145,7 +145,10 @@ export class AppMain extends LitElement {
           ...list,
           todos: list.todos.map(todo => ({ ...todo, visible: true }))
         })); // Tất cả todo item khi lưu vào database thì phải set visible là true hết
-        localStorage['lists'] = JSON.stringify(processedLists);
+        // Cái được lưu phải khác với cái đang lưu trong db
+        if (JSON.stringify(processedLists) !== localStorage['lists']) {
+          localStorage['lists'] = JSON.stringify(processedLists);
+        }
       }
     });
   }
@@ -227,13 +230,15 @@ export class AppMain extends LitElement {
   }
 
   handleSelectList(event) {
-    this.selectedList = event.detail.index;
-    this.selectedFilter = ALL;
-    this.lists.forEach(list => {
-      list.todos = list.todos.map(todo => ({ ...todo, visible: true }));
-      return list;
-    });
-    this.lists = [...this.lists];
+    if (event.detail.index !== this.selectedList) {
+      this.selectedList = event.detail.index;
+      this.selectedFilter = ALL;
+      this.lists.forEach(list => {
+        list.todos = list.todos.map(todo => ({ ...todo, visible: true }));
+        return list;
+      });
+      this.lists = [...this.lists];
+    }
   }
 
   handleAddList(event) {
