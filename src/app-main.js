@@ -112,36 +112,9 @@ export class AppMain extends LitElement {
       {
         icon: '📝',
         name: 'General',
-        todos: [
-          { name: 'Điều cần làm thứ nhất G', isDone: true, visible: true },
-          { name: 'Điều cần làm thứ hai G', isDone: false, visible: true }
-        ],
+        todos: [],
         default: true
-      },
-      {
-        icon: '🎶',
-        name: 'Âm nhạc',
-        todos: [
-          { name: 'Điều cần làm thứ nhất A', isDone: false, visible: true },
-          { name: 'Điều cần làm thứ hai A', isDone: false, visible: true }
-        ]
-      },
-      {
-        icon: '😎',
-        name: 'Thường ngày',
-        todos: [
-          { name: 'Điều cần làm thứ nhất T', isDone: false, visible: true },
-          { name: 'Điều cần làm thứ hai T', isDone: false, visible: true }
-        ]
-      },
-      {
-        icon: '🏃‍',
-        name: 'Chủ nhật',
-        todos: [
-          { name: 'Điều cần làm thứ nhất C', isDone: false, visible: true },
-          { name: 'Điều cần làm thứ hai C', isDone: false, visible: true }
-        ]
-      },
+      }
     ];
     this.currentValue = '';
     this.selectedFilter = ALL;
