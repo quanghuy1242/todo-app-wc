@@ -339,21 +339,38 @@ export class AppSide extends LitElement {
               ${this.editingListItem.isEditing && this.editingListItem.index === index
                 ? html`
                   <div class="input-wrapper list-group-item show-input">
+                    <!-- Loop focus -->
+                    <div
+                      tabindex="5"
+                      @focus=${() => this.shadowRoot.querySelector('.rn-loop-focus-2').focus()}
+                    ></div>
                     <input
-                      class="input-new-list input-icon ${this.editingListItem.errorIcon ? 'input-invalid' : ''}"
+                      class="
+                        input-new-list 
+                        input-icon 
+                        ${this.editingListItem.errorIcon ? 'input-invalid' : ''} 
+                        rn-loop-focus-1
+                      "
+                      tabindex="6"
                       .value=${this.editingListItem.icon || ''}
                       @input=${this.handleListIconChangeOnRename}
                       placeholder='📝'
                     >
                     <input
                       type="text"
-                      class="input-new-list input-name"
+                      class="input-new-list input-name rn-loop-focus-2"
                       placeholder="Enter to Add"
                       .value=${this.editingListItem.name}
                       @input=${this.handleRenameList}
                       @keyup=${this.handleRenameListKeyUp}
+                      tabindex="7"
                     >
                   </div>
+                  <div
+                    tabindex="8"
+                    @focus=${() => this.shadowRoot.querySelector('.rn-loop-focus-1').focus()}
+                  ></div>
+                  <!-- End loop focus -->
                   <div class="overlay" @click=${() => this.editingListItem = {}}></div>
                 `
                 : html`
@@ -378,20 +395,32 @@ export class AppSide extends LitElement {
           </div>
         </div>
         <div class="input-wrapper list-group-item show-input">
+          <!-- Loop focus -->
+          <div
+            tabindex="1"
+            @focus=${() => this.shadowRoot.querySelector('.loop-focus-2').focus()}
+          ></div>
           <input
-            class="input-new-list input-icon ${this.error.currentIcon ? 'input-invalid' : ''}"
+            class="input-new-list loop-focus-1 input-icon ${this.error.currentIcon ? 'input-invalid' : ''}"
             .value=${this.currentIcon}
             @input=${this.handleListIconChange}
             placeholder='📝'
+            tabindex="2"
           >
           <input
             type="text"
-            class="input-new-list"
+            class="input-new-list loop-focus-2"
             placeholder="Enter to Add"
             .value=${this.currentValue}
             @input=${this.handleAddList}
             @keyup=${this.handleAddListKeyUp}
+            tabindex="3"
           >
+          <div
+            tabindex="4"
+            @focus=${() => this.shadowRoot.querySelector('.loop-focus-1').focus()}
+          ></div>
+          <!-- End loop focus -->
         </div>
       </div>
       ${this.isShowMenu
