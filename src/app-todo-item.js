@@ -1,12 +1,16 @@
 import { LitElement, html, css } from 'lit-element';
-import { button, customCheckbox } from './styles/app.style';
+import { button, customCheckbox, dropdownMenu, overlay, typography } from './styles/app.style';
+import { setMenuPosition } from './utils/DropDownUtil';
 
 export class AppTodoItem extends LitElement {
   static get properties() {
     return {
       name: { type: String },
       isDone: { type: Boolean },
-      index: { type: Number }
+      index: { type: Number },
+      isShowMenu: { type: Boolean },
+      currentValueOnContextMenu: { type: Number },
+      data: { type: Object }
     }
   }
 
@@ -14,6 +18,9 @@ export class AppTodoItem extends LitElement {
     return css`
       ${button}
       ${customCheckbox}
+      ${dropdownMenu}
+      ${overlay}
+      ${typography}
 
       .text {
         user-select: none;
@@ -64,6 +71,8 @@ export class AppTodoItem extends LitElement {
     this.name = '';
     this.isDone = false;
     this.index = 0;
+    this.isShowMenu = false;
+    this.data = {};
   }
 
   handleToggle() {
@@ -76,6 +85,24 @@ export class AppTodoItem extends LitElement {
 
   updated() {
     this.shadowRoot.querySelector('input[type="checkbox"]').checked = this.isDone;
+
+    // Hiện menu nếu isShowMenu là true
+    if (this.isShowMenu) {
+      const menu = this.shadowRoot.querySelector('.context-menu');
+      setMenuPosition(menu, this.data);
+    }
+  }
+
+  handleTodoItemContextMenu(event, index) {
+    event.preventDefault();
+    this.isShowMenu = true;
+    this.currentValueOnContextMenu = index;
+    this.data = {
+      event: {
+        x: event.pageX,
+        y: event.pageY,
+      }
+    };
   }
 
   render() {
@@ -86,12 +113,31 @@ export class AppTodoItem extends LitElement {
           class="custom-control-input"
           id=${this.index}
           ?checked=${false}
-          @input=${this.handleToggle}>
-        <label class="custom-control-label text" for=${this.index}>${this.name}</label>
+          @input=${this.handleToggle}
+        >
+        <label
+          class="custom-control-label text"
+          for=${this.index}
+          @contextmenu=${(event) => this.handleTodoItemContextMenu(event)}
+        >
+        ${this.name}
+        </label>
         <button type="button" class="close" aria-label="Close" @click=${this.handleDelete}>
           <span aria-hidden="true">&times;</span>
         </button>
       </li>
+      ${this.isShowMenu
+        ? html`
+          <div class="context-menu dropdown-menu">
+            <button class="dropdown-item">Edit</button>
+            <button class="dropdown-item">Delete</button>
+            <button class="dropdown-item">Mark as complete</button>
+            <button class="dropdown-item">Mark as drop</button>
+            <button class="dropdown-item">More options</button>
+          </div>
+          <div class="overlay" @click=${() => this.isShowMenu = false}></div>
+        `
+        : html``}
     `;
   }
 }
