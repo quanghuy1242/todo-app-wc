@@ -29,7 +29,7 @@ export class AppSide extends LitElement {
 
       .outer-wrapper {
         width: 250px;
-        height: calc(100vh - 4rem);
+        height: calc(100vh - 3rem);
         display: flex;
         flex-direction: column;
       }
@@ -41,7 +41,7 @@ export class AppSide extends LitElement {
       }
 
       .list-group-container-container {
-        height: calc(100vh - 4rem);
+        height: calc(100vh - 3rem);
         padding: 4px;
         border: 1px solid rgba(0, 0, 0, 0.125);
         border-top-left-radius: 0.25rem;

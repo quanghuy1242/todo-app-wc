@@ -21,23 +21,23 @@ export class AppMain extends LitElement {
       ${button}
       ${inputText}
 
-      .container {
+      /* .container {
         padding-right: 15px;
         padding-left: 15px;
-      }
+      } */
 
       ul {
         display: flex;
         flex-direction: column;
         padding-left: 0;
         list-style: none;
-        margin-top: 1.125rem;
-        margin-bottom: 0.5rem;
         border-bottom: 1px solid rgb(206, 212, 218);
         border-top: 1px solid rgb(206, 212, 218);
-        max-height: calc(100vh - 290px);
+        max-height: calc(100vh - 3rem - 140px - 2rem - 3px);
         overflow-y: auto;
         overflow-x: hidden;
+        margin-top: 1rem;
+        margin-bottom: 0;
       }
 
       ul::-webkit-scrollbar {
@@ -55,7 +55,7 @@ export class AppMain extends LitElement {
 
       .input-wrapper {
         display: flex;
-        margin: 0 0 1.125rem 0 !important;
+        margin: 0 !important;
       }
 
       .input-wrapper input {
@@ -84,7 +84,7 @@ export class AppMain extends LitElement {
       }
 
       .main-container div:not(:last-child) {
-        margin-right: 3rem;
+        margin-right: 1.5rem;
       }
 
       .right-panel {
@@ -97,12 +97,38 @@ export class AppMain extends LitElement {
       /* End Layout */
 			
 			app-filter {
-				text-align: center;
+        margin-bottom: 1rem;
 			}
 
 			h1.display-4 {
-				text-align: center;
-			}
+        margin: 0.5rem 0;
+      }
+      
+      .icon-header {
+        font-size: 1.75rem;
+        margin-right: 0.5rem;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+      }
+
+      .spacer {
+        flex: 1 1 auto;
+      }
+
+      .btn-icon {
+        width: 2rem;
+        border-radius: 50%;
+        padding: 0;
+        height: 2rem;
+        align-self: flex-end;
+      }
+
+      .btn-icon i {
+        margin-top: 0.25rem;
+      }
     `;
   }
 
@@ -279,7 +305,17 @@ export class AppMain extends LitElement {
             ></app-side>
           </div>
           <div class="right-panel">
-            <h1 class="display-4">Todo App</h1>
+            <h1 class="display-4 header">
+              <span class="icon-header">${this.lists[this.selectedList].icon}</span>
+              ${this.lists[this.selectedList].name}
+              <div class="spacer"></div>
+              <button class="btn btn-icon">
+                <i class="material-icons">
+                  more_horiz
+                </i>
+              </button>
+            </h1>
+            <app-filter @onToggleFilter=${this.handleFilter} selected=${this.selectedFilter}></app-filter>
             <div class="input-wrapper">
               <input
                 type="text"
@@ -290,7 +326,6 @@ export class AppMain extends LitElement {
               >
               <button class="btn" @click=${this.handleAddNewTodoItemClick}>Add</button>
             </div>
-            <app-filter @onToggleFilter=${this.handleFilter} selected=${this.selectedFilter}></app-filter>
             <ul>
               ${this.getMessage()}
               ${this.lists[this.selectedList].todos.map((item, index) => html`
