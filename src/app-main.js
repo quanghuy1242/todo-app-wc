@@ -277,6 +277,10 @@ export class AppMain extends LitElement {
     });
   }
 
+  handleDeleteList(event) {
+    this.lists = this.lists.filter((list, index) => index !== event.detail.index);
+  }
+
   render() {
     return html`
       <div class="container">
@@ -287,6 +291,7 @@ export class AppMain extends LitElement {
               @onSelectList=${this.handleSelectList}
               @onAddList=${this.handleAddList}
               @onRenameList=${this.handleRenameList}
+              @onDeleteList=${this.handleDeleteList}
               .lists=${this.lists.map(list => ({
                 icon: list.icon,
                 name: list.name,

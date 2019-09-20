@@ -198,6 +198,15 @@ export class AppSide extends LitElement {
       newListButton.focus(); // Focus nó cho đẹp
       this.data = {}; // Xoá trạng thái cũ
     }
+
+    // Nếu vừa xoá
+    if (this.data.event === 'justDelete' && this.data.isDeleteSelected) {
+      const newListButton = this.shadowRoot.querySelector(`#list-${this.lists.length - 2}`);
+      newListButton.scrollIntoView(); // Scroll đến nó
+      newListButton.click(); // Click nó
+      newListButton.focus(); // Focus nó cho đẹp
+      this.data = {}; // Xoá trạng thái cũ
+    }
   }
 
   handleListChange(index) {
@@ -306,6 +315,21 @@ export class AppSide extends LitElement {
     }
   }
 
+  handleDeleteListItem(index) {
+    this.isShowMenu = false;
+    if (confirm('Bạn có chắc chắn muốn xoá không?')) {
+      this.dispatchEvent(new CustomEvent('onDeleteList', {
+        detail: {
+          index: index
+        }
+      }))
+      this.data = {
+        event: 'justDelete',
+        isDeleteSelected: this.selected === index
+      };
+    }
+  }
+
   render() {
     return html`
       <div class="outer-wrapper">
@@ -373,8 +397,18 @@ export class AppSide extends LitElement {
       ${this.isShowMenu
         ? html`
           <div class="context-menu dropdown-menu">
-            <button class="dropdown-item" @click=${() => this.handleToggleEdit(this.currentValueOnContextMenu)}>Edit</button>
-            <button class="dropdown-item">Delete</button>
+            <button
+              class="dropdown-item"
+              @click=${() => this.handleToggleEdit(this.currentValueOnContextMenu)}
+            >
+              Edit
+            </button>
+            <button
+              class="dropdown-item"
+              @click=${() => this.handleDeleteListItem(this.currentValueOnContextMenu)}
+            >
+              Delete
+            </button>
           </div>
           <div class="overlay" @click=${() => this.isShowMenu = false}></div>
         `
