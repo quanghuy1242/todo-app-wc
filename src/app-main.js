@@ -148,6 +148,31 @@ export class AppMain extends LitElement {
     this.selectedList = 0;
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+    const savedData = localStorage['lists'];
+    if (savedData) {
+      this.lists = JSON.parse(localStorage['lists']);
+    } else {
+      this.lists = [
+        {
+          icon: '📝',
+          name: 'General',
+          todos: [],
+          default: true
+        }
+      ];
+    }
+  }
+
+  updated(changedProperties) {
+    changedProperties.forEach((oldValue, propName) => {
+      if (propName === 'lists') {
+        localStorage['lists'] = JSON.stringify(this.lists);
+      }
+    });
+  }
+
   handleTodoItemChange(event) {
     this.currentValue = event.target.value;
   }
@@ -158,13 +183,14 @@ export class AppMain extends LitElement {
     }
   }
 
-  handleAddNewTodoItemClick(event) {
+  handleAddNewTodoItemClick() {
     if (this.currentValue.length > 0) {
       this.lists[this.selectedList].todos.push({
         name: this.currentValue,
         isDone: false,
         visible: this.selectedFilter !== FINISH
       });
+      this.lists = [...this.lists];
       this.currentValue = '';
     }
   }
