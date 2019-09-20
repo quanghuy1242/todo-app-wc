@@ -168,7 +168,11 @@ export class AppMain extends LitElement {
   updated(changedProperties) {
     changedProperties.forEach((oldValue, propName) => {
       if (propName === 'lists') {
-        localStorage['lists'] = JSON.stringify(this.lists);
+        const processedLists = this.lists.map(list => ({
+          ...list,
+          todos: list.todos.map(todo => ({ ...todo, visible: true }))
+        })); // Tất cả todo item khi lưu vào database thì phải set visible là true hết
+        localStorage['lists'] = JSON.stringify(processedLists);
       }
     });
   }
