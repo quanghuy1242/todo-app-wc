@@ -172,6 +172,22 @@ export const button = css`
   .btn-icon-sm {
     padding: 0.25rem;
   }
+
+  .btn-no-bg {
+    color: gray;
+    background-color: transparent;
+    border-color: transparent;
+  }
+
+  .btn-no-bg:hover {
+    color: gray;
+    background-color: transparent;
+    border-color: transparent;
+  }
+
+  .btn-no-bg:focus, .btn-no-bg.focus {
+    box-shadow: none;
+  }
 `;
 
 export const inputText = css`

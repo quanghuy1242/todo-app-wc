@@ -65,6 +65,14 @@ export class AppTodoItem extends LitElement {
         display: flex;
         align-items: center;
       }
+
+      .star {
+        zoom: 0.8;
+      }
+
+      .btn-icon {
+        padding-top: 2px;
+      }
     `;
   }
   
@@ -131,6 +139,11 @@ export class AppTodoItem extends LitElement {
         </label>
         <button type="button" class="close" aria-label="Close" @click=${this.handleDelete}>
           <span aria-hidden="true">&times;</span>
+        </button>
+        <button class="btn btn-no-bg btn-icon btn-icon-sm">
+          <i class="material-icons star">
+            star_border
+          </i>
         </button>
       </li>
       ${this.isShowMenu
