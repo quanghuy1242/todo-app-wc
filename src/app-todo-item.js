@@ -71,7 +71,7 @@ export class AppTodoItem extends LitElement {
       }
 
       .btn-icon {
-        padding-top: 2px;
+        padding-top: 3px;
       }
     `;
   }
