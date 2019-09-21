@@ -30,7 +30,7 @@ export class AppTodoSide extends LitElement {
       }
 
       textarea {
-        height: 200px;
+        height: 150px;
       }
 
       .wrapper label {
@@ -94,6 +94,9 @@ export class AppTodoSide extends LitElement {
         <div class="form-group">
           <label for="">Action</label>
           <button class="btn btn-info">Move</button>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-info">Add to important</button>
         </div>
         <div class="form-group">
           <button class="btn btn-info">Export</button>
