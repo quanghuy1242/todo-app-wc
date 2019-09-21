@@ -125,21 +125,13 @@ export class AppMain extends LitElement {
       .spacer {
         flex: 1 1 auto;
       }
-/* 
-      .btn-icon {
-        width: 2rem;
-        border-radius: 50%;
-        padding: 0;
-        height: 2rem;
-        align-self: flex-end;
-      }
-
-      .btn-icon i {
-        margin-top: 0.25rem;
-      } */
 
       .border-radius-style {
         border-radius: 100px !important;
+      }
+
+      .btn-more {
+        margin-right: 0.25rem;
       }
     `;
   }
@@ -350,9 +342,14 @@ export class AppMain extends LitElement {
               <span class="icon-header">${this.lists[this.selectedList].icon}</span>
               ${this.lists[this.selectedList].name}
               <div class="spacer"></div>
-              <button class="btn btn-icon btn-icon-sm" @click=${this.handleMoreClick}>
+              <button class="btn btn-icon btn-icon-sm btn-more" @click=${this.handleMoreClick}>
                 <i class="material-icons">
                   more_horiz
+                </i>
+              </button>
+              <button class="btn btn-secondary btn-icon btn-icon-sm">
+                <i class="material-icons">
+                  person
                 </i>
               </button>
             </h1>
