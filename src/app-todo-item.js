@@ -67,7 +67,7 @@ export class AppTodoItem extends LitElement {
       }
 
       .star {
-        zoom: 0.8;
+        zoom: 0.7;
       }
 
       .btn-icon {
@@ -159,6 +159,8 @@ export class AppTodoItem extends LitElement {
                 <button class="dropdown-item">Mark as drop</button>
               `
               : html``}
+            <button class="dropdown-item">Move up</button>
+            <button class="dropdown-item">Move down</button>
             <button class="dropdown-item">More options</button>
           </div>
           <div class="overlay" @click=${() => this.isShowMenu = false}></div>
