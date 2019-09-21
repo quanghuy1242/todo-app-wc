@@ -19,8 +19,14 @@ export class AppFilter extends LitElement {
       ${buttonGroup}
       ${typography}
 
-      .material-icons {
-        margin-top: 0.3rem;
+      .btn-group {
+        width: 100%;
+        padding: 0 0.5rem;
+      }
+
+      .btn-group-icon button {
+        padding: 0.4rem;
+        line-height: 0;
       }
     `;
   }
@@ -41,7 +47,7 @@ export class AppFilter extends LitElement {
 
   render() {
     return html`
-      <div class="btn-group">
+      <div class="btn-group btn-group-icon">
         ${this.group.map(item => html`
           <button
             class="btn btn-secondary ${this.selected === item.name ? 'active' : ''}"
