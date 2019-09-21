@@ -17,6 +17,16 @@ export class AppTodoSide extends LitElement {
         display: flex;
         flex-direction: column;
         padding: 0.5rem;
+        overflow-y: auto;
+      }
+
+      .wrapper::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+      }
+
+      .wrapper::-webkit-scrollbar-thumb {
+        background-color: rgba(108, 117, 125, 0.5);
       }
 
       .wrapper > *:not(:last-child) {
