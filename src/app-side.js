@@ -42,7 +42,7 @@ export class AppSide extends LitElement {
 
       .list-group-container-container {
         height: calc(100vh - 3rem);
-        padding: 4px;
+        padding: 0.5rem;
         border: 1px solid rgba(0, 0, 0, 0.125);
         border-top-left-radius: 0.25rem;
         border-top-right-radius: 0.25rem;
