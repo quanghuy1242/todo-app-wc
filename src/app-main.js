@@ -39,7 +39,7 @@ export class AppMain extends LitElement {
         list-style: none;
         border-bottom: 1px solid rgb(206, 212, 218);
         border-top: 1px solid rgb(206, 212, 218);
-        max-height: calc(100vh - 3rem - 102px - 1rem - 3px);
+        height: calc(100vh - 3rem - 105px - 1rem - 3px);
         overflow-y: auto;
         overflow-x: hidden;
         margin-top: 1rem;
