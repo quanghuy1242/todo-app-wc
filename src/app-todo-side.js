@@ -69,6 +69,14 @@ export class AppTodoSide extends LitElement {
         font-size: 0.875rem;
         color: #6c757d;
       }
+
+      .form-group-icon .btn {
+        display: flex;
+      }
+
+      .form-group-icon .material-icons {
+        margin-right: 1rem;
+      }
     `;
   }
 
@@ -101,18 +109,38 @@ export class AppTodoSide extends LitElement {
             </button>
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group form-group-icon">
           <label for="">Action</label>
-          <button class="btn btn-info">Move</button>
+          <button class="btn btn-info">
+            <i class="material-icons">
+              reply
+            </i>
+            Move
+          </button>
         </div>
-        <div class="form-group">
-          <button class="btn btn-info">Add to important</button>
+        <div class="form-group form-group-icon">
+          <button class="btn btn-info">
+            <i class="material-icons">
+              star_border
+            </i>
+            Add to important
+          </button>
         </div>
-        <div class="form-group">
-          <button class="btn btn-info">Export</button>
+        <div class="form-group form-group-icon">
+          <button class="btn btn-info">
+            <i class="material-icons">
+              save_alt
+            </i>
+            Export
+          </button>
         </div>
-        <div class="form-group">
-          <button class="btn btn-danger">Delete</button>
+        <div class="form-group form-group-icon">
+          <button class="btn btn-danger">
+            <i class="material-icons">
+              delete
+            </i>
+            Delete
+          </button>
         </div>
       </div>
     `;
