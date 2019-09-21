@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit-element';
 import './app-todo-item';
 import './app-filter';
 import './app-side';
+import './app-todo-side';
 import { button, inputText, typography, dropdownMenu, overlay } from './styles/app.style';
 import { ALL, FINISH, UNFINISH } from './app-filter';
 import { setMenuPosition } from './utils/DropDownUtil';
@@ -387,6 +388,9 @@ export class AppMain extends LitElement {
                   : html``}
               `)}
             </ul>
+          </div>
+          <div class="note-panel" style="width: 250px">
+            <app-todo-side></app-todo-side>
           </div>
         </div>
       </div>

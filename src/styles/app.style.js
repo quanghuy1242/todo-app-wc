@@ -118,6 +118,22 @@ export const button = css`
     border-color: #4e555b;
   }
 
+  .btn-info {
+    color: #fff;
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+  }
+
+  .btn-info:hover {
+    color: #fff;
+    background-color: #138496;
+    border-color: #117a8b;
+  }
+
+  .btn-info:focus, .btn-info.focus {
+    box-shadow: 0 0 0 0.2rem rgba(58, 176, 195, 0.5);
+  }
+
   .close {
     float: right;
     font-size: 1.5rem;
@@ -173,7 +189,7 @@ export const inputText = css`
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   }
 
-  input[type='text']:focus {
+  input[type='text']:focus, textarea:focus {
     color: #495057;
     background-color: #fff;
     border-color: #80bdff;
@@ -189,6 +205,24 @@ export const inputText = css`
   input[type='text']:disabled, input[readonly] {
     background-color: #e9ecef;
     opacity: 1;
+  }
+
+  textarea {
+    display: block;
+    width: auto;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    resize: none;
+    font-family: inherit;
   }
 `;
 
