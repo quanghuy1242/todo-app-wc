@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import { button, buttonGroup } from './styles/app.style';
+import { button, buttonGroup, typography } from './styles/app.style';
 
 export const ALL = 'All';
 export const FINISH = 'Finished';
@@ -17,9 +17,10 @@ export class AppFilter extends LitElement {
     return css`
       ${button}
       ${buttonGroup}
+      ${typography}
 
-      button {
-        min-width: 100px;
+      .material-icons {
+        margin-top: 0.3rem;
       }
     `;
   }
@@ -27,9 +28,9 @@ export class AppFilter extends LitElement {
   constructor() {
     super();
     this.group = [
-      { name: ALL, default: true },
-      { name: FINISH, default: false },
-      { name: UNFINISH, default: false },
+      { name: ALL, icon: 'format_list_bulleted', default: true },
+      { name: FINISH, icon: 'check_box', default: false },
+      { name: UNFINISH, icon: 'check_box_outline_blank', default: false },
     ];
     this.selected = ALL;
   }
@@ -45,8 +46,11 @@ export class AppFilter extends LitElement {
           <button
             class="btn btn-secondary ${this.selected === item.name ? 'active' : ''}"
             @click=${() => this.handleToggleFilter(item.name)}
+            title=${item.name}
           >
-            ${item.name}
+            <i class="material-icons">
+              ${item.icon}
+            </i>
           </button>
         `)}
       </div>

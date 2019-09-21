@@ -2,8 +2,9 @@ import { LitElement, html, css } from 'lit-element';
 import './app-todo-item';
 import './app-filter';
 import './app-side';
-import { button, inputText, typography } from './styles/app.style';
+import { button, inputText, typography, dropdownMenu, overlay } from './styles/app.style';
 import { ALL, FINISH, UNFINISH } from './app-filter';
+import { setMenuPosition } from './utils/DropDownUtil';
 
 export class AppMain extends LitElement {
   static get properties() {
@@ -12,7 +13,8 @@ export class AppMain extends LitElement {
       currentValue: { type: String },
       selectedFilter: { type: String },
       selectedList: { type: Number },
-      data: { type: Object }
+      data: { type: Object },
+      isShowMenu: { type: Boolean }
     };
   }
 
@@ -21,6 +23,8 @@ export class AppMain extends LitElement {
       ${typography}
       ${button}
       ${inputText}
+      ${dropdownMenu}
+      ${overlay}
 
       /* .container {
         padding-right: 15px;
@@ -34,7 +38,7 @@ export class AppMain extends LitElement {
         list-style: none;
         border-bottom: 1px solid rgb(206, 212, 218);
         border-top: 1px solid rgb(206, 212, 218);
-        max-height: calc(100vh - 3rem - 140px - 2rem - 3px);
+        max-height: calc(100vh - 3rem - 102px - 1rem - 3px);
         overflow-y: auto;
         overflow-x: hidden;
         margin-top: 1rem;
@@ -98,7 +102,9 @@ export class AppMain extends LitElement {
       /* End Layout */
 			
 			app-filter {
-        margin-bottom: 1rem;
+        width: 100%;
+        display: flex;
+        justify-content: center;
 			}
 
 			h1.display-4 {
@@ -147,6 +153,7 @@ export class AppMain extends LitElement {
     this.selectedFilter = ALL;
     this.selectedList = 0;
     this.data = {};
+    this.isShowMenu = false;
   }
 
   connectedCallback() {
@@ -187,6 +194,12 @@ export class AppMain extends LitElement {
         todoItem.scrollIntoView(); // Scroll đến nó
         this.data = {}; // Xoá trạng thái cũ
       }, 0);
+    }
+
+    // Hiện menu nếu isShowMenu là true
+    if (this.isShowMenu) {
+      const menu = this.shadowRoot.querySelector('.context-menu');
+      setMenuPosition(menu, this.data);
     }
   }
 
@@ -297,6 +310,17 @@ export class AppMain extends LitElement {
     this.lists = this.lists.filter((list, index) => index !== event.detail.index);
   }
 
+  handleMoreClick(event) {
+    event.preventDefault();
+    this.isShowMenu = true;
+    this.data = {
+      event: {
+        x: event.pageX,
+        y: event.pageY,
+      }
+    };
+  }
+
   render() {
     return html`
       <div class="container">
@@ -321,13 +345,12 @@ export class AppMain extends LitElement {
               <span class="icon-header">${this.lists[this.selectedList].icon}</span>
               ${this.lists[this.selectedList].name}
               <div class="spacer"></div>
-              <button class="btn btn-icon">
+              <button class="btn btn-icon" @click=${this.handleMoreClick}>
                 <i class="material-icons">
                   more_horiz
                 </i>
               </button>
             </h1>
-            <app-filter @onToggleFilter=${this.handleFilter} selected=${this.selectedFilter}></app-filter>
             <div class="input-wrapper">
               <input
                 type="text"
@@ -358,6 +381,16 @@ export class AppMain extends LitElement {
           </div>
         </div>
       </div>
+      ${this.isShowMenu
+        ? html`
+          <div class="context-menu dropdown-menu">
+            <app-filter @onToggleFilter=${this.handleFilter} selected=${this.selectedFilter}></app-filter>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item">Export</button>
+          </div>
+          <div class="overlay" @click=${() => this.isShowMenu = false}></div>
+        `
+        : html``}
     `;
   }
 }

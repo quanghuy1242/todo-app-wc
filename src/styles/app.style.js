@@ -45,7 +45,6 @@ export const button = css`
     color: #fff;
     background-color: #007bff;
     border-color: #007bff;
-    width: 75px;
     outline: none;
   }
 
@@ -577,5 +576,12 @@ export const dropdownMenu = css`
     color: #6c757d;
     pointer-events: none;
     background-color: transparent;
+  }
+
+  .dropdown-divider {
+    height: 0;
+    margin: 0.5rem 0;
+    overflow: hidden;
+    border-top: 1px solid #e9ecef;
   }
 `;
