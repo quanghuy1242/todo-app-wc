@@ -134,25 +134,6 @@ export const button = css`
     box-shadow: 0 0 0 0.2rem rgba(58, 176, 195, 0.5);
   }
 
-  .close {
-    float: right;
-    font-size: 1.5rem;
-    font-weight: 700;
-    line-height: 1;
-    color: black;
-    text-shadow: 0 1px 0 #fff;
-    opacity: .5;
-  }
-
-  .close span {
-    font-size: inherit;
-    font-weight: inherit;
-  }
-
-  .close:hover {
-    color: #dc3545;
-  }
-
   button.close {
     padding: 0;
     background-color: transparent;

@@ -66,12 +66,20 @@ export class AppTodoItem extends LitElement {
         align-items: center;
       }
 
-      .star {
-        zoom: 0.7;
+      .btn-icon i {
+        zoom: 0.8;
       }
 
-      .btn-icon {
-        padding-top: 3px;
+      .mt-favorite:hover {
+        color: #ffc107;
+      }
+
+      .mt-close:hover {
+        color: #dc3545;
+      }
+
+      .mt-more:hover {
+        color: #17a2b8;
       }
     `;
   }
@@ -135,14 +143,21 @@ export class AppTodoItem extends LitElement {
           for=${this.index}
           @contextmenu=${(event) => this.handleTodoItemContextMenu(event)}
         >
-        ${this.name}
+          ${this.name}
         </label>
-        <button type="button" class="close" aria-label="Close" @click=${this.handleDelete}>
-          <span aria-hidden="true">&times;</span>
+        <button class="btn btn-no-bg btn-icon btn-icon-sm mt-close" @click=${this.handleDelete}>
+          <i class="material-icons">
+            close
+          </i>
         </button>
-        <button class="btn btn-no-bg btn-icon btn-icon-sm">
-          <i class="material-icons star">
+        <button class="btn btn-no-bg btn-icon btn-icon-sm mt-favorite">
+          <i class="material-icons">
             star_border
+          </i>
+        </button>
+        <button class="btn btn-no-bg btn-icon btn-icon-sm mt-more">
+          <i class="material-icons">
+            fiber_manual_record
           </i>
         </button>
       </li>
