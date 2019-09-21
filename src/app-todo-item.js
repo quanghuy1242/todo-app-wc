@@ -9,7 +9,6 @@ export class AppTodoItem extends LitElement {
       isDone: { type: Boolean },
       index: { type: Number },
       isShowMenu: { type: Boolean },
-      currentValueOnContextMenu: { type: Number },
       data: { type: Object }
     }
   }
@@ -80,10 +79,16 @@ export class AppTodoItem extends LitElement {
 
   handleToggle() {
     this.dispatchEvent(new CustomEvent('onToggle', { detail: this.index }));
+    if (this.isShowMenu) { // Nếu menu đang bật thì tắt nó đi
+      this.isShowMenu = false;
+    }
   }
 
   handleDelete() {
     this.dispatchEvent(new CustomEvent('onDelete', { detail: this.index }));
+    if (this.isShowMenu) { // Nếu menu đang bật thì tắt nó đi
+      this.isShowMenu = false;
+    }
   }
 
   updated() {
@@ -96,10 +101,9 @@ export class AppTodoItem extends LitElement {
     }
   }
 
-  handleTodoItemContextMenu(event, index) {
+  handleTodoItemContextMenu(event) {
     event.preventDefault();
     this.isShowMenu = true;
-    this.currentValueOnContextMenu = index;
     this.data = {
       event: {
         x: event.pageX,
@@ -133,8 +137,10 @@ export class AppTodoItem extends LitElement {
         ? html`
           <div class="context-menu dropdown-menu">
             <button class="dropdown-item">Edit</button>
-            <button class="dropdown-item">Delete</button>
-            <button class="dropdown-item">Mark as complete</button>
+            <button class="dropdown-item" @click=${this.handleDelete}>Delete</button>
+            <button class="dropdown-item" @click=${this.handleToggle}>
+              ${this.isDone ? 'Mark as undone' : 'Mark as complete'}
+            </button>
             <button class="dropdown-item">Mark as drop</button>
             <button class="dropdown-item">More options</button>
           </div>
