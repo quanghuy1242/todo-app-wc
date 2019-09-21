@@ -124,7 +124,7 @@ export class AppMain extends LitElement {
       .spacer {
         flex: 1 1 auto;
       }
-
+/* 
       .btn-icon {
         width: 2rem;
         border-radius: 50%;
@@ -135,6 +135,10 @@ export class AppMain extends LitElement {
 
       .btn-icon i {
         margin-top: 0.25rem;
+      } */
+
+      .border-radius-style {
+        border-radius: 100px !important;
       }
     `;
   }
@@ -345,7 +349,7 @@ export class AppMain extends LitElement {
               <span class="icon-header">${this.lists[this.selectedList].icon}</span>
               ${this.lists[this.selectedList].name}
               <div class="spacer"></div>
-              <button class="btn btn-icon" @click=${this.handleMoreClick}>
+              <button class="btn btn-icon btn-icon-sm" @click=${this.handleMoreClick}>
                 <i class="material-icons">
                   more_horiz
                 </i>
@@ -358,8 +362,13 @@ export class AppMain extends LitElement {
                 @input=${this.handleTodoItemChange}
                 @keyup=${this.handleTodoEnter}
                 placeholder="Enter or click Add button ..."
+                class="border-radius-style"
               >
-              <button class="btn" @click=${this.handleAddNewTodoItemClick}>Add</button>
+              <button class="btn btn-icon" @click=${this.handleAddNewTodoItemClick}>
+                <i class="material-icons">
+                  add
+                </i>
+              </button>
             </div>
             <ul>
               ${this.getMessage()}

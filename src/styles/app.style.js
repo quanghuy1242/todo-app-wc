@@ -145,7 +145,17 @@ export const button = css`
     -moz-appearance: none;
     appearance: none;
     outline: none;
-}
+  }
+
+  .btn-icon {
+    border-radius: 50%;
+    padding: 0.5rem;
+    line-height: 0;
+  }
+
+  .btn-icon-sm {
+    padding: 0.25rem;
+  }
 `;
 
 export const inputText = css`
