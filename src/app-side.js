@@ -70,6 +70,8 @@ export class AppSide extends LitElement {
 
       .list-group-item-icon {
         margin-right: 0.5rem;
+        width: 40px;
+        text-align: center;
       }
 
       .list-group-item-label {
