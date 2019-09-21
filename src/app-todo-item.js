@@ -141,7 +141,11 @@ export class AppTodoItem extends LitElement {
             <button class="dropdown-item" @click=${this.handleToggle}>
               ${this.isDone ? 'Mark as undone' : 'Mark as complete'}
             </button>
-            <button class="dropdown-item">Mark as drop</button>
+            ${!this.isDone
+              ? html`
+                <button class="dropdown-item">Mark as drop</button>
+              `
+              : html``}
             <button class="dropdown-item">More options</button>
           </div>
           <div class="overlay" @click=${() => this.isShowMenu = false}></div>
