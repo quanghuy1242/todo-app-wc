@@ -163,6 +163,11 @@ export class AppSide extends LitElement {
       }
 
       /* End */
+
+      .material-icons {
+        zoom: 0.8;
+        margin-bottom: 3px;
+      }
     `;
   }
 
@@ -431,12 +436,18 @@ export class AppSide extends LitElement {
               class="dropdown-item"
               @click=${() => this.handleToggleEdit(this.currentValueOnContextMenu)}
             >
+              <i class="material-icons">
+                edit
+              </i>
               Edit
             </button>
             <button
               class="dropdown-item"
               @click=${() => this.handleDeleteListItem(this.currentValueOnContextMenu)}
             >
+              <i class="material-icons">
+                delete
+              </i>
               Delete
             </button>
           </div>

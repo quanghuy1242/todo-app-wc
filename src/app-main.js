@@ -133,6 +133,11 @@ export class AppMain extends LitElement {
       .btn-more {
         margin-right: 0.25rem;
       }
+
+      .dropdown-menu .material-icons {
+        zoom: 0.8;
+        margin-bottom: 3px;
+      }
     `;
   }
 
@@ -396,7 +401,12 @@ export class AppMain extends LitElement {
           <div class="context-menu dropdown-menu">
             <app-filter @onToggleFilter=${this.handleFilter} selected=${this.selectedFilter}></app-filter>
             <div class="dropdown-divider"></div>
-            <button class="dropdown-item">Export</button>
+            <button class="dropdown-item">
+              <i class="material-icons">
+                save_alt
+              </i>
+              Export
+            </button>
           </div>
           <div class="overlay" @click=${() => this.isShowMenu = false}></div>
         `

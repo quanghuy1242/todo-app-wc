@@ -66,8 +66,9 @@ export class AppTodoItem extends LitElement {
         align-items: center;
       }
 
-      .btn-icon i {
+      .material-icons {
         zoom: 0.8;
+        margin-bottom: 3px;
       }
 
       .mt-favorite:hover {
@@ -164,19 +165,61 @@ export class AppTodoItem extends LitElement {
       ${this.isShowMenu
         ? html`
           <div class="context-menu dropdown-menu">
-            <button class="dropdown-item">Edit</button>
-            <button class="dropdown-item" @click=${this.handleDelete}>Delete</button>
+            <button class="dropdown-item">
+              <i class="material-icons">
+                edit
+              </i>
+              Edit
+            </button>
+            <button class="dropdown-item" @click=${this.handleDelete}>
+              <i class="material-icons">
+                delete
+              </i>
+              Delete
+            </button>
             <button class="dropdown-item" @click=${this.handleToggle}>
-              ${this.isDone ? 'Mark as undone' : 'Mark as complete'}
+              ${this.isDone
+                ? html`
+                  <i class="material-icons">
+                    check_box_outline_blank
+                  </i>
+                  Mark as undone
+                `
+                : html`
+                  <i class="material-icons">
+                    check_box
+                  </i>
+                  Mark as complete
+                `}
             </button>
             ${!this.isDone
               ? html`
-                <button class="dropdown-item">Mark as drop</button>
+                <button class="dropdown-item">
+                  <i class="material-icons">
+                    close
+                  </i>
+                  Mark as drop
+                </button>
               `
               : html``}
-            <button class="dropdown-item">Move up</button>
-            <button class="dropdown-item">Move down</button>
-            <button class="dropdown-item">More options</button>
+            <button class="dropdown-item">
+              <i class="material-icons">
+                keyboard_arrow_up
+              </i>
+              Move up
+            </button>
+            <button class="dropdown-item">
+              <i class="material-icons">
+                keyboard_arrow_down
+              </i>
+              Move down
+            </button>
+            <button class="dropdown-item">
+              <i class="material-icons">
+                more_horiz
+              </i>
+              More options
+            </button>
           </div>
           <div class="overlay" @click=${() => this.isShowMenu = false}></div>
         `

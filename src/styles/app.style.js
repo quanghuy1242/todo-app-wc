@@ -625,4 +625,15 @@ export const dropdownMenu = css`
     overflow: hidden;
     border-top: 1px solid #e9ecef;
   }
+
+  
+  .dropdown-item {
+    padding-left: 0.7rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .dropdown-item .material-icons {
+    margin-right: 1rem;
+  }
 `;
