@@ -137,6 +137,7 @@ export class AppSide extends LitElement {
         width: 35px;
         padding: 0.25rem;
         border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0.25rem;
         border-right: 0;
         text-align: center;
       }
