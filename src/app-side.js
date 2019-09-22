@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import { listGroup, overlay, button, badge, dropdownMenu, typography } from './styles/app.style';
+import { listGroup, overlay, button, badge, dropdownMenu, typography, dialog } from './styles/app.style';
 import emojiRegex from 'emoji-regex';
 import { setMenuPosition } from './utils/DropDownUtil';
 
@@ -26,6 +26,7 @@ export class AppSide extends LitElement {
       ${button}
       ${badge}
       ${dropdownMenu}
+      ${dialog}
 
       .outer-wrapper {
         width: 250px;
@@ -169,6 +170,10 @@ export class AppSide extends LitElement {
       .material-icons {
         zoom: 0.8;
         margin-bottom: 3px;
+      }
+
+      .dialog-sample {
+        width: 400px;
       }
     `;
   }
@@ -338,6 +343,15 @@ export class AppSide extends LitElement {
     }
   }
 
+  firstUpdated() {
+    this.dialog = this.shadowRoot.querySelector('.dialog-sample');
+  }
+
+  showSampleDialog() {
+    this.isShowMenu = false;
+    this.dialog.showModal();
+  }
+
   render() {
     return html`
       <div class="outer-wrapper">
@@ -452,10 +466,31 @@ export class AppSide extends LitElement {
               </i>
               Delete
             </button>
+            <button
+              class="dropdown-item"
+              @click=${this.showSampleDialog}
+            >
+              <i class="material-icons">
+                chat_bubble
+              </i>
+              Show dialog
+            </button>
           </div>
           <div class="overlay" @click=${() => this.isShowMenu = false}></div>
         `
         : html``}
+        <dialog class="dialog dialog-sample">
+          <div class="document">
+            <div class="header">
+              <h6 class="title">Cảnh báo</h6>
+            </div>
+            <div class="content">Bạn có chắn chắn muốn xoá nội dung này không?</div>
+            <div class="action">
+              <button class="btn btn-secondary" @click=${() => this.dialog.close()}>Close</button>
+              <button class="btn btn-danger" @click=${() => this.dialog.close()}>Delete</button>
+            </div>
+          </div>
+        </dialog>
     `;
   }
 }

@@ -7,6 +7,10 @@ export const typography = css`
     line-height: 1.5;
   }
 
+  h6 {
+    font-size: 1.25rem;
+  }
+
   .material-icons {
     font-family: 'Material Icons';
     font-weight: normal;
@@ -644,6 +648,104 @@ export const dropdownMenu = css`
     animation-fill-mode: both;
   }
   
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes transfrom-dropdown {
+    0% {
+      transform: translateY(-10px)
+    }
+
+    100% {
+      transform: translateY(0px)
+    }
+  }
+`;
+
+export const dialog = css`
+  .dialog {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0.3rem;
+    animation-name: fade-in, transfrom-dropdown;
+    animation-duration: 0.6s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
+
+  .dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    animation-name: fade-in;
+    animation-duration: 0.6s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
+
+  .dialog .document {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.3rem;
+    outline: 0;
+  }
+
+  .dialog .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1rem 1rem;
+    border-bottom: 1px solid #dee2e6;
+    border-top-left-radius: 0.3rem;
+    border-top-right-radius: 0.3rem;
+  }
+
+  .dialog .header .title {
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .dialog .content {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 1rem;
+  }
+
+  .dialog .action {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 1rem;
+    border-top: 1px solid #dee2e6;
+    border-bottom-right-radius: 0.3rem;
+    border-bottom-left-radius: 0.3rem;
+  }
+
+  .dialog .action > :not(:first-child) {
+    margin-left: .25rem;
+  }
+
+  .dialog .action > :not(:last-child) {
+    margin-right: .25rem;
+  }
+
   @keyframes fade-in {
     0% {
       opacity: 0;
