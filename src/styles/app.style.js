@@ -636,4 +636,31 @@ export const dropdownMenu = css`
   .dropdown-item .material-icons {
     margin-right: 1rem;
   }
+
+  .dropdown-menu {
+    animation-name: fade-in, transfrom-dropdown;
+    animation-duration: 0.4s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
+  
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes transfrom-dropdown {
+    0% {
+      transform: translateY(-10px)
+    }
+
+    100% {
+      transform: translateY(0px)
+    }
+  }
 `;
