@@ -117,7 +117,7 @@ export class AppMain extends LitElement {
       }
       
       .overlay-side-note {
-        background-color: rgba(0, 0, 0, 0.1);
+        background-color: rgba(0, 0, 0, 0.5);
         z-index: 7;
       }
       /* End Layout */
