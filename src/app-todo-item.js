@@ -165,12 +165,6 @@ export class AppTodoItem extends LitElement {
       ${this.isShowMenu
         ? html`
           <div class="context-menu dropdown-menu">
-            <button class="dropdown-item">
-              <i class="material-icons">
-                edit
-              </i>
-              Edit
-            </button>
             <button class="dropdown-item" @click=${this.handleDelete}>
               <i class="material-icons">
                 delete
@@ -213,12 +207,6 @@ export class AppTodoItem extends LitElement {
                 keyboard_arrow_down
               </i>
               Move down
-            </button>
-            <button class="dropdown-item">
-              <i class="material-icons">
-                more_horiz
-              </i>
-              More options
             </button>
           </div>
           <div class="overlay" @click=${() => this.isShowMenu = false}></div>
