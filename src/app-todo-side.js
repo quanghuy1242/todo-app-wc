@@ -10,14 +10,15 @@ export class AppTodoSide extends LitElement {
       ${buttonGroup}
 
       .wrapper {
-        border: 1px solid rgba(0, 0, 0, 0.125);
-        border-radius: 0.25rem;
-        height: calc(100vh - 3rem);
+        border-left: 1px solid rgba(0, 0, 0, 0.125);
+        /* border-radius: 0.25rem; */
+        height: 100vh;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
         padding: 0.5rem;
         overflow-y: auto;
+        background-color: #fff;
       }
 
       .wrapper::-webkit-scrollbar {

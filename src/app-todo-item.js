@@ -129,6 +129,10 @@ export class AppTodoItem extends LitElement {
     };
   }
 
+  handleOpenSideNote() {
+    this.dispatchEvent(new CustomEvent('onOpenSideNote', { detail: this.index }));
+  }
+
   render() {
     return html`
       <li class="${this.isDone ? 'done' : ''} custom-control custom-checkbox">
@@ -156,7 +160,7 @@ export class AppTodoItem extends LitElement {
             star_border
           </i>
         </button>
-        <button class="btn btn-no-bg btn-icon btn-icon-sm mt-more">
+        <button class="btn btn-no-bg btn-icon btn-icon-sm mt-more" @click=${this.handleOpenSideNote}>
           <i class="material-icons">
             fiber_manual_record
           </i>

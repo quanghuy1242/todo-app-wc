@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html, css, unsafeCSS } from 'lit-element';
 import './app-todo-item';
 import './app-filter';
 import './app-side';
@@ -15,7 +15,8 @@ export class AppMain extends LitElement {
       selectedFilter: { type: String },
       selectedList: { type: Number },
       data: { type: Object },
-      isShowMenu: { type: Boolean }
+      isShowMenu: { type: Boolean },
+      isShowNotePanel: { type: Boolean }
     };
   }
 
@@ -103,9 +104,22 @@ export class AppMain extends LitElement {
         flex-grow: 1;
         display: flex;
         flex-direction: column;
-        /* align-items: center; */
       }
-
+      
+      .note-panel {
+        width: 280px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 8;
+      }
+      
+      .overlay-side-note {
+        background-color: rgba(0, 0, 0, 0.1);
+        z-index: 7;
+      }
       /* End Layout */
 			
 			app-filter {
@@ -162,6 +176,7 @@ export class AppMain extends LitElement {
     this.selectedList = 0;
     this.data = {};
     this.isShowMenu = false;
+    this.isShowNotePanel = false;
   }
 
   connectedCallback() {
@@ -255,6 +270,11 @@ export class AppMain extends LitElement {
     this.lists[this.selectedList].todos = 
       this.lists[this.selectedList].todos.filter((item, index) => index !== event.detail);
     this.lists = [...this.lists];
+  }
+
+  handleOpenSideNote(event) {
+    console.log('a');
+    this.isShowNotePanel = true;
   }
 
   handleFilter(event) {
@@ -391,17 +411,26 @@ export class AppMain extends LitElement {
                       id="todo-item-${index}"
                       @onToggle=${this.handleToggleTodoItem}
                       @onDelete=${this.handleDeleteTodoItem}
+                      @onOpenSideNote=${this.handleOpenSideNote}
                     ></app-todo-item>
                   `
                   : html``}
               `)}
             </ul>
           </div>
-          <div class="note-panel" style="width: 250px">
-            <app-todo-side></app-todo-side>
-          </div>
+        </div>
+        <div
+          class="note-panel"
+          style="transform: translateX(${this.isShowNotePanel ? '0px' : '304px'})"
+        >
+          <app-todo-side></app-todo-side>
         </div>
       </div>
+      ${this.isShowNotePanel
+        ? html`
+          <div class="overlay overlay-side-note" @click=${() => this.isShowNotePanel = false}></div>
+        `
+        : html``}
       ${this.isShowMenu
         ? html`
           <div class="context-menu dropdown-menu">
