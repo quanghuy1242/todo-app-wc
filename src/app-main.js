@@ -66,7 +66,13 @@ export class AppMain extends LitElement {
 
       .input-wrapper input {
         flex-grow: 1;
-        margin-right: 0.5rem;
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+      }
+
+      .input-wrapper .btn {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
       }
 
       h1 {
