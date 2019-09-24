@@ -6,6 +6,7 @@ import './app-todo-side';
 import { button, inputText, typography, dropdownMenu, overlay } from './styles/app.style';
 import { ALL, FINISH, UNFINISH } from './app-filter';
 import { setMenuPosition } from './utils/DropDownUtil';
+import { IOUtils } from './utils/IOUtil';
 
 export class AppMain extends LitElement {
   static get properties() {
@@ -183,41 +184,13 @@ export class AppMain extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    const savedData = localStorage['lists'];
-    if (savedData) {
-      const rawData = JSON.parse(localStorage['lists']);
-      this.lists = rawData.map(list => {
-        return ({
-          ...list,
-          todos: list.todos.map(todo => ({
-            ...todo,
-            date: todo.date ? new Date(todo.date) : null
-          }))
-        })
-      });
-    } else {
-      this.lists = [
-        {
-          icon: '📝',
-          name: 'General',
-          todos: [],
-          default: true
-        }
-      ];
-    }
+    this.lists = IOUtils.getData();
   }
 
   updated(changedProperties) {
     changedProperties.forEach((oldValue, propName) => {
       if (propName === 'lists') {
-        const processedLists = this.lists.map(list => ({
-          ...list,
-          todos: list.todos.map(todo => ({ ...todo, visible: true }))
-        })); // Tất cả todo item khi lưu vào database thì phải set visible là true hết
-        // Cái được lưu phải khác với cái đang lưu trong db
-        if (JSON.stringify(processedLists) !== localStorage['lists']) {
-          localStorage['lists'] = JSON.stringify(processedLists);
-        }
+        IOUtils.saveData(this.lists);
       }
     });
 
