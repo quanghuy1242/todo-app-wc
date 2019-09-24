@@ -498,6 +498,20 @@ export const overlay = css`
     left: 0;
     right: 0;
     z-index: 2;
+    animation-name: fade-in;
+    animation-duration: 0.6s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation-fill-mode: both;
+  }
+  
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
   }
 `;
 
