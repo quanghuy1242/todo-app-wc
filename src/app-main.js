@@ -350,6 +350,11 @@ export class AppMain extends LitElement {
     }
   }
 
+  handleCloseSideNote() {
+    this.isShowNotePanel = false;
+    this.notePanelData = {};
+  }
+
   render() {
     return html`
       <div class="container">
@@ -436,7 +441,7 @@ export class AppMain extends LitElement {
       </div>
       ${this.isShowNotePanel
         ? html`
-          <div class="overlay overlay-side-note" @click=${() => this.isShowNotePanel = false}></div>
+          <div class="overlay overlay-side-note" @click=${this.handleCloseSideNote}></div>
         `
         : html``}
       ${this.isShowMenu
