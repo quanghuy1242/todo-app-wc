@@ -349,7 +349,7 @@ export class AppMain extends LitElement {
     this.lists[this.selectedList].todos[event.detail.index] = {
       ...this.lists[this.selectedList].todos[event.detail.index],
       ...!event.detail.name || { name: event.detail.name },
-      ...!event.detail.note || { note: event.detail.note },
+      ...(event.detail.note === '' || event.detail.note) && { note: event.detail.note },
     }
     this.lists = [...this.lists];
     this.notePanelData = {
