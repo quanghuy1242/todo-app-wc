@@ -329,18 +329,16 @@ export class AppSide extends LitElement {
   }
 
   handleDeleteListItem(index) {
-    this.isShowMenu = false;
-    if (confirm('Bạn có chắc chắn muốn xoá không?')) {
-      this.dispatchEvent(new CustomEvent('onDeleteList', {
-        detail: {
-          index: index
-        }
-      }))
-      this.data = {
-        event: 'justDelete',
-        isDeleteSelected: this.selected === index
-      };
-    }
+    this.dialog.close();
+    this.dispatchEvent(new CustomEvent('onDeleteList', {
+      detail: {
+        index: index
+      }
+    }))
+    this.data = {
+      event: 'justDelete',
+      isDeleteSelected: this.selected === index
+    };
   }
 
   firstUpdated() {
@@ -459,21 +457,12 @@ export class AppSide extends LitElement {
             </button>
             <button
               class="dropdown-item"
-              @click=${() => this.handleDeleteListItem(this.currentValueOnContextMenu)}
+              @click=${this.showSampleDialog}
             >
               <i class="material-icons">
                 delete
               </i>
               Delete
-            </button>
-            <button
-              class="dropdown-item"
-              @click=${this.showSampleDialog}
-            >
-              <i class="material-icons">
-                chat_bubble
-              </i>
-              Show dialog
             </button>
           </div>
           <div class="overlay" @click=${() => this.isShowMenu = false}></div>
@@ -487,7 +476,7 @@ export class AppSide extends LitElement {
             <div class="content">Bạn có chắn chắn muốn xoá nội dung này không?</div>
             <div class="action">
               <button class="btn btn-secondary" @click=${() => this.dialog.close()}>Close</button>
-              <button class="btn btn-danger" @click=${() => this.dialog.close()}>Delete</button>
+              <button class="btn btn-danger" @click=${() => this.handleDeleteListItem(this.currentValueOnContextMenu)}>Delete</button>
             </div>
           </div>
         </dialog>
