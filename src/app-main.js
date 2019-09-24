@@ -258,6 +258,7 @@ export class AppMain extends LitElement {
   }
 
   handleOpenSideNote(event) {
+    this.notePanelData = {};
     this.notePanelData = {
       index: event.detail,
       ...this.lists[this.selectedList].todos[event.detail]
