@@ -185,7 +185,16 @@ export class AppMain extends LitElement {
     super.connectedCallback();
     const savedData = localStorage['lists'];
     if (savedData) {
-      this.lists = JSON.parse(localStorage['lists']);
+      const rawData = JSON.parse(localStorage['lists']);
+      this.lists = rawData.map(list => {
+        return ({
+          ...list,
+          todos: list.todos.map(todo => ({
+            ...todo,
+            date: todo.date ? new Date(todo.date) : null
+          }))
+        })
+      });
     } else {
       this.lists = [
         {
@@ -355,7 +364,7 @@ export class AppMain extends LitElement {
     };
   }
 
-  handleTodoItemChange(event) {
+  handleTodoItemFromSideNoteChange(event) {
     this.lists[this.selectedList].todos[event.detail.index] = {
       ...this.lists[this.selectedList].todos[event.detail.index],
       ...!event.detail.name || { name: event.detail.name },
@@ -448,7 +457,7 @@ export class AppMain extends LitElement {
             .date=${this.notePanelData.date}
             .note=${this.notePanelData.note || ''}
             .index=${this.notePanelData.index}
-            @onDataChanged=${this.handleTodoItemChange}
+            @onDataChanged=${this.handleTodoItemFromSideNoteChange}
           ></app-todo-side>
         </div>
       </div>

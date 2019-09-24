@@ -94,7 +94,7 @@ export class AppTodoSide extends LitElement {
     super();
 
     this.name = '';
-    this.date = {};
+    this.date = null;
     this.note = '';
     this.index = 0;
   }
@@ -122,7 +122,11 @@ export class AppTodoSide extends LitElement {
       <div class="wrapper">
         <div class="header">
           <div class="header-title">${this.name}</div>
-          <div class="header-date">${(new Date()).toLocaleDateString()}</div>
+          ${this.date
+          	? html`
+							<div class="header-date">${this.date.toLocaleDateString()}</div>
+          	`
+          	: html``}
         </div>
         <div class="form-group">
           <label for="">Name</label>
