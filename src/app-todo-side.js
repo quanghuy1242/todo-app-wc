@@ -134,7 +134,7 @@ export class AppTodoSide extends LitElement {
         </div>
         <div class="form-group">
           <label for="">Note</label>
-          <textarea @input=${this.handleNoteChange}>${this.note}</textarea>
+          <textarea @input=${this.handleNoteChange}>${this.note || ''}</textarea>
         </div>
         <div class="form-group">
           <label for="">Toggle</label>
