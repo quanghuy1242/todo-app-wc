@@ -361,6 +361,7 @@ export class AppMain extends LitElement {
   handleCloseSideNote() {
     this.isShowNotePanel = false;
     this.notePanelData = {};
+    this.shadowRoot.querySelector('app-todo-side').isShowEditorNote = false;
   }
 
   render() {
@@ -446,7 +447,7 @@ export class AppMain extends LitElement {
           <app-todo-side
             .name=${this.notePanelData.name}
             .date=${this.notePanelData.date}
-            .note=${this.notePanelData.note || ''}
+            .note=${this.notePanelData.note}
             .index=${this.notePanelData.index}
             @onDataChanged=${this.handleTodoItemFromSideNoteChange}
           ></app-todo-side>
