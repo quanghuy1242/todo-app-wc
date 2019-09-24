@@ -2,6 +2,15 @@ import { LitElement, html, css } from 'lit-element';
 import { inputText, buttonGroup, button, typography } from './styles/app.style';
 
 export class AppTodoSide extends LitElement {
+  static get properties() {
+    return {
+      name: { type: String },
+      date: { type: Object },
+      note: { type: String },
+      index: { type: Number }
+    };
+  }
+
   static get styles() {
     return css`
       ${typography}
@@ -81,20 +90,47 @@ export class AppTodoSide extends LitElement {
     `;
   }
 
+  constructor() {
+    super();
+
+    this.name = '';
+    this.date = {};
+    this.note = '';
+    this.index = 0;
+  }
+
+  handleNameChange(event) {
+    this.dispatchEvent(new CustomEvent('onDataChanged', {
+      detail: {
+        index: this.index,
+        name: event.target.value
+      }
+    }));
+  }
+
+  handleNoteChange(event) {
+    this.dispatchEvent(new CustomEvent('onDataChanged', {
+      detail: {
+        index: this.index,
+        note: event.target.value
+      }
+    }));
+  }
+
   render() {
     return html`
       <div class="wrapper">
         <div class="header">
-          <div class="header-title">Fuck it I love you</div>
+          <div class="header-title">${this.name}</div>
           <div class="header-date">${(new Date()).toLocaleDateString()}</div>
         </div>
         <div class="form-group">
           <label for="">Name</label>
-          <input type="text" class="input-name" value="Fuck it I love you">
+          <input type="text" class="input-name" value=${this.name} @input=${this.handleNameChange}>
         </div>
         <div class="form-group">
           <label for="">Note</label>
-          <textarea></textarea>
+          <textarea @input=${this.handleNoteChange}>${this.note}</textarea>
         </div>
         <div class="form-group">
           <label for="">Toggle</label>

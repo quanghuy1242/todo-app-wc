@@ -16,7 +16,8 @@ export class AppMain extends LitElement {
       selectedList: { type: Number },
       data: { type: Object },
       isShowMenu: { type: Boolean },
-      isShowNotePanel: { type: Boolean }
+      isShowNotePanel: { type: Boolean },
+      notePanelData: { type: Object }
     };
   }
 
@@ -177,6 +178,7 @@ export class AppMain extends LitElement {
     this.data = {};
     this.isShowMenu = false;
     this.isShowNotePanel = false;
+    this.notePanelData = {};
   }
 
   connectedCallback() {
@@ -241,7 +243,8 @@ export class AppMain extends LitElement {
       this.lists[this.selectedList].todos.push({
         name: this.currentValue,
         isDone: false,
-        visible: this.selectedFilter !== FINISH
+        visible: this.selectedFilter !== FINISH,
+        date: new Date()
       });
       this.data = { event: 'justAdd' };
       this.lists = [...this.lists];
@@ -273,7 +276,10 @@ export class AppMain extends LitElement {
   }
 
   handleOpenSideNote(event) {
-    console.log('a');
+    this.notePanelData = {
+      index: event.detail,
+      ...this.lists[this.selectedList].todos[event.detail]
+    };
     this.isShowNotePanel = true;
   }
 
@@ -349,6 +355,19 @@ export class AppMain extends LitElement {
     };
   }
 
+  handleTodoItemChange(event) {
+    this.lists[this.selectedList].todos[event.detail.index] = {
+      ...this.lists[this.selectedList].todos[event.detail.index],
+      ...!event.detail.name || { name: event.detail.name },
+      ...!event.detail.note || { note: event.detail.note },
+    }
+    this.lists = [...this.lists];
+    this.notePanelData = {
+      index: event.detail.index,
+      ...this.lists[this.selectedList].todos[event.detail.index]
+    }
+  }
+
   render() {
     return html`
       <div class="container">
@@ -408,6 +427,7 @@ export class AppMain extends LitElement {
                       name=${item.name}
                       ?isDone=${item.isDone}
                       .index=${index}
+                      .date=${item.date}
                       id="todo-item-${index}"
                       @onToggle=${this.handleToggleTodoItem}
                       @onDelete=${this.handleDeleteTodoItem}
@@ -423,7 +443,13 @@ export class AppMain extends LitElement {
           class="note-panel"
           style="transform: translateX(${this.isShowNotePanel ? '0px' : '304px'})"
         >
-          <app-todo-side></app-todo-side>
+          <app-todo-side
+            .name=${this.notePanelData.name}
+            .date=${this.notePanelData.date}
+            .note=${this.notePanelData.note || ''}
+            .index=${this.notePanelData.index}
+            @onDataChanged=${this.handleTodoItemChange}
+          ></app-todo-side>
         </div>
       </div>
       ${this.isShowNotePanel

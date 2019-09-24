@@ -9,7 +9,8 @@ export class AppTodoItem extends LitElement {
       isDone: { type: Boolean },
       index: { type: Number },
       isShowMenu: { type: Boolean },
-      data: { type: Object }
+      data: { type: Object },
+      date: { type: Object }
     }
   }
 
@@ -92,6 +93,7 @@ export class AppTodoItem extends LitElement {
     this.index = 0;
     this.isShowMenu = false;
     this.data = {};
+    this.date = undefined;
   }
 
   handleToggle() {
