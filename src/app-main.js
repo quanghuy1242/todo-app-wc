@@ -73,7 +73,14 @@ export class AppMain extends LitElement {
         border-bottom-right-radius: 0 !important;
       }
 
-      .input-wrapper .btn {
+      .input-wrapper .btn:not(:last-child) {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+      }
+
+      .input-wrapper .btn:last-child {
         border-top-left-radius: 0 !important;
         border-bottom-left-radius: 0 !important;
       }
@@ -400,6 +407,11 @@ export class AppMain extends LitElement {
                 placeholder="Enter or click Add button ..."
                 class="border-radius-style"
               >
+              <button class="btn btn-icon">
+                <i class="material-icons">
+                  today
+                </i>
+              </button>
               <button class="btn btn-icon" @click=${this.handleAddNewTodoItemClick}>
                 <i class="material-icons">
                   add
