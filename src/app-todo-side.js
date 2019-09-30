@@ -234,14 +234,6 @@ export class AppTodoSide extends LitElement {
         <div class="form-group form-group-icon">
           <button class="btn btn-info">
             <i class="material-icons">
-              star_border
-            </i>
-            Add to important
-          </button>
-        </div>
-        <div class="form-group form-group-icon">
-          <button class="btn btn-info">
-            <i class="material-icons">
               save_alt
             </i>
             Export

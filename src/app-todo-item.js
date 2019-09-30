@@ -157,11 +157,6 @@ export class AppTodoItem extends LitElement {
             close
           </i>
         </button>
-        <button class="btn btn-no-bg btn-icon btn-icon-sm mt-favorite">
-          <i class="material-icons">
-            star_border
-          </i>
-        </button>
         <button class="btn btn-no-bg btn-icon btn-icon-sm mt-more" @click=${this.handleOpenSideNote}>
           <i class="material-icons">
             fiber_manual_record

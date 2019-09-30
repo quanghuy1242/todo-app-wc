@@ -408,11 +408,6 @@ export class AppMain extends LitElement {
                 placeholder="Enter or click Add button ..."
                 class="border-radius-style"
               >
-              <button class="btn btn-icon">
-                <i class="material-icons">
-                  today
-                </i>
-              </button>
               <button class="btn btn-icon" @click=${this.handleAddNewTodoItemClick}>
                 <i class="material-icons">
                   add
