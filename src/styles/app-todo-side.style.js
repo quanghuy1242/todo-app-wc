@@ -39,7 +39,7 @@ export const style = css`
   }
 
   .note-showing {
-    height: 150px;
+    height: calc(100vh - 176px);
     overflow: auto;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
@@ -91,18 +91,18 @@ export const style = css`
   }
 
   .note-editor-wrapper {
-    height: calc(150px + 0.8rem);
+    height: calc(100vh - 161px);
   }
 
   .note-editor-wrapper textarea {
     flex-grow: 1;
-    height: calc(100% - 0.75rem) !important;
+    height: calc(100% - 15px) !important;
   }
 
   .note-editor-main {
     display: flex;
     flex-grow: 1;
-    height: calc(100% - 46px - 0.75rem);
+    height: calc(100% - 46px);
   }
 
   .note-editor-action {

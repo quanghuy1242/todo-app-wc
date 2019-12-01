@@ -95,45 +95,6 @@ export class AppTodoSide extends LitElement {
               </div>
             `}
         </div>
-        <div class="form-group">
-          <label for="">Toggle</label>
-          <div class="btn-group btn-group-icon">
-            <button class="btn btn-secondary active">
-              <i class="material-icons">check_box</i>
-            </button>
-            <button class="btn btn-secondary">
-              <i class="material-icons">check_box_outline_blank</i>
-            </button>
-            <button class="btn btn-secondary">
-              <i class="material-icons">close</i>
-            </button>
-          </div>
-        </div>
-        <div class="form-group form-group-icon">
-          <label for="">Action</label>
-          <button class="btn btn-info">
-            <i class="material-icons">
-              reply
-            </i>
-            Move
-          </button>
-        </div>
-        <div class="form-group form-group-icon">
-          <button class="btn btn-info">
-            <i class="material-icons">
-              save_alt
-            </i>
-            Export
-          </button>
-        </div>
-        <div class="form-group form-group-icon">
-          <button class="btn btn-danger">
-            <i class="material-icons">
-              delete
-            </i>
-            Delete
-          </button>
-        </div>
       </div>
     `;
   }
