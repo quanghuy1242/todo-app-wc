@@ -368,7 +368,7 @@ export class AppMain extends LitElement {
               <i class="material-icons">
                 save_alt
               </i>
-              Export
+              Detail and Options
             </button>
           </div>
           <div class="overlay" @click=${() => this.isShowMenu = false}></div>
