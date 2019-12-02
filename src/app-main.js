@@ -276,19 +276,23 @@ export class AppMain extends LitElement {
               <span class="icon-header">${this.lists[this.selectedList].icon}</span>
               ${this.lists[this.selectedList].name}
               <div class="spacer"></div>
-              <button class="btn btn-icon btn-icon-sm btn-more" @click=${this.handleMoreClick}>
-                <i class="material-icons">
-                  more_horiz
-                </i>
-              </button>
-              <button
-                class="btn btn-secondary btn-icon btn-icon-sm"
-                @click=${() => this.dialog.showModal()}
-              >
-                <i class="material-icons">
-                  refresh
-                </i>
-              </button>
+              <qh-tooltip content="More options">
+                <button class="btn btn-icon btn-icon-sm btn-more" @click=${this.handleMoreClick}>
+                  <i class="material-icons">
+                    more_horiz
+                  </i>
+                </button>
+              </qh-tooltip>
+              <qh-tooltip content="Reset">
+                <button
+                  class="btn btn-secondary btn-icon btn-icon-sm"
+                  @click=${() => this.dialog.showModal()}
+                >
+                  <i class="material-icons">
+                    refresh
+                  </i>
+                </button>
+              </qh-tooltip>
               <dialog class="dialog dialog-sample">
                 <div class="document">
                   <div class="header">
