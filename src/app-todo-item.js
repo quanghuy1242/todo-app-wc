@@ -135,16 +135,6 @@ export class AppTodoItem extends LitElement {
                   Mark as complete
                 `}
             </button>
-            ${!this.isDone
-              ? html`
-                <button class="dropdown-item">
-                  <i class="material-icons">
-                    close
-                  </i>
-                  Mark as drop
-                </button>
-              `
-              : html``}
             <button
               class="dropdown-item"
               ?disabled=${this.index === 0}
