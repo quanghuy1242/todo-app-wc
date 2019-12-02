@@ -73,6 +73,10 @@ export class AppMain extends LitElement {
     }
   }
 
+  firstUpdated() {
+    this.dialog = this.shadowRoot.querySelector('.dialog-sample');
+  }
+
   handleTodoItemChange(event) {
     this.currentValue = event.target.value;
   }
@@ -242,6 +246,12 @@ export class AppMain extends LitElement {
     this.lists = [...this.lists];
   }
 
+  handleResetCurrentList() {
+    this.lists[this.selectedList].todos = [];
+    this.lists = [...this.lists];
+    this.dialog.close();
+  }
+
   render() {
     return html`
       <div class="container">
@@ -271,11 +281,26 @@ export class AppMain extends LitElement {
                   more_horiz
                 </i>
               </button>
-              <button class="btn btn-secondary btn-icon btn-icon-sm">
+              <button
+                class="btn btn-secondary btn-icon btn-icon-sm"
+                @click=${() => this.dialog.showModal()}
+              >
                 <i class="material-icons">
-                  person
+                  refresh
                 </i>
               </button>
+              <dialog class="dialog dialog-sample">
+                <div class="document">
+                  <div class="header">
+                    <h6 class="title">Cảnh báo</h6>
+                  </div>
+                  <div class="content">Bạn có chắn chắn muốn reset danh mục này không?</div>
+                  <div class="action">
+                    <button class="btn btn-secondary" @click=${() => this.dialog.close()}>Close</button>
+                    <button class="btn btn-danger" @click=${this.handleResetCurrentList}>Reset</button>
+                  </div>
+                </div>
+              </dialog>
             </h1>
             <div class="input-wrapper">
               <input

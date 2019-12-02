@@ -1,5 +1,5 @@
 import { css } from 'lit-element';
-import { button, inputText, typography, dropdownMenu, overlay } from './app.style';
+import { button, inputText, typography, dropdownMenu, overlay, dialog } from './app.style';
 
 export const style = css`
   ${typography}
@@ -7,6 +7,7 @@ export const style = css`
   ${inputText}
   ${dropdownMenu}
   ${overlay}
+  ${dialog}
 
   /* .container {
     padding-right: 15px;
