@@ -6,4 +6,4 @@ npm start
 ```
 
 ## Demo
-[Demo](https://todo-app-wc.netlify.com/)
+[Demo](https://todo.quanghuy.now.sh/)
