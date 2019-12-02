@@ -10,7 +10,8 @@ export class AppTodoItem extends LitElement {
       index: { type: Number },
       isShowMenu: { type: Boolean },
       data: { type: Object },
-      date: { type: Object }
+      date: { type: Object },
+      total: { type: Number }
     }
   }
 
@@ -26,6 +27,7 @@ export class AppTodoItem extends LitElement {
     this.isShowMenu = false;
     this.data = {};
     this.date = undefined;
+    this.total = 0;
   }
 
   handleToggle() {
@@ -65,6 +67,20 @@ export class AppTodoItem extends LitElement {
 
   handleOpenSideNote() {
     this.dispatchEvent(new CustomEvent('onOpenSideNote', { detail: this.index }));
+  }
+
+  handleMoveUp() {
+    this.dispatchEvent(new CustomEvent('onMoveup', { detail: this.index }));
+    if (this.isShowMenu) { // Nếu menu đang bật thì tắt nó đi
+      this.isShowMenu = false;
+    }
+  }
+
+  handleMoveDown() {
+    this.dispatchEvent(new CustomEvent('onMoveDown', { detail: this.index }));
+    if (this.isShowMenu) { // Nếu menu đang bật thì tắt nó đi
+      this.isShowMenu = false;
+    }
   }
 
   render() {
@@ -129,13 +145,21 @@ export class AppTodoItem extends LitElement {
                 </button>
               `
               : html``}
-            <button class="dropdown-item">
+            <button
+              class="dropdown-item"
+              ?disabled=${this.index === 0}
+              @click=${this.handleMoveUp}
+            >
               <i class="material-icons">
                 keyboard_arrow_up
               </i>
               Move up
             </button>
-            <button class="dropdown-item">
+            <button
+              class="dropdown-item"
+              ?disabled=${this.index === this.total - 1}
+              @click=${this.handleMoveDown}
+            >
               <i class="material-icons">
                 keyboard_arrow_down
               </i>

@@ -220,6 +220,28 @@ export class AppMain extends LitElement {
     this.shadowRoot.querySelector('app-todo-side').isShowEditorNote = false;
   }
 
+  handleMoveUp(event) {
+    [
+      this.lists[this.selectedList].todos[event.detail],
+      this.lists[this.selectedList].todos[event.detail - 1]
+    ] = [
+      this.lists[this.selectedList].todos[event.detail - 1],
+      this.lists[this.selectedList].todos[event.detail]
+    ];
+    this.lists = [...this.lists];
+  }
+
+  handleMoveDown(event) {
+    [
+      this.lists[this.selectedList].todos[event.detail],
+      this.lists[this.selectedList].todos[event.detail + 1]
+    ] = [
+      this.lists[this.selectedList].todos[event.detail + 1],
+      this.lists[this.selectedList].todos[event.detail]
+    ];
+    this.lists = [...this.lists];
+  }
+
   render() {
     return html`
       <div class="container">
@@ -280,10 +302,13 @@ export class AppMain extends LitElement {
                       ?isDone=${item.isDone}
                       .index=${index}
                       .date=${item.date}
+                      .total=${this.lists[this.selectedList].todos.length}
                       id="todo-item-${index}"
                       @onToggle=${this.handleToggleTodoItem}
                       @onDelete=${this.handleDeleteTodoItem}
                       @onOpenSideNote=${this.handleOpenSideNote}
+                      @onMoveup=${this.handleMoveUp}
+                      @onMoveDown=${this.handleMoveDown}
                     ></app-todo-item>
                   `
                   : html``}
