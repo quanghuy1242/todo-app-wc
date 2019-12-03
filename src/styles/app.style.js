@@ -692,10 +692,18 @@ export const dialog = css`
     padding: 0;
     border: 0;
     border-radius: 0.3rem;
-    animation-name: fade-in, transfrom-dropdown;
-    animation-duration: 0.6s;
+    animation-name: fade-in;
+    animation-duration: 300ms;
     animation-timing-function: cubic-bezier(0.1, 0.9, 0.2, 1);
     animation-fill-mode: both;
+  }
+
+  .dialog.slide {
+    animation-name: fade-in, transfrom-dropdown;
+  }
+
+  .dialog.zoom {
+    animation-name: fade-in, zoom-inn;
   }
 
   .dialog::backdrop {
@@ -777,6 +785,16 @@ export const dialog = css`
 
     100% {
       transform: translateY(0px)
+    }
+  }
+
+  @keyframes zoom-inn {
+    0% {
+      transform: scale(0.7);
+    }
+
+    100% {
+      transform: scale(1);
     }
   }
 `;

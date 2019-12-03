@@ -312,7 +312,7 @@ export class AppSide extends LitElement {
           <div class="overlay" @click=${() => this.isShowMenu = false}></div>
         `
         : html``}
-        <dialog class="dialog dialog-sample">
+        <dialog class="dialog dialog-sample zoom">
           <div class="document">
             <div class="header">
               <h6 class="title">Cảnh báo</h6>

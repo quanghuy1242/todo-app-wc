@@ -293,7 +293,7 @@ export class AppMain extends LitElement {
                   </i>
                 </button>
               </qh-tooltip>
-              <dialog class="dialog dialog-sample">
+              <dialog class="dialog dialog-sample zoom">
                 <div class="document">
                   <div class="header">
                     <h6 class="title">Cảnh báo</h6>
