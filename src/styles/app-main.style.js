@@ -84,7 +84,7 @@ export const style = css`
     justify-content: flex-start;
   }
 
-  .main-container div:not(:last-child) {
+  .main-container > :not(:last-child) {
     margin-right: 1.5rem;
   }
 
@@ -145,5 +145,10 @@ export const style = css`
   .dropdown-menu .material-icons {
     zoom: 0.8;
     margin-bottom: 3px;
+  }
+
+  .dialog .content {
+    min-width: 350px;
+    text-align: center;
   }
 `;

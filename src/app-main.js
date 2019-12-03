@@ -75,6 +75,7 @@ export class AppMain extends LitElement {
 
   firstUpdated() {
     this.dialog = this.shadowRoot.querySelector('.dialog-sample');
+    this.dialogAbout = this.shadowRoot.querySelector('.dialog-about');
   }
 
   handleTodoItemChange(event) {
@@ -285,11 +286,21 @@ export class AppMain extends LitElement {
               </qh-tooltip>
               <qh-tooltip content="Reset">
                 <button
-                  class="btn btn-secondary btn-icon btn-icon-sm"
+                  class="btn btn-secondary btn-icon btn-icon-sm btn-more"
                   @click=${() => this.dialog.showModal()}
                 >
                   <i class="material-icons">
                     refresh
+                  </i>
+                </button>
+              </qh-tooltip>
+              <qh-tooltip content="About">
+                <button
+                  class="btn btn-secondary btn-icon btn-icon-sm"
+                  @click=${() => this.dialogAbout.showModal()}
+                >
+                  <i class="material-icons">
+                    info
                   </i>
                 </button>
               </qh-tooltip>
@@ -302,6 +313,22 @@ export class AppMain extends LitElement {
                   <div class="action">
                     <button class="btn btn-secondary" @click=${() => this.dialog.close()}>Close</button>
                     <button class="btn btn-danger" @click=${this.handleResetCurrentList}>Reset</button>
+                  </div>
+                </div>
+              </dialog>
+              <dialog class="dialog dialog-about zoom">
+                <div class="document">
+                  <div class="header">
+                    <h6 class="title">Thông tin</h6>
+                  </div>
+                  <div class="content">
+                    Todo List App <br />
+                    2019 <br />
+                    Nguyễn Quang Huy <br />
+                    <a href="https://project-showcase.netlify.com/project/5d9eb182f6b7ed0017e65f2f" target="_blank">Showcase</a>
+                  </div>
+                  <div class="action">
+                    <button class="btn btn-secondary" @click=${() => this.dialogAbout.close()}>Close</button>
                   </div>
                 </div>
               </dialog>
